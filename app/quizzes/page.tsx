@@ -74,14 +74,14 @@ export default function Quizzes(){
             <div className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <table cellPadding={6} className="gap-3 w-full">
                 <colgroup>
-                    <col className="w-12"/>
+                    <col className="w-20"/>
                     <col className="w-1/2 min-w-80"/>
                     <col className="min-w-24"/>
                     <col className="min-w-24"/>
                     <col className="min-w-24"/>
                 </colgroup>
                     <tbody>
-                        <tr className="border-b-zinc-800 border-b-2">
+                        <tr className="border-b-zinc-800 border-b-2 text-[#7E7E7E]">
                             <td>Status</td>
                             <td>Title</td>
                             <td>Average</td>
