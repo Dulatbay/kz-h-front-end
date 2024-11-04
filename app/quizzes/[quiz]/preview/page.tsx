@@ -1,4 +1,22 @@
-export default function CreateQuiz(){
+'use client'
+import Collapse from '@/components/Collapse/collapse';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+export default function CreateQuiz(
+    {
+        params,
+      }: {
+        params: Promise<{ quiz: string }>
+      }
+){
+    const router = useRouter();
+    const [quizNumber, setQuizNumber] = useState("undef")
+    useEffect(() => {
+        async () => {
+            setQuizNumber((await params).quiz)
+        }
+    })
 
     const questions = [
         {
@@ -48,17 +66,17 @@ export default function CreateQuiz(){
             <div className="flex flex-col sm:w-1/2 gap-2">
                 <h1 className="text-xl">Quiz Title</h1>
                 <p className="text-sm text-[#91898C]">At Microsoft, you’ll take risks, push boundaries, and grow more than you thought possible. And you won’t be alone on that journey.</p>
-                <a href="/quizzes/1" className="uppercase bg-[#5348F2] w-full h-12 my-6 text-center content-center">Start</a>
+                <button type="button" onClick={() => router.push(`/quizzes/${quizNumber}/start`)} className="uppercase bg-[#5348F2] w-full h-12 my-6 text-center content-center">Start</button>
 
-                <Collapse id="openOptions" name="Available options" className="w-full max-h-[calc(100vh-180px)]">
+                <Collapse id="openOptions" name="Available options" className="w-full">
                     <div>
 
                     </div>
                 </Collapse>
             </div>
 
-            <div className="max-h-[calc(100vh-180px)] flex-1">
-                <Collapse name="Вопросы" className="w-full" id="openAnswers">
+            <div className="flex-1">
+                <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)]" id="openAnswers">
                         {
                             questions.map((question, index) => {
                                 return (
@@ -84,29 +102,6 @@ export default function CreateQuiz(){
                         }
                     
                 </Collapse>
-            </div>
-        </div>
-    )
-}
-
-function Collapse({className, name, children, id}:{className?: string, name:string, children: React.ReactNode, id: string}){
-    return (
-        <div className={`bg-[#282828] flex flex-col gap-4 p-3 h-fit ${className}`}>
-            <input type="checkbox" id={id} className={`hidden peer`}/>
-            <label htmlFor={id} className={`peer-checked:hidden cursor-pointer flex gap-2 items-center`}>
-                <svg className="rotate-180" width="12" height="9" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 6L5 1L9 6" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <h1>{name}</h1>
-            </label>
-            <label htmlFor={id} className={`cursor-pointer hidden gap-2 items-center peer-checked:flex`}>
-                <svg width="12" height="9" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 6L5 1L9 6" stroke="white" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <h1>{name}</h1>
-            </label>
-            <div className={`overflow-y-scroll flex-col gap-2 hidden peer-checked:flex`}>
-                {children}
             </div>
         </div>
     )

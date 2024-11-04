@@ -113,7 +113,7 @@ export default function Quizzes(){
                                     <tr key={"row" + i} className="odd:bg-zinc-800">
                                         <td>
                                             {row.solved ? (<SolvedMark/>) : (<></>)}</td>
-                                        <td><a href={`/quizzes/${row.link}`}>{row.title}</a></td>
+                                        <td><a href={`/quizzes/${row.link}/preview`}>{row.title}</a></td>
                                         <td>{row.progress}%</td>
                                         <td className={colorClass}>{row.difficulty}</td>
                                         <td>{row.questionsAmount}</td>
