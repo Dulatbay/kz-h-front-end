@@ -52,7 +52,7 @@ export default function Learn(){
                                         return (
                                             <div key={`floor${ind}${index}`} className="w-full grid grid-cols-5 pl-2 pr-8">
                                                 <div className={colClass}>
-                                                    <LevelButton active={isActive}/>
+                                                    <LevelButton link={`/${index + 1}`} active={isActive}/>
                                                 </div>
                                             </div>
                                         )
@@ -69,17 +69,17 @@ export default function Learn(){
 }
 
 
-function LevelButton({active} : {active?: boolean}){
+function LevelButton({active, link} : {active?: boolean, link: string}){
 
     if(active){
         return (
-            <button className={`py-6 px-3 text-base rounded-full pb-5 bg-[#5348F2] border-[#393393] active:border-b-0 active:mt-2 border-b-8 w-20 flex items-center justify-center `}>
+            <a href={`/learn${link}`} className={`py-6 px-3 text-base rounded-full pb-5 bg-[#5348F2] border-[#393393] active:border-b-0 active:mt-2 border-b-8 w-20 flex items-center justify-center `}>
                 <span className="text-base">
                     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.2239 25.9933C20.0156 25.9942 19.8101 25.9426 19.6247 25.8428L12.9805 22.1909L6.33626 25.8428C6.12051 25.9619 5.87726 26.0151 5.63416 25.9963C5.39106 25.9775 5.15786 25.8874 4.96108 25.7364C4.76429 25.5854 4.61182 25.3794 4.52098 25.1419C4.43014 24.9044 4.40459 24.645 4.44722 24.393L5.75001 16.6924L0.382536 11.2214C0.215073 11.0459 0.0962775 10.8259 0.0388979 10.5849C-0.0184817 10.344 -0.0122791 10.0911 0.0568402 9.85358C0.132349 9.61049 0.271248 9.39449 0.457772 9.23009C0.644297 9.06569 0.870979 8.95948 1.1121 8.9235L8.53796 7.78824L11.808 0.771574C11.9146 0.540323 12.0812 0.345297 12.2886 0.208837C12.4959 0.0723759 12.7357 0 12.9805 0C13.2252 0 13.465 0.0723759 13.6724 0.208837C13.8797 0.345297 14.0463 0.540323 14.153 0.771574L17.462 7.77456L24.8879 8.90982C25.129 8.9458 25.3557 9.05202 25.5422 9.21641C25.7288 9.38081 25.8677 9.59681 25.9432 9.8399C26.0123 10.0774 26.0185 10.3303 25.9611 10.5712C25.9037 10.8122 25.7849 11.0322 25.6175 11.2077L20.25 16.6788L21.5528 24.3793C21.5993 24.6357 21.5749 24.9008 21.4826 25.1431C21.3903 25.3855 21.2338 25.5951 21.0317 25.7471C20.7958 25.9207 20.5117 26.0072 20.2239 25.9933Z" fill="white"/>
                     </svg>
                 </span>
-            </button>
+            </a>
         )
     }
 

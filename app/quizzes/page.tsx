@@ -12,6 +12,7 @@ export default function Quizzes(){
             'title': 'Независимый Казахстан',
             'progress': 70.6,
             'difficulty': 'Easy',
+            'link': '/1',
             'questionsAmount': 25,
         },
         {
@@ -20,6 +21,7 @@ export default function Quizzes(){
             'title': 'Тема номер 2',
             'progress': 32.5,
             'difficulty': 'Hard',
+            'link': '/2',
             'questionsAmount': 21,
         },
         {
@@ -28,6 +30,7 @@ export default function Quizzes(){
             'title': 'Тема номер 3',
             'progress': 66.5,
             'difficulty': 'Medium',
+            'link': '/3',
             'questionsAmount': 12,
         }
     ]
@@ -110,7 +113,7 @@ export default function Quizzes(){
                                     <tr key={"row" + i} className="odd:bg-zinc-800">
                                         <td>
                                             {row.solved ? (<SolvedMark/>) : (<></>)}</td>
-                                        <td>{row.title}</td>
+                                        <td><a href={`/quizzes/${row.link}/preview`}>{row.title}</a></td>
                                         <td>{row.progress}%</td>
                                         <td className={colorClass}>{row.difficulty}</td>
                                         <td>{row.questionsAmount}</td>
