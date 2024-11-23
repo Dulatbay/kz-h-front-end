@@ -22,7 +22,8 @@ export const quizOptions = createSlice({
     title: '',
     description: '',
     questions: [] as Question[],
-    allowPreview: false,
+    showQuestions: false,
+    language: 'KAZ',
   },
   reducers:{
     addQuestion: (state, action) => {
@@ -37,9 +38,12 @@ export const quizOptions = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
-    setAllowPreview: (state, action) => {
-      state.allowPreview = action.payload;
+    setShowQuestions: (state, action) => {
+      state.showQuestions = action.payload;
     },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    }
   }
 })
 
@@ -63,5 +67,5 @@ export const quizOptions = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { addQuestion, removeQuestion, setTitle, setDescription, setAllowPreview } = quizOptions.actions
+export const { addQuestion, removeQuestion, setTitle, setDescription, setShowQuestions, setLanguage } = quizOptions.actions
 export default quizOptions.reducer

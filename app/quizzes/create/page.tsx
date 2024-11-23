@@ -5,9 +5,13 @@ import DefaultButton from "@/components/Button/button"
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store";
 import { useEffect, useId, useState } from "react";
-import { addQuestion, removeQuestion, setTitle, setDescription, setAllowPreview } from "@/app/store/slice";
-import { Option } from "@/app/types/Option";
+import { addQuestion, removeQuestion, setTitle, setDescription, setShowQuestions, setLanguage } from "@/app/store/slice";
+import { Variant } from "@/app/types/Variant";
 import { Question } from "@/app/types/Question";
+import { Dropdown, Space, Button, Checkbox } from "antd";
+import type { MenuProps, CheckboxProps } from 'antd';
+import styles from "@/app/styles/ultima.module.scss";
+import { send } from "process";
 
 export default function CreateQuiz(){
     const quizOptions = useSelector((state: RootState) => state.quizOptions);
@@ -21,7 +25,7 @@ export default function CreateQuiz(){
 
         let title = titleInput.value.trim();
         let desc = descArea.value.trim();
-        let allowPreview = previewCheckbox.checked;
+        let showQuestions = previewCheckbox.checked;
 
         if(title.length == 0 || desc.length == 0){
             alert("Название квиза и его описание не должно быть пустым");
@@ -35,7 +39,34 @@ export default function CreateQuiz(){
 
         dispatch(setTitle(title));
         dispatch(setDescription(desc));
-        dispatch(setAllowPreview(allowPreview));        
+        dispatch(setShowQuestions(showQuestions));
+        dispatch(setLanguage('KAZ'));
+
+        sendQuiz();
+    }
+
+    async function sendQuiz(){
+        let title = useSelector((state: RootState) => state.quizOptions.title);
+        let description = useSelector((state: RootState) => state.quizOptions.description);
+        let showQuestions = useSelector((state: RootState) => state.quizOptions.showQuestions);
+        let language = useSelector((state: RootState) => state.quizOptions.language);
+
+        let response = await fetch('/quizzes', {
+            method: "POST",
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                showQuestions: showQuestions,
+                language: language,
+                questions: questions
+            }),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+        response = await response.json()
+        console.log(JSON.stringify(response))
+
     }
     return (
         <div className="w-full max-w-[1200px] mx-auto flex flex-col px-8 items-center">
@@ -45,11 +76,11 @@ export default function CreateQuiz(){
                     <input id="titleInput" className="h-10 bg-[#FFFFFF24] w-full text-[#91898C] rounded-md pl-3" type="text" placeholder="Title"/>
                     <textarea id="descArea" className="h-40 bg-[#FFFFFF24] w-full text-[#91898C] rounded-md pl-3" placeholder="Description"/>
                     <AddedQuestions/>
-                    <div className="flex gap-1">
-                        <input id="previewCheckbox" type="checkbox" className="bg-transparent"/>
+                    <div className="flex gap-2">
+                        <Checkbox id="previewCheckbox"/>
                         <label htmlFor="previewCheckbox" className="cursor-pointer select-none">Show questions before start</label>
                     </div>
-                    <DefaultButton className="w-full h-12" onClick={createQuiz}>Create Quiz</DefaultButton>
+                    <Button className={`w-full h-12 ${styles.button_primary}`} onClick={createQuiz}>Create Quiz</Button>
                 </div>
                 <div className="w-1/2">
                     <Switch/>
@@ -59,20 +90,20 @@ export default function CreateQuiz(){
     )
 }
 
-function Dropdown({title, options, className}: {title: string, options: string[], className?: string}){
-    return (
-        <select defaultValue={title} className={`bg-[#FFFFFF24] flex-1 h-10 p-3 cursor-pointer ${className}`}>
-            <option className="bg-zinc-800" disabled>{title}</option>
-            {
-                options.map((name, i) => {
-                    return (
-                        <option className="bg-zinc-800 hover:bg-slate-300 cursor-pointer" key={title + i}>{name}</option>
-                    )
-                })
-            }
-        </select>
-    )
-}
+// function Dropdown({title, options, className}: {title: string, options: string[], className?: string}){
+//     return (
+//         <select defaultValue={title} className={`bg-[#FFFFFF24] flex-1 h-10 p-3 cursor-pointer ${className}`}>
+//             <option className="bg-zinc-800" disabled>{title}</option>
+//             {
+//                 options.map((name, i) => {
+//                     return (
+//                         <option className="bg-zinc-800 hover:bg-slate-300 cursor-pointer" key={title + i}>{name}</option>
+//                     )
+//                 })
+//             }
+//         </select>
+//     )
+// }
 
 type OptionInput = {
     id: number,
@@ -91,11 +122,11 @@ function AddedQuestions(){
                 questions.map((question: Question, index : number) => {
                     return (
                         <div key={`question${index}`} className="flex flex-col border border-white rounded-md p-3 relative w-[calc(100%-8px)] first:mt-2">
-                            <h2>{question.text}</h2>
+                            <h2>{question.question}</h2>
                             {
-                                question.options.map((option, ind) => {
+                                question.variants.map((variant, ind) => {
                                     let optionColor = 'bg-white';
-                                    if(option.correct)
+                                    if(variant.correct)
                                         optionColor = 'bg-green-500';
                                     return (
                                         <div key={`option${index}-${ind}`} className="flex items-center gap-1">
@@ -103,7 +134,7 @@ function AddedQuestions(){
                                                 <div className={`${optionColor} w-2 h-2 rounded-full`}>
                                                 </div>
                                             </i>
-                                            {option.text}
+                                            {variant.text}
                                         </div>
                                     )
                                 })
@@ -161,7 +192,7 @@ function CreateQuestionBlock(){
         }
 
         //convert to options
-        let options = [] as Option[]
+        let options = [] as Variant[]
         for(let i = 0; i < optionInputs.length; i++){
             options.push({
                 text: optionInputs[i].value,
@@ -176,8 +207,8 @@ function CreateQuestionBlock(){
 
     function addQuestions() {
         let inputValues = parseQuestions();
-        if(inputValues.length < 2 || inputValues.length > 4){
-            alert('Количество вариантов ответа должно быть от 2 до 4');
+        if(inputValues.length < 2){
+            alert('Количество вариантов ответа должно быть больше 2');
             return;
         }
 
@@ -194,7 +225,7 @@ function CreateQuestionBlock(){
         
 
         setOptionInputs([]);
-        dispatch(addQuestion({"text": questionInput.value.trim(), "options": inputValues}));
+        dispatch(addQuestion({"question": questionInput.value.trim(), "durationInSeconds": 15, "topicId": '15', "level": 15, "variants": inputValues}));
     }
 
     function addOption(){
@@ -212,7 +243,7 @@ function CreateQuestionBlock(){
             <h1 className="text-[#91898C] mx-auto">Question creating</h1>
             <div className="flex">
                 <input id="questionInput" className="flex-1 px-2 bg-[#282828] text-[#91898C]" placeholder="Question"/>
-                <Dropdown className="rounded-r-md max-w-40" title="Topic" options={["Древний век", "Тюркский период"]}/>
+                {/* <Dropdown className="rounded-r-md max-w-40" title="Topic" options={["Древний век", "Тюркский период"]}/> */}
             </div>
                 <div className="flex flex-col w-full gap-2 mt-2">
                     {
@@ -241,8 +272,8 @@ function CreateQuestionBlock(){
                         })
                     }
                 </div>
-                <button type="button" disabled={optionInputs.length >= 4} onClick={addOption} className="bg-[#3F3F3F] w-full h-10">+ Add option</button>
-                <button type="button" onClick={addQuestions} className="p-2 bg-green-600 rounded-r-md mt-10 w-full">Create question</button>
+                <Button disabled={optionInputs.length >= 4} onClick={addOption} className={`${styles.dropdown} w-full h-10`}>+ Add option</Button>
+                <Button onClick={addQuestions} className={`${styles.button_success} p-2 rounded-r-md mt-10 w-full`}>Create question</Button>
         </>
     )
 }
@@ -251,13 +282,41 @@ function GenerateQuestionBlock(){
     const questions = useSelector((state: RootState) => state.quizOptions.questions);
     const dispatch = useDispatch();
 
+    const items: MenuProps['items'] = [
+        {
+          label: <a href="#">1st menu item</a>,
+          key: '0',
+        },
+        {
+          label: <a href="#">2nd menu item</a>,
+          key: '1',
+        },
+        {
+          label: '3rd menu item',
+          key: '3',
+        },
+    ];
+
     return (
         <>
             <h1 className="text-[#91898C] mx-auto">Question generating</h1>
             <div className="flex">
-                <Dropdown className="rounded-l-md max-w-40" title="Topic" options={["Древний век", "Тюркский период"]}/>
-                <button className="p-2 bg-green-600 rounded-r-md flex-1">Generate question</button>
+            <Dropdown className={`h-auto rounded-r-none ${styles.dropdown}`} menu={{ items }} trigger={['click']}>
+                <Button className={`${styles.dropdown}`}>
+                    <Space>
+                        Topics
+                        <DownOutlined />
+                    </Space>
+                </Button>
+            </Dropdown>
+            <Button className={`py-2 px-3 rounded-l-none flex-1 text-start text-sm ${styles.button_success}`}>Generate question</Button>
             </div>
         </>
+    )
+}
+
+function DownOutlined(){
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-360 280-560h400L480-360Z"/></svg>
     )
 }

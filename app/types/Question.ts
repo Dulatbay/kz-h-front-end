@@ -1,6 +1,9 @@
-import { Option } from "./Option"
+import { Variant } from "./Variant"
 
 export type Question = {
-    'text': string,
-    'options': Option[],
+    'question': string,
+    'topicId': string,
+    'level': number,
+    'durationInSeconds': number,
+    'variants': Variant[],
 }

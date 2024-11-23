@@ -1,0 +1,38 @@
+$accent-gray: #3F3F3F;
+$accent-purple: #5544FF;
+$success: #22bb77;
+
+.dropdown {
+    color: white;
+    background-color: $accent-gray;
+    border: none;
+}
+.dropdown:hover {
+    filter: brightness(1.2);
+    background-color: $accent-gray !important;
+    color: white !important;
+}
+
+.button_primary {
+    background-color: $accent-purple;
+    color: white;
+    border: none;
+}
+
+.button_primary:hover {
+    background-color: $accent-purple !important;
+    filter: brightness(1.2);
+    color: white !important;
+}
+
+.button_success {
+    background-color: $success;
+    color: white;
+    border: none;
+}
+
+.button_success:hover {
+    background-color: $success !important;
+    filter: brightness(1.2);
+    color: white !important;
+}
