@@ -28,8 +28,8 @@ export default function Header(){
             <label htmlFor="check" className="cursor-pointer sm:hidden mr-4 order-1">
                 <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px" fill="#e8eaed"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg>
             </label>
-            <div className="px-8 sm:h-full flex sm:flex-row sm:items-center sm:justify-between max-sm:invisible max-sm:opacity-0 sm:static
-            peer-checked/navbar:visible peer-checked/navbar:opacity-100 max-sm:transition-all max-sm:duration-150  peer-checked/navbar:max-sm:top-16 top-14 flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8">
+            <div className="sm:h-full flex sm:flex-row sm:items-center sm:justify-between max-sm:invisible max-sm:opacity-0 sm:static
+            peer-checked/navbar:visible peer-checked/navbar:opacity-100 max-sm:transition-all max-sm:duration-150  peer-checked/navbar:max-sm:top-16 top-14 flex-col h-screen bg-[#282828] max-w-[1200px] m-auto fixed items-start px-8">
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col">
                     <h1 className="text-[#5348F2] font-bold">KzH</h1>
                     <a href="/learn">Learn</a>
