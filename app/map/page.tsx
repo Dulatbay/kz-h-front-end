@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { TimelineSlider } from '@/components/TimelineSlider/TimelineSlider'
 
-// Sample historical data - you would replace this with your full dataset
+// Данные для нужных дат
 const historicalData = {
   800: {
     summary: "Early medieval period in Central Asia",
@@ -12,7 +12,7 @@ const historicalData = {
       "Spread of Islam in the region",
       "Development of the Silk Road trade"
     ],
-    mapUrl: "/maps/800.png" // Placeholder map URL
+    mapUrl: "/maps/800.png" // Замените на URL карты
   },
   900: {
     summary: "Karakhanid period",
