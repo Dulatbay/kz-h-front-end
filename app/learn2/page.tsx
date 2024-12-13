@@ -1,132 +1,120 @@
-import {Button} from 'antd'
-import styles from '@/app/styles/ultima.module.scss'
-
-export default function LearnPage() {
-    return (
-        <>
-            <Head/>
-            <Modules/>
-        </>
-    )
-}
-
-function Head(){
-    let imgs = "https://www.figma.com/file/AiJWvz95uhBS2KAeVOFQfm/image/c22d071fb0fe1d988f8eb36efbb887789e183504";
-    return (
-        <>
-            <div className="bg-[#252b32] h-80 flex justify-center items-center">
-                <div className="flex flex-col items-center gap-8">
-                    <div className="flex flex-col gap-2 items-center">
-                        <svg width="129" height="129" viewBox="0 0 129 129" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.0938 88.6875V36.2812C9.95544 36.2812 7.90471 37.1307 6.3927 38.6427C4.88069 40.1547 4.03125 42.2054 4.03125 44.3438V100.781C4.03125 102.92 4.88069 104.97 6.3927 106.482C7.90471 107.994 9.95544 108.844 12.0938 108.844H49.9069C42.3558 103.598 33.3819 100.785 24.1875 100.781C20.98 100.781 17.9039 99.5071 15.6359 97.2391C13.3679 94.9711 12.0938 91.895 12.0938 88.6875ZM116.906 36.2812V88.6875C116.906 91.895 115.632 94.9711 113.364 97.2391C111.096 99.5071 108.02 100.781 104.812 100.781C95.618 100.785 86.6442 103.598 79.0931 108.844H116.906C119.045 108.844 121.095 107.994 122.607 106.482C124.119 104.97 124.969 102.92 124.969 100.781V44.3438C124.969 42.2054 124.119 40.1547 122.607 38.6427C121.095 37.1307 119.045 36.2812 116.906 36.2812Z" fill="#5046E5"/>
-                            <path d="M24.1875 20.1562C23.1183 20.1562 22.093 20.581 21.337 21.337C20.581 22.093 20.1562 23.1183 20.1562 24.1875V88.6875C20.1562 89.7567 20.581 90.782 21.337 91.538C22.093 92.294 23.1183 92.7188 24.1875 92.7188C36.3152 92.7314 48.0809 96.8522 57.5662 104.409L60.4688 106.747V20.8819C59.176 20.4125 57.8127 20.1672 56.4375 20.1562H24.1875ZM108.844 88.6875V24.1875C108.844 23.1183 108.419 22.093 107.663 21.337C106.907 20.581 105.882 20.1562 104.812 20.1562H72.5625C71.1873 20.1672 69.824 20.4125 68.5312 20.8819V106.747L71.4337 104.409C80.9191 96.8522 92.6848 92.7314 104.812 92.7188C105.882 92.7188 106.907 92.294 107.663 91.538C108.419 90.782 108.844 89.7567 108.844 88.6875Z" fill="white"/>
-                        </svg>
-                        <h1 className="text-lg"><strong>KzH</strong> Learning</h1>
-                    </div>
-                    <h4 className="text-base">Learn the history Module By Module and Topic By Topic.</h4>
-                </div>
-            </div>
-            <div className="h-80 w-full flex justify-center items-center relative">
-                <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10">
-                    
-                </div>
-                <a href='#' className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer">
-                    <img src={imgs} className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10"/>
-                    <h3 className="text-yellow-200 text-2xl ml-auto">
-                        56%
-                    </h3>
-                    <div className="flex flex-col">
-                        <h2 className="text-xl font-semibold">Кыпчаки</h2>
-                        <h3 className="text-sm">Тюркский период</h3>
-                    </div>
-                </a>
-            </div>
-        </>
-    )
-}
-
-function Modules(){
-    const modules = [
-        {
-            "topic": "Древний век",
-            "text": "В этой главе мы рассмотрим древний Казахстан, начиная с каменного века до Тюрков. Будут затронуты периоды бронзового века, а также история народов саков и сарматов. Помимо этого, мы рассмотрим вклад Казахстана в развитие ремесел, земледелия и животноводства. Особое внимание будет уделено уникальным археологическим находкам и памятникам, которые раскроют многогранность прошлого этого удивительного региона.",
-            "questionsNumber": 123,
-            "duration": "14 часов",
-            "usersNumber": "55.5K",
-            "difficulty": 3,
-            "img": "https://www.figma.com/file/AiJWvz95uhBS2KAeVOFQfm/image/319e36fb3ca2d4b20cdd3141affa76522dae185e"
+export default function Learn(){
+    const data = [
+        {   
+            "id" : 1,
+            "topic" : "Древний век",
+            "active": true,
+            "levels_cnt": 8,
+            "first_active": 1
         },
-        {
-            "topic": "Тюркский период",
-            "text": "В этой главе мы перейдем к тюркскому периоду, когда тюркские племена начали активно поселяться на территории Казахстана. Раскроем роль этих племен в формировании ранних тюркских государств и их влияние на культуру и общество региона. Изучим язык и письменность тюрков, их религию и мифологию, а также важные исторические события, определившие будущее этой земли. Погрузимся в богатую и разнообразную историю древнего Казахстана, которая оставила следы в современном облике этой страны.",
-            "questionsNumber": 193,
-            "duration": "20 часов",
-            "usersNumber": "34.5K",
-            "difficulty": 4,
-            "img": "https://www.figma.com/file/AiJWvz95uhBS2KAeVOFQfm/image/c22d071fb0fe1d988f8eb36efbb887789e183504",
+        {   
+            "id" : 2,
+            "topic" : "Тюркский период",
+            "active": false,
+            "levels_cnt": 7,
+            "first_active": 0
         }
-    ]
+    ];
+
     return (
-        <div className="flex flex-col w-[900px] mx-auto gap-4">
-            <h2 className="text-2xl">Modules</h2>
-            <div className="flex flex-col gap-10">
-                {
-                    modules.map((modul, i) => {
-                        let difficultyArray = new Array(modul.difficulty).fill(false);
-                        return (
-                            <div key={"module" + i} className="relative w-full aspect-video flex flex-col justify-end gap-2 p-8">
-                                <img src={modul.img} className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10"/>
-                                <h2 className="text-xl font-bold">{modul.topic}</h2>
-                                <p className="text-base text-wrap">{modul.text}</p>
-                                <div className="flex gap-3">
-                                    <div className="flex gap-2 items-center"> <QuestionsSVG/> {modul.questionsNumber} вопросов</div>
-                                    <div className="flex gap-2 items-center"> <ClockSVG/> {modul.duration}</div>
-                                    <div className="flex gap-2 items-center"> <UserSVG/> {modul.usersNumber} пользователей</div>
-                                </div>
-                                <div className="flex justify-between">
-                                    <div className="flex gap-2 items-center">Сложность: {
-                                        difficultyArray.map((e, index) => {
-                                            return (
-                                                <LightningSVG key={"LightningSVG" + index}/>
-                                            )
-                                        })
-                                    }</div>
-                                    <Button className={`${styles.button_success}`}>Начать</Button>
-                                </div>
+        <div className="flex flex-col w-full max-w-[480px] mx-auto">
+            
+            {
+                data.map((segment, ind) => {
+
+                    const list = []
+
+                    for(let i = 0; i < segment.first_active; i++){
+                        list.push(true);
+                    }
+                    for(let i = segment.first_active; i < segment.levels_cnt; i++){
+                        list.push(false);
+                    }
+
+                    return (
+                        <div key={"segment" + ind}>
+                            <Topic active={segment.active} topic={segment.topic} id={segment.id}/>
+                            <div className="flex flex-col gap-3 py-3">
+                                {
+                                    list.map((isActive, index) => {
+                                        let colClass;
+                                        if(index % 4 == 0){
+                                            colClass = 'col-start-3';
+                                        }else if(index % 8 == 1 || index % 8 == 3){
+                                            colClass = 'col-start-2';
+                                        }else if(index % 8 == 2){
+                                            colClass = 'col-start-1';
+                                        }else if(index % 8 == 5 || index % 8 == 7){
+                                            colClass = 'col-start-4';
+                                        }else{
+                                            colClass = 'col-start-5';
+                                        }
+                                        return (
+                                            <div key={`floor${ind}${index}`} className="w-full grid grid-cols-5 pl-2 pr-8">
+                                                <div className={colClass}>
+                                                    <LevelButton link={`/${index + 1}`} active={isActive}/>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
-                        )
-                    })
-                }
-            </div>
+                        </div>
+                    )
+                })
+            }
+
         </div>
     )
 }
 
-function LightningSVG(){
+
+function LevelButton({active, link} : {active?: boolean, link: string}){
+
+    if(active){
+        return (
+            <a href={`/learn${link}`} className={`py-6 px-3 text-base rounded-full pb-5 bg-[#5348F2] border-[#393393] active:border-b-0 active:mt-2 border-b-8 w-20 flex items-center justify-center `}>
+                <span className="text-base">
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.2239 25.9933C20.0156 25.9942 19.8101 25.9426 19.6247 25.8428L12.9805 22.1909L6.33626 25.8428C6.12051 25.9619 5.87726 26.0151 5.63416 25.9963C5.39106 25.9775 5.15786 25.8874 4.96108 25.7364C4.76429 25.5854 4.61182 25.3794 4.52098 25.1419C4.43014 24.9044 4.40459 24.645 4.44722 24.393L5.75001 16.6924L0.382536 11.2214C0.215073 11.0459 0.0962775 10.8259 0.0388979 10.5849C-0.0184817 10.344 -0.0122791 10.0911 0.0568402 9.85358C0.132349 9.61049 0.271248 9.39449 0.457772 9.23009C0.644297 9.06569 0.870979 8.95948 1.1121 8.9235L8.53796 7.78824L11.808 0.771574C11.9146 0.540323 12.0812 0.345297 12.2886 0.208837C12.4959 0.0723759 12.7357 0 12.9805 0C13.2252 0 13.465 0.0723759 13.6724 0.208837C13.8797 0.345297 14.0463 0.540323 14.153 0.771574L17.462 7.77456L24.8879 8.90982C25.129 8.9458 25.3557 9.05202 25.5422 9.21641C25.7288 9.38081 25.8677 9.59681 25.9432 9.8399C26.0123 10.0774 26.0185 10.3303 25.9611 10.5712C25.9037 10.8122 25.7849 11.0322 25.6175 11.2077L20.25 16.6788L21.5528 24.3793C21.5993 24.6357 21.5749 24.9008 21.4826 25.1431C21.3903 25.3855 21.2338 25.5951 21.0317 25.7471C20.7958 25.9207 20.5117 26.0072 20.2239 25.9933Z" fill="white"/>
+                    </svg>
+                </span>
+            </a>
+        )
+    }
+
     return (
-        <svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4.08336 16.75H3.16669L4.08336 10.3333H0.875023C0.343356 10.3333 0.352523 10.04 0.526689 9.72833C0.700856 9.41667 0.572523 9.655 0.590856 9.61833C1.77336 7.52833 3.55169 4.41167 5.91669 0.25H6.83336L5.91669 6.66667H9.12502C9.57419 6.66667 9.63836 6.96917 9.55585 7.13417L9.49169 7.27167C5.88002 13.5875 4.08336 16.75 4.08336 16.75Z" fill="#DADE1B"/>
-        </svg>
+        <button disabled className={`py-6 px-3 text-base rounded-full pb-5 bg-[#37464F] border-[#2125278f] border-b-8 w-20 flex items-center justify-center`}>
+            <span className="text-base">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.2239 25.9933C20.0156 25.9942 19.8101 25.9426 19.6247 25.8428L12.9805 22.1909L6.33626 25.8428C6.12051 25.9619 5.87726 26.0151 5.63416 25.9963C5.39106 25.9775 5.15786 25.8874 4.96108 25.7364C4.76429 25.5854 4.61182 25.3794 4.52098 25.1419C4.43014 24.9044 4.40459 24.645 4.44722 24.393L5.75001 16.6924L0.382536 11.2214C0.215073 11.0459 0.0962775 10.8259 0.0388979 10.5849C-0.0184817 10.344 -0.0122791 10.0911 0.0568402 9.85358C0.132349 9.61049 0.271248 9.39449 0.457772 9.23009C0.644297 9.06569 0.870979 8.95948 1.1121 8.9235L8.53796 7.78824L11.808 0.771574C11.9146 0.540323 12.0812 0.345297 12.2886 0.208837C12.4959 0.0723759 12.7357 0 12.9805 0C13.2252 0 13.465 0.0723759 13.6724 0.208837C13.8797 0.345297 14.0463 0.540323 14.153 0.771574L17.462 7.77456L24.8879 8.90982C25.129 8.9458 25.3557 9.05202 25.5422 9.21641C25.7288 9.38081 25.8677 9.59681 25.9432 9.8399C26.0123 10.0774 26.0185 10.3303 25.9611 10.5712C25.9037 10.8122 25.7849 11.0322 25.6175 11.2077L20.25 16.6788L21.5528 24.3793C21.5993 24.6357 21.5749 24.9008 21.4826 25.1431C21.3903 25.3855 21.2338 25.5951 21.0317 25.7471C20.7958 25.9207 20.5117 26.0072 20.2239 25.9933Z" fill="white"/>
+                </svg>
+            </span>
+        </button>
     )
 }
-function QuestionsSVG(){
-    return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd" d="M13.25 8.875H19.5V6.375H13.25V8.875ZM13.25 17.625H19.5V15.125H13.25V17.625ZM20.75 23.25H3.25C1.875 23.25 0.75 22.125 0.75 20.75V3.25C0.75 1.875 1.875 0.75 3.25 0.75H20.75C22.125 0.75 23.25 1.875 23.25 3.25V20.75C23.25 22.125 22.125 23.25 20.75 23.25ZM4.5 10.75H10.75V4.5H4.5V10.75ZM5.75 5.75H9.5V9.5H5.75V5.75ZM4.5 19.5H10.75V13.25H4.5V19.5ZM5.75 14.5H9.5V18.25H5.75V14.5Z" fill="#9632A6"/>
-        </svg>
-    )
-}
-function ClockSVG(){
-    return (
-        <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15.75 0.25H8.25V2.75H15.75V0.25ZM10.75 16.5H13.25V9H10.75V16.5ZM20.7875 8.2375L22.5625 6.4625C22.025 5.825 21.4375 5.225 20.8 4.7L19.025 6.475C17.0875 4.925 14.65 4 12 4C5.7875 4 0.75 9.0375 0.75 15.25C0.75 21.4625 5.775 26.5 12 26.5C18.225 26.5 23.25 21.4625 23.25 15.25C23.25 12.6 22.325 10.1625 20.7875 8.2375ZM12 24C7.1625 24 3.25 20.0875 3.25 15.25C3.25 10.4125 7.1625 6.5 12 6.5C16.8375 6.5 20.75 10.4125 20.75 15.25C20.75 20.0875 16.8375 24 12 24Z" fill="#00FFF0" fillOpacity="0.48"/>
-        </svg>
-    )
-}
-function UserSVG(){
-    return (
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM13 4.25C15.075 4.25 16.75 5.925 16.75 8C16.75 10.075 15.075 11.75 13 11.75C10.925 11.75 9.25 10.075 9.25 8C9.25 5.925 10.925 4.25 13 4.25ZM13 22C9.875 22 7.1125 20.4 5.5 17.975C5.5375 15.4875 10.5 14.125 13 14.125C15.4875 14.125 20.4625 15.4875 20.5 17.975C18.8875 20.4 16.125 22 13 22Z" fill="#91898C"/>
-        </svg>
-    )
+
+function Topic({active, topic, id} : {active? : boolean, topic: string, id: number}){
+    if(active){
+        return (
+            <div className="bg-[#5046E5] w-full h-24 rounded-3xl p-4 flex flex-col justify-center mt-4">
+                <div className="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#FFFFFF99" viewBox="0 0 16 16"><path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg>
+                    <h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {id}</h3>
+                </div>
+                <h1 className="text-xl sm:text-3xl">{topic}</h1>
+            </div>
+        )
+    }else{
+        return (
+            <div className="w-full h-24 rounded-3xl text-[#91898C] p-4 flex flex-col justify-center mt-4">
+                <div className="flex items-center gap-3 justify-center">
+                    <svg width="61" height="1" viewBox="0 0 61 1" fill="none" xmlns="http://www.w3.org/2000/svg"><line y1="0.5" x2="61" y2="0.5" stroke="#91898C"/></svg>
+                    <h1 className="text-xl sm:text-3xl text-nowrap">{topic}</h1>
+                    <svg width="61" height="1" viewBox="0 0 61 1" fill="none" xmlns="http://www.w3.org/2000/svg"><line y1="0.5" x2="61" y2="0.5" stroke="#91898C"/></svg>
+                </div>
+                <div className="flex items-center gap-1 justify-center w-full"><h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {id}</h3></div>
+            </div>
+        )
+    }
 }
