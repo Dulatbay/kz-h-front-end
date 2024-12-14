@@ -6,73 +6,73 @@ import { TimelineSlider } from '@/components/TimelineSlider/TimelineSlider'
 // Данные для нужных дат
 const historicalData = {
   800: {
-    summary: "Early medieval period in Central Asia",
+    summary: "Ранний средневековый период в Центральной Азии",
     keyMoments: [
-      "Emergence of Turkic tribes",
-      "Spread of Islam in the region",
-      "Development of the Silk Road trade"
+      "Появление тюркских племён",
+      "Распространение ислама в регионе",
+      "Развитие торговли по Шёлковому пути"
     ],
-    mapUrl: "/maps/800.png" // Замените на URL карты
+    mapUrl: "/maps/800.png" // Замениmь на URL карты
   },
   900: {
-    summary: "Karakhanid period",
+    summary: "Караханидский период",
     keyMoments: [
-      "Establishment of the Karakhanid Khanate",
-      "Consolidation of Islam in the region",
-      "Cultural and architectural achievements"
+      "Образование Караханидского каганата",
+      "Укрепление ислама в регионе",
+      "Культурные и архитектурные достижения"
     ],
     mapUrl: "/maps/900.png"
   },
   1000: {
-    summary: "Great Seljuk Empire",
+    summary: "Великая Сельджукская империя",
     keyMoments: [
-      "Seljuk conquest of Central Asia",
-      "Expansion of the empire",
-      "Influence on the region's politics and culture"
+      "Завоевания сельджуков в Центральной Азии",
+      "Расширение империи",
+      "Влияние на политику и культуру региона"
     ],
     mapUrl: "/maps/1000.png"
   },
   1200: {
-    summary: "Mongol invasions and aftermath",
+    summary: "Монгольские нашествия и их последствия",
     keyMoments: [
-      "Destruction caused by Mongol invasions",
-      "Formation of successor states",
-      "Cultural and economic recovery"
+      "Разрушения, вызванные нашествиями монголов",
+      "Образование государств-преемников",
+      "Культурное и экономическое восстановление"
     ],
     mapUrl: "/maps/1200.png"
   },
   1500: {
-    summary: "Kazakh Khanate",
+    summary: "Казахское ханство",
     keyMoments: [
-      "Formation of the Kazakh Khanate",
-      "Relations with neighboring states",
-      "Cultural and political developments"
+      "Образование Казахского ханства",
+      "Отношения с соседними государствами",
+      "Культурные и политические изменения"
     ],
     mapUrl: "/maps/1500.png"
   },
   1700: {
-    summary: "Kazakh Khan",
+    summary: "Казахский хан",
     keyMoments: [
-      "Formation of the Kazakh Khanate",
-      "Relations with neighboring states",
-      "Cultural and political developments"
+      "Образование Казахского ханства",
+      "Отношения с соседними государствами",
+      "Культурные и политические изменения"
     ],
   },
   1800: {
-    summary: "Russian Empire",
+    summary: "Российская империя",
     keyMoments: [
-      "Russian expansion into Central Asia",
-      "Colonization and economic changes",
-      "Impact on local populations"
+      "Расширение Российской империи в Центральной Азии",
+      "Колонизация и экономические преобразования",
+      "Влияние на местное население"
     ],
     mapUrl: "/maps/1800.png"
   },
   1900: {
-    summary: "Late imperial period",
+    summary: "Поздний имперский период",
     keyMoments: [
-      "Russian expansion into Central Asia",
-      "Modernization efforts",
-      "Growth of national consciousness"
+      "Расширение влияния России в Центральной Азии",
+      "Модернизационные усилия",
+      "Рост национального самосознания"
     ],
     mapUrl: "/maps/1900.png"
   }
@@ -81,7 +81,7 @@ const historicalData = {
 const years = Object.keys(historicalData).map(Number)
 
 export default function HistoricalTimeline() {
-  const [selectedYear, setSelectedYear] = useState(800)
+  const [selectedYear, setSelectedYear] = useState(years[years.length - 1])
 
   const getClosestYear = (year: number) => {
     return years.reduce((prev, curr) => {
@@ -110,17 +110,17 @@ export default function HistoricalTimeline() {
       <div className="grid sm:grid-cols-1 md:grid-cols-[2fr,1fr] gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
         <div className="bg-[#282828] border border-gray-800 rounded-md aspect-video">
           <div className="w-full h-full bg-[#454545] rounded flex items-center justify-center text-sm sm:text-base">
-            Map for year {selectedYear}
+            Карта за {selectedYear} год
           </div>
         </div>
 
         <div className="space-y-4">
           <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
-            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Summary</h2>
+            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Краткое описание</h2>
             <p className="text-gray-300 text-xs sm:text-sm">{currentData.summary}</p>
           </div>
           <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
-            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Key moments</h2>
+            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Ключевые моменты</h2>
             <ul className="space-y-1 text-xs sm:text-sm">
               {currentData.keyMoments.map((moment, index) => (
                 <li key={index} className="text-gray-300">• {moment}</li>
@@ -132,4 +132,3 @@ export default function HistoricalTimeline() {
     </div>
   )
 }
-

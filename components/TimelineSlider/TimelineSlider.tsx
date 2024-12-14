@@ -6,15 +6,15 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
   const containerRef = useRef<HTMLDivElement>(null)
 
   const YEAR_STEP = 50
-  const SUB_MARKERS = 3 // 3 small markers between each big marker
-  const STEP_WIDTH = 100 // Pixels for each 50-year step
+  const SUB_MARKERS = 3 // 3 маленьких маркера между каждым большим
+  const STEP_WIDTH = 100 // Пиксели для каждого 50-летнего шага
   const numSteps = Math.floor((maxYear - minYear) / YEAR_STEP)
   const SLIDER_WIDTH = STEP_WIDTH * numSteps
 
-  // Set up x for slider movement
+  // Установка x для перемещения слайдера
   const x = useMotionValue(-SLIDER_WIDTH / 2)
 
-  // Convert x to corresponding year
+  // Преобразование x в соответствующий год
   const year = useTransform(x, xValue => {
     const progress = (xValue + SLIDER_WIDTH / 2) / SLIDER_WIDTH
     const stepIndex = Math.round((1 - progress) * numSteps)
@@ -35,7 +35,7 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
     for (let i = 0; i <= numSteps; i++) {
       const yearValue = minYear + i * YEAR_STEP
 
-      // Big marker
+      // Большой маркер
       markers.push(
         <div
           key={`main-${yearValue}`}
@@ -46,7 +46,7 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
             height: '32px',
           }}
         >
-          {/* Year label at the same level for all big markers */}
+          {/* Метка года на одном уровне для всех больших маркеров */}
           <span
             className="absolute top-10 left-0 transform -translate-x-1/2 text-xs text-gray-400"
           >
@@ -55,9 +55,9 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
         </div>
       )
 
-      // Add small markers if not the last main marker
+      // Добавление маленьких маркеров, если это не последний основной маркер
       if (i < numSteps) {
-        // 3 small markers equally spaced between the big markers
+        // 3 маленьких маркера, равномерно распределенные между большими маркерами
         for (let j = 1; j <= SUB_MARKERS; j++) {
           const subYearValue = yearValue + (YEAR_STEP / (SUB_MARKERS + 1)) * j
           const subPosition = (i * STEP_WIDTH) + (STEP_WIDTH / (SUB_MARKERS + 1)) * j
@@ -101,7 +101,7 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
           {generateMarkers()}
         </div>
       </motion.div>
-      {/* Cursor Line */}
+      {/* Линия курсора */}
       <div className="absolute bottom-0 left-1/2 w-0.5 h-8 bg-violet-700 z-10" />
     </div>
   )
