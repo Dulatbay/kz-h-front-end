@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { TimelineSlider } from '@/components/TimelineSlider/TimelineSlider'
+import Image from 'next/image'
 
 // Данные для нужных дат
 const historicalData = {
@@ -57,6 +58,7 @@ const historicalData = {
       "Отношения с соседними государствами",
       "Культурные и политические изменения"
     ],
+    mapUrl: "/maps/1700.png"
   },
   1800: {
     summary: "Российская империя",
@@ -108,9 +110,15 @@ export default function HistoricalTimeline() {
       </div>
 
       <div className="grid sm:grid-cols-1 md:grid-cols-[2fr,1fr] gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-        <div className="bg-[#282828] border border-gray-800 rounded-md aspect-video">
-          <div className="w-full h-full bg-[#454545] rounded flex items-center justify-center text-sm sm:text-base">
-            Карта за {selectedYear} год
+        <div className="bg-[#282828] border border-gray-800 rounded-md overflow-hidden">
+          <div className="relative w-full pb-[56.25%]">
+            <Image
+              src={currentData.mapUrl}
+              alt={`Map of ${selectedYear}`}
+              layout="fill"
+              objectFit="contain"
+              className="absolute top-0 left-0 w-full h-full"
+            />
           </div>
         </div>
 
@@ -132,3 +140,4 @@ export default function HistoricalTimeline() {
     </div>
   )
 }
+
