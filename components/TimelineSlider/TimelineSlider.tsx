@@ -6,14 +6,15 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
   const containerRef = useRef<HTMLDivElement>(null)
 
   const YEAR_STEP = 50
-  const STEP_WIDTH = 100 // Пиксели на шаг
+  const SUB_MARKERS = 3 // 3 small markers between each big marker
+  const STEP_WIDTH = 100 // Pixels for each 50-year step
   const numSteps = Math.floor((maxYear - minYear) / YEAR_STEP)
   const SLIDER_WIDTH = STEP_WIDTH * numSteps
 
-  // Инициализация x значения для слайдера
+  // Set up x for slider movement
   const x = useMotionValue(-SLIDER_WIDTH / 2)
 
-  // Преобразование x значения в год
+  // Convert x to corresponding year
   const year = useTransform(x, xValue => {
     const progress = (xValue + SLIDER_WIDTH / 2) / SLIDER_WIDTH
     const stepIndex = Math.round((1 - progress) * numSteps)
@@ -21,9 +22,8 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
     return minYear + clampedIndex * YEAR_STEP
   })
 
-  // Обновление года при изменении x значения
   useEffect(() => {
-    const unsubscribe = year.onChange(latest => {
+    const unsubscribe = year.on("change", latest => {
       onChange(latest)
     })
     return unsubscribe
@@ -31,31 +31,60 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
 
   const generateMarkers = () => {
     const markers = []
+
     for (let i = 0; i <= numSteps; i++) {
       const yearValue = minYear + i * YEAR_STEP
+
+      // Big marker
       markers.push(
         <div
-          key={yearValue}
-          className="absolute top-0 h-4 border-l border-gray-400"
-          style={{ left: `${i * STEP_WIDTH}px` }}
+          key={`main-${yearValue}`}
+          className="absolute top-1/3 -translate-y-1/2 border-l"
+          style={{
+            left: `${i * STEP_WIDTH}px`,
+            borderColor: '#9e9e9e',
+            height: '32px',
+          }}
         >
-          <span className="absolute top-5 left-0 transform -translate-x-1/2 text-xs text-gray-400">
+          {/* Year label at the same level for all big markers */}
+          <span
+            className="absolute top-10 left-0 transform -translate-x-1/2 text-xs text-gray-400"
+          >
             {yearValue}
           </span>
         </div>
       )
+
+      // Add small markers if not the last main marker
+      if (i < numSteps) {
+        // 3 small markers equally spaced between the big markers
+        for (let j = 1; j <= SUB_MARKERS; j++) {
+          const subYearValue = yearValue + (YEAR_STEP / (SUB_MARKERS + 1)) * j
+          const subPosition = (i * STEP_WIDTH) + (STEP_WIDTH / (SUB_MARKERS + 1)) * j
+          
+          markers.push(
+            <div
+              key={`sub-${subYearValue}`}
+              className="absolute top-1/3 -translate-y-1/2 border-l"
+              style={{
+                left: `${subPosition}px`,
+                borderColor: '#9e9e9e',
+                height: '16px',
+              }}
+            />
+          )
+        }
+      }
     }
+
     return markers
   }
 
   return (
-    <div className="relative w-full h-16 overflow-hidden bg-[#282828] rounded-md" ref={containerRef}>
-      {/* Слайдер */}
+    <div className="relative w-full h-20 overflow-hidden bg-[#282828] rounded-md" ref={containerRef}>
       <motion.div
         className="absolute top-0 left-0 h-full w-full cursor-grab active:cursor-grabbing"
-        style={{
-          x,
-        }}
+        style={{ x }}
         drag="x"
         dragConstraints={{ left: -SLIDER_WIDTH / 2, right: SLIDER_WIDTH / 2 }}
         dragElastic={0}
@@ -72,15 +101,8 @@ export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderPro
           {generateMarkers()}
         </div>
       </motion.div>
-      {/* Курсор */}
-      <div className="absolute top-0 left-1/2 w-0.5 h-6 bg-violet-700 z-10" />
-      {/* Год */}
-      <motion.div
-        className="absolute top-8 left-1/2 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded text-sm"
-      >
-        {year}
-      </motion.div>
+      {/* Cursor Line */}
+      <div className="absolute bottom-0 left-1/2 w-0.5 h-8 bg-violet-700 z-10" />
     </div>
   )
 }
-

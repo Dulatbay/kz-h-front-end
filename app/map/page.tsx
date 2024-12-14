@@ -97,31 +97,31 @@ export default function HistoricalTimeline() {
   const currentData = historicalData[selectedYear as keyof typeof historicalData]
 
   return (
-    <div className="min-h-screen text-white p-4 mx-10">
-      <h1 className="text-2xl font-bold text-center mb-2">KZH Map</h1>
-      <p className="text-center text-gray-400 mb-4 text-sm">
+    <div className="min-h-screen text-white p-4 sm:px-6 lg:px-20">
+      <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">KZH Map</h1>
+      <p className="text-center text-gray-400 mb-4 text-xs sm:text-sm">
         Осваивайте историю Казахстана используя интерактивную карту KZH.
       </p>
 
-      <div className="flex mx-auto mb-8 max-w-6xl">
+      <div className="flex mx-auto mb-6 sm:mb-8 max-w-6xl">
         <TimelineSlider minYear={800} maxYear={1900} onChange={handleYearChange} />
       </div>
 
-      <div className="grid md:grid-cols-[2fr,1fr] gap-8 max-w-6xl mx-auto">
-        <div className="bg-[#282828] border border-gray-800 rounded-md p-6 aspect-video">
-          <div className="w-full h-full bg-[#454545] rounded flex items-center justify-center">
+      <div className="grid sm:grid-cols-1 md:grid-cols-[2fr,1fr] gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
+        <div className="bg-[#282828] border border-gray-800 rounded-md aspect-video">
+          <div className="w-full h-full bg-[#454545] rounded flex items-center justify-center text-sm sm:text-base">
             Map for year {selectedYear}
           </div>
         </div>
 
         <div className="space-y-4">
-          <div className="p-4">
-            <h2 className="text-lg font-bold mb-2 text-violet-700">Summary</h2>
-            <p className="text-gray-300 text-sm">{currentData.summary}</p>
+          <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
+            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Summary</h2>
+            <p className="text-gray-300 text-xs sm:text-sm">{currentData.summary}</p>
           </div>
-          <div className="p-4">
-            <h2 className="text-lg font-bold mb-2 text-violet-700">Key moments</h2>
-            <ul className="space-y-1 text-sm">
+          <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
+            <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">Key moments</h2>
+            <ul className="space-y-1 text-xs sm:text-sm">
               {currentData.keyMoments.map((moment, index) => (
                 <li key={index} className="text-gray-300">• {moment}</li>
               ))}
