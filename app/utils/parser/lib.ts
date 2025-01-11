@@ -1,4 +1,13 @@
-import {Background, BaseNode, FontColor, FontSize, FontWeight} from "@/app/utils/parser/types";
+import {
+    AlignItems,
+    Background,
+    BaseNode,
+    BorderType,
+    FontColor,
+    FontSize,
+    FontWeight,
+    JustifyContent
+} from "@/app/utils/parser/types";
 import React from "react";
 
 
@@ -23,15 +32,19 @@ const FONT_WEIGHT_THIN = '100'
 
 export const getStylesFromBaseNode = (obj: BaseNode) => {
     const style: React.CSSProperties = {
+        ...(obj.width && {width: obj.width}),
+        ...(obj.height && {height: obj.height}),
         ...(obj.background && {background: getBackground(obj.background)}),
         ...(obj.padding && {padding: obj.padding}),
         ...(obj.margin && {margin: obj.margin}),
         ...(obj.opacity !== null && {opacity: obj.opacity}),
-        ...(obj.borderRadius !== null && {borderRadius: obj.opacity}),
+        ...(obj.borderRadius !== null && {borderRadius: obj.borderRadius}),
+        ...(obj.borderType && {border: getBorder(obj.borderType, obj.borderColor, "2px")}), // Добавлено свойство border
     };
 
     return style;
-}
+};
+
 
 export const getFontWeight = (fontWeight: FontWeight) => {
     switch (fontWeight) {
@@ -70,7 +83,7 @@ export const getBackground = (backgroundType: Background | undefined) => {
     return DEFAULT_BACKGROUND
 }
 
-export const getColor = (color: FontColor) => {
+export const getColor = (color?: FontColor) => {
     switch (color) {
         case FontColor.DEFAULT:
             return FONT_DEFAULT_COLOR
@@ -79,6 +92,41 @@ export const getColor = (color: FontColor) => {
         case FontColor.TERTIARY:
             return FONT_TERTIARY_COLOR
         case FontColor.PRIMARY:
-            return FONT_PRIMARY_COLOR
+            return FONT_PRIMARY_COLOR;
     }
 }
+
+export const getBorder = (borderType: BorderType | undefined, color: FontColor | undefined, width: string = "1px") => {
+    if (!borderType || borderType === BorderType.NONE) {
+        return "none";
+    }
+    return `${width} ${borderType} ${getColor(color)}`;
+};
+
+export const getEnumValue = (value: string | null) => {
+    switch (value) {
+        case "SPACE_BETWEEN":
+            return JustifyContent.SPACE_BETWEEN;
+        case "SPACE_AROUND":
+            return JustifyContent.SPACE_AROUND;
+        case "CENTER":
+            return JustifyContent.CENTER;
+        case "STRETCH":
+            return JustifyContent.STRETCH;
+
+    }
+};
+
+export const getAlignItemsValue = (value: string | null)=> {
+    switch (value) {
+        case "CENTER":
+            return AlignItems.CENTER;
+        case "START":
+            return AlignItems.START;
+        case "END":
+            return AlignItems.END;
+        case "STRETCH":
+            return AlignItems.STRETCH;
+    }
+};
+

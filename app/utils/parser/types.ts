@@ -1,5 +1,5 @@
 export enum TextAlign {
-    LEFT= 'left',
+    LEFT = 'left',
     RIGHT = 'right',
     CENTER = 'center',
 }
@@ -11,7 +11,7 @@ export enum Background {
     TERTIARY = "TERTIARY",
 }
 
-export enum Border {
+export enum BorderType {
     SOLID = "SOLID",
     DASHED = "DASHED",
     DOTTED = "DOTTED",
@@ -45,11 +45,14 @@ export enum FontSize {
 export interface BaseNode {
     nodeType: NodeType;
     background?: Background;
-    border?: Border;
+    borderColor?: FontColor;
+    borderType?: BorderType;
     borderRadius?: string;
     opacity?: number;
     padding?: string;
     margin?: string;
+    width?: string;
+    height?: string;
 }
 
 // Enum for Node Types
@@ -62,6 +65,18 @@ export enum NodeType {
     STACK = "STACK",
 }
 
+export enum FlexWrap {
+    WRAP = "wrap", NOWRAP = "nowrap"
+}
+
+export enum JustifyContent {
+    SPACE_BETWEEN= 'space-between', SPACE_AROUND = 'space-around', CENTER = 'center', STRETCH = 'stretch'
+}
+
+export enum AlignItems {
+    START = 'start', CENTER = 'center', END = 'end', STRETCH = 'stretch'
+}
+
 // Specific node types
 export interface CenteredContainer extends BaseNode {
     nodeType: NodeType.CENTERED_CONTAINER;
@@ -71,13 +86,11 @@ export interface CenteredContainer extends BaseNode {
 export interface IconText extends BaseNode {
     nodeType: NodeType.ICON_TEXT;
     text: Text;
-    icon: Icon;
+    icon: string;
 }
 
 export interface Image extends BaseNode {
     nodeType: NodeType.IMAGE;
-    width: number;
-    height: number;
     url: string;
 }
 
@@ -85,6 +98,9 @@ export interface Stack extends BaseNode {
     nodeType: NodeType.STACK;
     vertical: boolean;
     gap: number;
+    flexWrap: FlexWrap;
+    justifyContent: JustifyContent;
+    alignItems: AlignItems;
     children: BaseNode[];
 }
 
@@ -99,7 +115,7 @@ export interface Text extends BaseNode {
 
 export interface TitledContainer extends BaseNode {
     nodeType: NodeType.TITLED_CONTAINER;
-    text: Text;
+    titleText: Text;
     isDivided: boolean;
     content: BaseNode;
 }

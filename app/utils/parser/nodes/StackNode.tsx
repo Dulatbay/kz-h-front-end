@@ -1,7 +1,6 @@
 import React, {ReactNode} from 'react';
-import {Flex} from "antd";
 import {Stack} from "@/app/utils/parser/types";
-import {getStylesFromBaseNode} from "@/app/utils/parser/lib";
+import {getAlignItemsValue, getEnumValue, getStylesFromBaseNode} from "@/app/utils/parser/lib";
 
 interface Props {
     obj: Stack;
@@ -9,20 +8,27 @@ interface Props {
 }
 
 const StackNode = ({obj, children}: Props) => {
+
+
     const style: React.CSSProperties = {
-        ...(getStylesFromBaseNode(obj))
+        display: 'flex',
+        flexDirection: obj.vertical ? 'column' : 'row',
+        ...(getStylesFromBaseNode(obj)),
+        ...(obj.flexWrap && {flexWrap: obj.flexWrap}),
+        ...(obj.justifyContent && { justifyContent: getEnumValue(obj.justifyContent) }),
+        ...(obj.alignItems && { alignItems: getAlignItemsValue(obj.alignItems) }),
+        ...(obj.alignItems && {alignItems: obj.alignItems}),
+        ...(obj.gap && {gap: `${obj.gap}px`}),
     };
 
+    if(obj.justifyContent)
+        console.log(style)
+
     return (
-        <Flex
-            gap={obj.gap}
-            vertical={obj.vertical}
-            style={style}>
+        <div style={style}>
             {children}
-        </Flex>
+        </div>
     );
 };
 
 export default StackNode;
-
-
