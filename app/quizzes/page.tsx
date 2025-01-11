@@ -1,48 +1,48 @@
 'use client'
 
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Quizzes(){
     let [activeTags, setActiveTags] = useState([] as string[]);
 
-    const rows = [
-        {
-            'solved': true,
-            'id' : 1,
-            'title': 'Независимый Казахстан',
-            'progress': 70.6,
-            'difficulty': 'Easy',
-            'link': '/1',
-            'questionsAmount': 25,
-        },
-        {
-            'solved': false,
-            'id' : 2,
-            'title': 'Тема номер 2',
-            'progress': 32.5,
-            'difficulty': 'Hard',
-            'link': '/2',
-            'questionsAmount': 21,
-        },
-        {
-            'solved': false,
-            'id' : 3,
-            'title': 'Тема номер 3',
-            'progress': 66.5,
-            'difficulty': 'Medium',
-            'link': '/3',
-            'questionsAmount': 12,
-        }
-    ]
+    const searchParams = useSearchParams();
+    const [searchText, setSearchText] = useState("");
+
+    const [quizzes, setQuizzes] = useState([{
+        "id": "",
+        "title": "",
+        "status": false,
+        "average": 0,
+        "difficulty": -1,
+        "questions": 0,
+        "verified": false
+    },]);
+
+    useEffect(() => {
+        const fetchQuizzes = async () => { 
+            try { 
+                const response = await fetch(`${process.env.API_URL}/quizzes?page=0&size=20&searchText=${searchText}`); 
+                const data = await response.json();
+                setQuizzes(data.content);
+            } catch (error) { 
+                console.error('Error fetching quiz data:', error); 
+            } 
+        };
+
+        fetchQuizzes();
+    })
 
     function toggleTag({type, tag} : {type : string, tag: string}){
         if(activeTags.includes(tag)){
-            setActiveTags(activeTags.filter(t => tag !== t))
+            setActiveTags(activeTags.filter(t => tag !== t));
         }else{
-            setActiveTags([...activeTags, tag])
+            setActiveTags([...activeTags, tag]);
         }
+    }
 
-        // console.log(activeTags)
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement>){ 
+        setSearchText(e.target.value); 
     }
 
     return (
@@ -53,7 +53,7 @@ export default function Quizzes(){
                 <Dropdown onSelect={(tag) => toggleTag({ type: "Difficulty", tag})} title="Difficulty" options={["Easy", "Medium", "Hard"]}/>
                 <Dropdown onSelect={(tag) => toggleTag({ type: "Status", tag})} title="Status" options={["Solved", "Not solved"]}/>
                 <div className="flex flex-1">
-                    <SearchBar/>
+                    <SearchBar onSearch={handleSearch}/>
                     <PickOne/>
                 </div>
             </div>
@@ -93,30 +93,35 @@ export default function Quizzes(){
                         </tr>
                         
                         {
-                            rows.map((row, i) => {
-                                let colorClass = '';
+                            quizzes.map((row, i) => {
+                                let colorClass = 'text-[#00B8A3]';
+                                let difficulty = 'Easy';
                                 switch(row.difficulty){
-                                    case 'Easy':
+                                    case 0:
                                         colorClass = 'text-[#00B8A3]';
+                                        difficulty = 'Easy';
                                         break;
-                                    case 'Medium':
+                                    case 1:
                                         colorClass = 'text-yellow-500';
+                                        difficulty = 'Medium';
                                         break;
-                                    case 'Hard':
+                                    case 2:
                                         colorClass = 'text-red-500';
+                                        difficulty = 'Hard';
                                         break;
                                     default:
                                         colorClass = 'text-white';
+                                        difficulty = 'Undef';
                                         break;
                                 }
                                 return (
                                     <tr key={"row" + i} className="odd:bg-zinc-800">
                                         <td>
-                                            {row.solved ? (<SolvedMark/>) : (<></>)}</td>
-                                        <td><a href={`/quizzes/${row.link}/preview`}>{row.title}</a></td>
-                                        <td>{row.progress}%</td>
-                                        <td className={colorClass}>{row.difficulty}</td>
-                                        <td>{row.questionsAmount}</td>
+                                            {row.status ? (<SolvedMark/>) : (<></>)}</td>
+                                        <td><a href={`/quizzes/${row.id}/preview`}>{row.title}</a></td>
+                                        <td>{43}%</td>
+                                        <td className={colorClass}>{difficulty}</td>
+                                        <td>{row.questions}</td>
                                     </tr>
                                 )
                             })
@@ -143,17 +148,24 @@ function Dropdown({title, options, onSelect}: {title: string, options: string[],
     )
 }
 
-function SearchBar(){
+function SearchBar({ onSearch }: { onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void }){
     return (
         <div className="flex h-10 flex-1 min-w-48">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search"/>
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search" onChange={onSearch}/>
         </div>
     )
 }
 
 function PickOne(){
+    const router = useRouter();
+    async function pickRandom() {
+        await fetch(`${process.env.API_URL}/quizzes/random`).then((response) => response.json()).then((data) => {
+            router.push(`/quizzes/${data.id}/preview`);
+        });
+    }
+
     return (
-        <button className="flex gap-2 items-center px-2">
+        <button onClick={pickRandom} className="flex gap-2 items-center px-2">
             <div className="w-8">
                 <svg width="32" height="32" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="25" height="25" rx="12.5" fill="#2CBB5D"/>

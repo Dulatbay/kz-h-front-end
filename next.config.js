@@ -2,6 +2,9 @@
  
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    API_URL: 'http://35.244.23.124:8080/api',
+  },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
