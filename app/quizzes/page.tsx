@@ -4,40 +4,69 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Quizzes(){
-    let [activeTags, setActiveTags] = useState([] as string[]);
+    class Tag {
+        "type": string;
+        "value": string;
+        "query_value": string;
+    }
 
-    const searchParams = useSearchParams();
+    let [activeTags, setActiveTags] = useState([] as Tag[]);
+
     const [searchText, setSearchText] = useState("");
 
-    const [quizzes, setQuizzes] = useState([{
-        "id": "",
-        "title": "",
-        "status": false,
-        "average": 0,
-        "difficulty": -1,
-        "questions": 0,
-        "verified": false
-    },]);
+    class Quiz{
+        "id": string;
+        "title": string;
+        "status": boolean;
+        "average": number;
+        "difficulty": number;
+        "questions": number;
+        "verified": boolean;
+    }
+
+    const [quizzes, setQuizzes] = useState([] as Quiz[]);
+
+    const [language, setLanguage] = useState("RU");
+    const token = "";
 
     useEffect(() => {
         const fetchQuizzes = async () => { 
             try { 
-                const response = await fetch(`${process.env.API_URL}/quizzes?page=0&size=20&searchText=${searchText}`); 
+                
+                let url = `${process.env.API_URL}/quizzes?page=0&size=20&searchText=${searchText}`;
+
+                for(let tag of activeTags){
+                    url += `&${tag.type}=${tag.query_value}`;
+                }
+
+                const response = await fetch(url, 
+                    {
+                        headers: {
+                            "Accept-Language": language,
+                        }
+                    }
+                ); 
                 const data = await response.json();
                 setQuizzes(data.content);
+
+                // console.log("Parsed: " + url);
             } catch (error) { 
                 console.error('Error fetching quiz data:', error); 
             } 
         };
 
         fetchQuizzes();
-    })
+    });
 
-    function toggleTag({type, tag} : {type : string, tag: string}){
-        if(activeTags.includes(tag)){
-            setActiveTags(activeTags.filter(t => tag !== t));
+    function toggleTag({type, tag, query_value} : {type : string, tag: string, query_value: string}){
+        const tagsArr = [...activeTags];
+
+        if(activeTags.some(t => t.value === tag)){
+            const filteredTags = tagsArr.filter(t => tag !== t.value);
+            setActiveTags(filteredTags);
         }else{
-            setActiveTags([...activeTags, tag]);
+            tagsArr.push({"type": type, "value": tag, query_value: query_value})
+            setActiveTags(tagsArr);
         }
     }
 
@@ -49,9 +78,11 @@ export default function Quizzes(){
         <div className="mt-10 w-full max-w-[1200px] min-w-80 mx-auto flex flex-col gap-6 px-8">
             <h1 className="text-4xl">Quizzes</h1>
             <div className="flex flex-wrap w-full gap-2">
-                <Dropdown onSelect={(tag) => toggleTag({ type: "Topics", tag})} title="Topics" options={["Древний век", "Тюркский период"]}/>
-                <Dropdown onSelect={(tag) => toggleTag({ type: "Difficulty", tag})} title="Difficulty" options={["Easy", "Medium", "Hard"]}/>
-                <Dropdown onSelect={(tag) => toggleTag({ type: "Status", tag})} title="Status" options={["Solved", "Not solved"]}/>
+
+                <Dropdown onSelect={(tag) => toggleTag({ type: "topics", tag, query_value: `"${tag}"`})} title="Topics" options={["Древний век", "Тюркский период"]}/>
+                <Dropdown onSelect={(tag) => toggleTag({ type: "level", tag, query_value: tag.toUpperCase()})} title="Difficulty" options={["Easy", "Medium", "Hard"]}/>
+                <Dropdown onSelect={(tag) => toggleTag({ type: "status", tag, query_value: tag == "Solved" ? "true" : "false"})} title="Status" options={["Solved", "Not solved"]}/>
+                
                 <div className="flex flex-1">
                     <SearchBar onSearch={handleSearch}/>
                     <PickOne/>
@@ -61,9 +92,9 @@ export default function Quizzes(){
                 {
                     activeTags.map((tag, j) => {
                         return (
-                            <div key={"tag" + tag} className="bg-zinc-600 rounded-md p-2 flex justify-between gap-2 items-center">
-                                <h2 className="text-base">{tag}</h2>
-                                <button onClick={() => toggleTag({type:"", tag})} className="rounded-full bg-zinc-800 w-4 h-4 flex items-center justify-center">
+                            <div key={`tag${j}`} className="bg-zinc-600 rounded-md p-2 flex justify-between gap-2 items-center">
+                                <h2 className="text-base">{tag.value}</h2>
+                                <button onClick={() => toggleTag({type:tag.type, tag:tag.value, query_value: tag.query_value})} className="rounded-full bg-zinc-800 w-4 h-4 flex items-center justify-center">
                                     <svg width="8" height="8" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M1.00024 1L4.35343 4.35319" stroke="white" strokeLinecap="round"/>
                                         <path d="M1 4.35303L4.35319 0.999839" stroke="white" strokeLinecap="round"/>
@@ -74,6 +105,17 @@ export default function Quizzes(){
                     })
                 }
             </div>
+            <div className="flex flex-col">
+                <div className="flex gap-3">
+                    <h1 className="text-2xl">Showing results in </h1>
+                    <select onChange={(lang) => setLanguage(lang.target.value.split(' ')[0])} className="bg-[#FFFFFF24] text-center px-1 py-2 rounded-md"> 
+                        <option className="bg-zinc-800">RU 🇷🇺</option>
+                        <option className="bg-zinc-800">KAZ 🇰🇿</option>
+                        <option className="bg-zinc-800">EN 🇬🇧</option>
+                    </select>
+                </div>
+            </div>
+            
             <div className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <table cellPadding={6} className="gap-3 w-full">
                 <colgroup>

@@ -27,7 +27,7 @@ export default function Quiz({
                     {
                         method: "POST",
                         headers: {
-                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6InRlc3R1c2VyIiwiaWF0IjoxNzM2NTkyMzQxLCJleHAiOjE3MzY2Nzg3NDF9.z7rbW-pY2_PdXplFTvnnpth1W5O1JmH_sASRF5cztek"
+                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6InRlc3R1c2VyIiwiaWF0IjoxNzM2NzY0OTA0LCJleHAiOjE3MzY4NTEzMDR9.K55cPUnFCZKTnq4fD98GmS1Eqp0XPyg0fklqQyztvTw"
                         }
                     }); 
                 const data = await response.json();
@@ -74,7 +74,6 @@ export default function Quiz({
                 <h3 className="text-sm text-[#91898C]">{questionData.currentQuestionIndex + 1}/{questionData.totalQuestions} Вопрос</h3>
                 <h1 className="text-base">{questionData.currentQuestion.question}</h1>
             </div>
-            <img className="bg-red-600 w-full aspect-video"  alt="illustration"/>
             <div className="flex w-full flex-wrap">
                 {
                     questionData.currentQuestion.variants.map((option, index) => {
