@@ -3,6 +3,8 @@
 import React, {useEffect} from 'react';
 import {useSearchParams} from "next/navigation";
 import {parser} from "@/app/utils/parser/parser";
+import localFont from "next/font/local";
+
 
 
 const Page = () => {
