@@ -35,6 +35,7 @@ export default function Header(){
                     <a href="/learn">Learn</a>
                     <a href="/quizzes">Quizzes</a>
                     <a href="/map">Map</a>
+                    <a href="/leaderboard">Leaders</a>
                     <a href="/archive">Archive</a>
                     <a href="/shop">Shop</a>
                     <a href="/tournaments">Tournaments</a>
