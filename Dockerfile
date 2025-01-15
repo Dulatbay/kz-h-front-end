@@ -7,12 +7,12 @@ FROM node:lts as builder
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-COPY .env .env
 RUN npm run build
 
 FROM node:lts as runner
 WORKDIR /app
 ENV NODE_ENV = production
+ENV API_URL = 'http://34.47.132.153:8080/api'
 
 
 COPY --from=builder /app/public ./public
