@@ -56,7 +56,7 @@ export default function Quizzes(){
         };
 
         fetchQuizzes();
-    });
+    }, [searchText, activeTags, language]);
 
     function toggleTag({type, tag, query_value} : {type : string, tag: string, query_value: string}){
         const tagsArr = [...activeTags];
