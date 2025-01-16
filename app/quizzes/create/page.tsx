@@ -3,7 +3,7 @@
 import Collapse from '@/components/Common/Hollapse'
 import DefaultButton from '@/components/Common/Button'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../utils/store/store'
+import { RootState } from '../../../utils/redux/store'
 import { useEffect, useId, useState } from 'react'
 import {
   addQuestion,
@@ -12,7 +12,7 @@ import {
   setDescription,
   setShowQuestions,
   setLanguage,
-} from '@/utils/store/slice'
+} from '@/utils/redux/slice'
 import { Variant } from '@/types/Variant'
 import { Question } from '@/types/Question'
 import { Dropdown, Space, Button, Checkbox } from 'antd'
