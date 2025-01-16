@@ -1,5 +1,5 @@
 // @ts-check
- 
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   env: {
@@ -11,8 +11,8 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['185.32.84.190']
-  }
+    domains: ['185.32.84.190'],
+  },
 }
- 
+
 module.exports = nextConfig

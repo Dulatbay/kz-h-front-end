@@ -1,66 +1,71 @@
 'use client'
 
-import { TimelineSlider } from "../TimelineSlider/TimelineSlider";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import type { HistoricalRange } from "@/app/types/History";
-import { getMapImageUrl } from "@/app/utils/getHistoryData";
+import { TimelineSlider } from './TimelineSlider'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import type { HistoricalRange } from '@/types/History'
+import { getMapImageUrl } from '@/utils/map/getHistoryData'
 
 interface HistoricalTimelineProps {
-  years: number[];
-  historicalRanges: HistoricalRange[];
+  years: number[]
+  historicalRanges: HistoricalRange[]
 }
 
-function HistoricalTimeline({ years, historicalRanges }: HistoricalTimelineProps) {
-  const [selectedYear, setSelectedYear] = useState(years[years.length - 1]);
-  const [isLoading, setIsLoading] = useState(true);
+function HistoricalTimeline({
+  years,
+  historicalRanges,
+}: HistoricalTimelineProps) {
+  const [selectedYear, setSelectedYear] = useState(years[years.length - 1])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Preload all images
     const preloadImages = async () => {
-      const imageUrls = historicalRanges.flatMap(range => range.mapUrls);
+      const imageUrls = historicalRanges.flatMap((range) => range.mapUrls)
       await Promise.all(
-        imageUrls.map(url => {
+        imageUrls.map((url) => {
           return new Promise((resolve) => {
-            const img = new window.Image();
-            img.src = getMapImageUrl(url);
-            img.onload = resolve;
-            img.onerror = resolve; // Handle errors gracefully
-          });
+            const img = new window.Image()
+            img.src = getMapImageUrl(url)
+            img.onload = resolve
+            img.onerror = resolve // Handle errors gracefully
+          })
         })
-      );
-      setIsLoading(false);
-    };
+      )
+      setIsLoading(false)
+    }
 
-    preloadImages();
-  }, [historicalRanges]);
+    preloadImages()
+  }, [historicalRanges])
 
   const getClosestYear = (year: number) => {
     return years.reduce((prev, curr) => {
-      return Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev;
-    });
-  };
+      return Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev
+    })
+  }
 
   const getCurrentRange = (year: number) => {
     return historicalRanges.find(
-      range => year >= range.min && year <= range.max
-    );
-  };
+      (range) => year >= range.min && year <= range.max
+    )
+  }
 
   const handleYearChange = (year: number) => {
-    const closestYear = getClosestYear(year);
-    setSelectedYear(closestYear);
-  };
+    const closestYear = getClosestYear(year)
+    setSelectedYear(closestYear)
+  }
 
-  const currentRange = getCurrentRange(selectedYear);
+  const currentRange = getCurrentRange(selectedYear)
 
   if (!currentRange) {
-    return <div>No historical data available for selected year</div>;
+    return <div>No historical data available for selected year</div>
   }
 
   return (
     <div className="min-h-screen text-white p-4 sm:px-6 lg:px-20">
-      <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">KZH Map</h1>
+      <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">
+        KZH Map
+      </h1>
       <p className="text-center text-gray-400 mb-4 text-xs sm:text-sm">
         Осваивайте историю Казахстана используя интерактивную карту KZH.
       </p>
@@ -108,14 +113,16 @@ function HistoricalTimeline({ years, historicalRanges }: HistoricalTimelineProps
             </h2>
             <ul className="space-y-1 text-xs sm:text-sm">
               {currentRange.keyMoments.map((moment, index) => (
-                <li key={index} className="text-gray-300">• {moment}</li>
+                <li key={index} className="text-gray-300">
+                  • {moment}
+                </li>
               ))}
             </ul>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default HistoricalTimeline;
+export default HistoricalTimeline

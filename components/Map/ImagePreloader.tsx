@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image';
-import { getMapImageUrl } from '@/app/utils/getHistoryData';
+import Image from 'next/image'
+import { getMapImageUrl } from '@/utils/map/getHistoryData'
 
 export function ImagePreloader({ mapUrls }: { mapUrls: string[] }) {
   return (
@@ -17,5 +17,5 @@ export function ImagePreloader({ mapUrls }: { mapUrls: string[] }) {
         />
       ))}
     </div>
-  );
+  )
 }
