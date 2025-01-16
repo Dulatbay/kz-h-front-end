@@ -78,7 +78,7 @@ function HistoricalTimeline({ years, historicalRanges }: HistoricalTimelineProps
           <div className="relative w-full pb-[56.25%]">
             {isLoading ? (
               <div className="absolute inset-0 flex items-center justify-center bg-[#282828]">
-                <div className="text-white">Loading maps...</div>
+                <div className="text-white">Карты загружаются...</div>
               </div>
             ) : (
               <Image
