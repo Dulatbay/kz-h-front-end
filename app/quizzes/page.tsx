@@ -56,7 +56,7 @@ export default function Quizzes(){
         };
 
         fetchQuizzes();
-    });
+    }, [searchText, activeTags, language]);
 
     function toggleTag({type, tag, query_value} : {type : string, tag: string, query_value: string}){
         const tagsArr = [...activeTags];
@@ -65,7 +65,14 @@ export default function Quizzes(){
             const filteredTags = tagsArr.filter(t => tag !== t.value);
             setActiveTags(filteredTags);
         }else{
-            tagsArr.push({"type": type, "value": tag, query_value: query_value})
+            if(type === "status" && activeTags.some(t => t.type === "status")){
+                const filteredTags = tagsArr.filter(t => "status" !== t.type);
+                filteredTags.push({"type": type, "value": tag, query_value: query_value});
+                setActiveTags(filteredTags);
+                return;
+            }
+
+            tagsArr.push({"type": type, "value": tag, query_value: query_value});
             setActiveTags(tagsArr);
         }
     }
@@ -177,7 +184,7 @@ export default function Quizzes(){
 
 function Dropdown({title, options, onSelect}: {title: string, options: string[], onSelect : (tag:string) => void}){
     return (
-        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 h-10 p-3 rounded-md cursor-pointer"  value={title} onChange={(e) => onSelect(e.target.value)}>
+        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer"  value={title} onChange={(e) => onSelect(e.target.value)}>
             <option className="bg-zinc-800" disabled>{title}</option>
             {
                 options.map((name, i) => {
@@ -192,7 +199,7 @@ function Dropdown({title, options, onSelect}: {title: string, options: string[],
 
 function SearchBar({ onSearch }: { onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void }){
     return (
-        <div className="flex h-10 flex-1 min-w-48">
+        <div className="flex flex-1 min-w-48">
             <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search" onChange={onSearch}/>
         </div>
     )
