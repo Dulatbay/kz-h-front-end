@@ -18,7 +18,7 @@ const DEFAULT_BACKGROUND = "#282828"
 
 
 const FONT_PRIMARY_COLOR = "#5348F2"
-const FONT_DEFAULT_COLOR = "#FAEFEF"
+const FONT_DEFAULT_COLOR = "#f3e2e2"
 const FONT_SECONDARY_COLOR = "#91898C"
 const FONT_TERTIARY_COLOR = "rgba(145,137,140,0.5)"
 
@@ -26,8 +26,8 @@ const TEXT_SIZE_BIG = '1.5rem'
 const TEXT_SIZE_MEDIUM = '1.125rem'
 const TEXT_SIZE_SMALL = '1rem'
 
-const FONT_WEIGHT_BOLD = '700'
-const FONT_WEIGHT_REGULAR = '400'
+const FONT_WEIGHT_BOLD = '900'
+const FONT_WEIGHT_REGULAR = '600'
 const FONT_WEIGHT_THIN = '100'
 
 export const getStylesFromBaseNode = (obj: BaseNode) => {
@@ -54,6 +54,8 @@ export const getFontWeight = (fontWeight: FontWeight) => {
             return FONT_WEIGHT_REGULAR;
         case FontWeight.THIN:
             return FONT_WEIGHT_THIN;
+        default:
+            return FONT_WEIGHT_REGULAR
     }
 }
 

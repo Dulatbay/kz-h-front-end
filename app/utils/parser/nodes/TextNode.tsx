@@ -9,9 +9,9 @@ interface Props {
 export const TextNode = ({obj}: Props) => {
         const style: React.CSSProperties = {
             ...(obj.fontColor && {color: getColor(obj.fontColor)}),
-            ...(obj.fontWeight && {fontWeight: getFontWeight(obj.fontWeight)}),
+            ...({fontWeight: getFontWeight(obj.fontWeight)}),
             ...(obj.fontSize && {fontSize: getFontSize(obj.fontSize)}),
-            ...(obj.textAlign && {textAlign: obj.textAlign }),
+            ...(obj.textAlign && {textAlign: obj.textAlign}),
             ...(getStylesFromBaseNode(obj))
         };
 
