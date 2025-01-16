@@ -5,7 +5,7 @@ import {
   getFontSize,
   getFontWeight,
   getStylesFromBaseNode,
-} from '@/utils/parser/lib'
+} from '@/utils/modules/lib'
 
 interface Props {
   obj: Text

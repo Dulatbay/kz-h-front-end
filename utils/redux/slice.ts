@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Question } from '../../types/Question'
+import { Question } from '../../types/question'
 
 // export const questionsSlice = createSlice({
 //   name: 'questionsCreated',

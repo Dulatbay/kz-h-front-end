@@ -3,7 +3,7 @@
 import { TimelineSlider } from './TimelineSlider'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import type { HistoricalRange } from '@/types/History'
+import type { HistoricalRange } from '@/types/history'
 import { getMapImageUrl } from '@/utils/map/getHistoryData'
 
 interface HistoricalTimelineProps {

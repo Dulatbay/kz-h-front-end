@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react'
-import { Stack } from '@/utils/parser/types'
+import { Stack } from '@/utils/modules/types'
 import {
   getAlignItemsValue,
   getEnumValue,
   getStylesFromBaseNode,
-} from '@/utils/parser/lib'
+} from '@/utils/modules/lib'
 
 interface Props {
   obj: Stack

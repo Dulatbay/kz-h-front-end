@@ -1,7 +1,7 @@
-import { IconText as IconTextType } from '@/utils/parser/types'
+import { IconText as IconTextType } from '@/utils/modules/types'
 import React, { FC } from 'react'
-import { getStylesFromBaseNode } from '@/utils/parser/lib'
-import { parser } from '@/utils/parser/parser'
+import { getStylesFromBaseNode } from '@/utils/modules/lib'
+import { parser } from '@/utils/modules/parser'
 import { Flex } from 'antd'
 
 interface Props {

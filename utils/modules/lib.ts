@@ -7,7 +7,7 @@ import {
   FontSize,
   FontWeight,
   JustifyContent,
-} from '@/utils/parser/types'
+} from '@/utils/modules/types'
 import React from 'react'
 
 const PRIMARY_BACKGROUND = '#5348F2'

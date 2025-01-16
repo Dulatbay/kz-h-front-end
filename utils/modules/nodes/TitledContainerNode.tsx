@@ -1,8 +1,8 @@
-import { TitledContainer } from '@/utils/parser/types'
+import { TitledContainer } from '@/utils/modules/types'
 import React from 'react'
 import { Flex } from 'antd'
-import { parser } from '@/utils/parser/parser'
-import { getStylesFromBaseNode } from '@/utils/parser/lib'
+import { parser } from '@/utils/modules/parser'
+import { getStylesFromBaseNode } from '@/utils/modules/lib'
 
 interface Props {
   obj: TitledContainer

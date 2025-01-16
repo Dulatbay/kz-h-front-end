@@ -7,12 +7,12 @@ import {
   Stack,
   Text,
   TitledContainer,
-} from '@/utils/parser/types'
-import StackNode from '@/utils/parser/nodes/StackNode'
-import { TextNode } from '@/utils/parser/nodes/TextNode'
-import { IconText } from '@/utils/parser/nodes/IconText'
-import { TitledContainerNode } from '@/utils/parser/nodes/TitledContainerNode'
-import CenteredContainerNode from '@/utils/parser/nodes/CenteredContainerNode'
+} from '@/utils/modules/types'
+import StackNode from '@/utils/modules/nodes/StackNode'
+import { TextNode } from '@/utils/modules/nodes/TextNode'
+import { IconText } from '@/utils/modules/nodes/IconText'
+import { TitledContainerNode } from '@/utils/modules/nodes/TitledContainerNode'
+import CenteredContainerNode from '@/utils/modules/nodes/CenteredContainerNode'
 
 const isShowComponentName = false
 

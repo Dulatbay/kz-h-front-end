@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import { TimelineSliderProps } from '@/types/History'
+import { TimelineSliderProps } from '@/types/history'
 
 export function TimelineSlider({
   minYear,

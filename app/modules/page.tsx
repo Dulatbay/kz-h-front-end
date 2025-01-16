@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { parser } from '@/utils/parser/parser'
+import { parser } from '@/utils/modules/parser'
 
 const Page = () => {
   return (

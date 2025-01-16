@@ -13,8 +13,8 @@ import {
   setShowQuestions,
   setLanguage,
 } from '@/utils/redux/slice'
-import { Variant } from '@/types/Variant'
-import { Question } from '@/types/Question'
+import { Variant } from '@/types/variant'
+import { Question } from '@/types/question'
 import { Dropdown, Space, Button, Checkbox } from 'antd'
 import type { MenuProps, CheckboxProps } from 'antd'
 import styles from '@/styles/ultima.module.scss'

@@ -1,4 +1,4 @@
-import { Variant } from './Variant'
+import { Variant } from './variant'
 
 export type Question = {
   question: string
