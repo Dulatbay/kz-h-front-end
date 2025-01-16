@@ -10,7 +10,7 @@ type User = {
     email: string;
     fireDays: number;
     wasPlayedYesterday: boolean;
-    questions: number;
+    answeredQuestionsCount: number;
     score: number;
     accuracy: number;
     joinDate: string | undefined | null;
@@ -27,7 +27,7 @@ export default function Profile(){
                     "email": "",
                     "fireDays": 0,
                     "wasPlayedYesterday": false,
-                    "questions": 0,
+                    "answeredQuestionsCount": 0,
                     "score": 0.0,
                     "accuracy": 0.0,
                     "joinDate": "September 2024",
@@ -39,7 +39,7 @@ export default function Profile(){
             try { 
                 const response = await fetch(`${process.env.API_URL}/auth/me`, {
                     headers: {
-                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6InRlc3R1c2VyIiwiaWF0IjoxNzM2OTUwNDE3LCJleHAiOjE3MzcwMzY4MTd9.-52ThaIQeHkRwkKnG9ssQGu3KHnvEEe4HaOfKNaCp4Y",
+                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMzE1NjAsImV4cCI6MTczNzExNzk2MH0._-O9zRt63R070XM00y7i1SfNZVBlCvvGeRHCxcSfiQQ",
                     }
                 }); 
                 const data = await response.json();
@@ -90,7 +90,7 @@ export default function Profile(){
                 <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
                     <Stat svg="fire" textColor="text-orange-500" title="Fire days" stat={userData.fireDays.toString()}/>
                     <Stat svg="score" textColor="text-green-600" title="Score" stat={userData.score.toString() + "%"}/>
-                    <Stat svg="questions" textColor="text-orange-600" title="Questions" stat={userData.questions.toString()}/>
+                    <Stat svg="questions" textColor="text-orange-600" title="Questions" stat={userData.answeredQuestionsCount.toString()}/>
                     <Stat svg="accuracy" textColor="text-red-600" title="Accuracy" stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
