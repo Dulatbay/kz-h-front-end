@@ -43,6 +43,7 @@ export enum FontSize {
 
 // BaseNode abstract structure
 export interface BaseNode {
+    id: string;
     nodeType: NodeType;
     background?: Background;
     borderColor?: FontColor;
@@ -53,6 +54,9 @@ export interface BaseNode {
     margin?: string;
     width?: string;
     height?: string;
+    links?: Link[];
+    overflowX?: string;
+    overflowY?: string;
 }
 
 // Enum for Node Types
@@ -70,7 +74,7 @@ export enum FlexWrap {
 }
 
 export enum JustifyContent {
-    SPACE_BETWEEN= 'space-between', SPACE_AROUND = 'space-around', CENTER = 'center', STRETCH = 'stretch'
+    SPACE_BETWEEN = 'space-between', SPACE_AROUND = 'space-around', CENTER = 'center', STRETCH = 'stretch'
 }
 
 export enum AlignItems {
@@ -103,6 +107,11 @@ export interface Stack extends BaseNode {
     alignItems: AlignItems;
     children: BaseNode[];
 }
+
+export type Link = {
+    fromId: number;
+    toId: number;
+};
 
 export interface Text extends BaseNode {
     nodeType: NodeType.TEXT;

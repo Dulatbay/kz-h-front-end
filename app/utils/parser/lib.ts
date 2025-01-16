@@ -22,8 +22,8 @@ const FONT_DEFAULT_COLOR = "#f3e2e2"
 const FONT_SECONDARY_COLOR = "#91898C"
 const FONT_TERTIARY_COLOR = "rgba(145,137,140,0.5)"
 
-const TEXT_SIZE_BIG = '1.5rem'
-const TEXT_SIZE_MEDIUM = '1.125rem'
+const TEXT_SIZE_BIG = '2rem'
+const TEXT_SIZE_MEDIUM = '1.5rem'
 const TEXT_SIZE_SMALL = '1rem'
 
 const FONT_WEIGHT_BOLD = '900'
@@ -39,7 +39,9 @@ export const getStylesFromBaseNode = (obj: BaseNode) => {
         ...(obj.margin && {margin: obj.margin}),
         ...(obj.opacity !== null && {opacity: obj.opacity}),
         ...(obj.borderRadius !== null && {borderRadius: obj.borderRadius}),
-        ...(obj.borderType && {border: getBorder(obj.borderType, obj.borderColor, "2px")}), // Добавлено свойство border
+        ...(obj.borderType && {border: getBorder(obj.borderType, obj.borderColor, "2px")}),
+        ...(obj.overflowX && {overflowX: 'scroll'}),
+        ...(obj.overflowY && {overflowY: 'scroll'}),
     };
 
     return style;
@@ -119,7 +121,7 @@ export const getEnumValue = (value: string | null) => {
     }
 };
 
-export const getAlignItemsValue = (value: string | null)=> {
+export const getAlignItemsValue = (value: string | null) => {
     switch (value) {
         case "CENTER":
             return AlignItems.CENTER;

@@ -21,9 +21,6 @@ const StackNode = ({obj, children}: Props) => {
         ...(obj.gap && {gap: `${obj.gap}px`}),
     };
 
-    if(obj.justifyContent)
-        console.log(style)
-
     return (
         <div style={style}>
             {children}
