@@ -37,8 +37,8 @@ export default function Header(){
                     <a href="/map">Map</a>
                     <a href="/leaderboard">Leaders</a>
                     <a href="/archive">Archive</a>
-                    <a href="/shop">Shop</a>
-                    <a href="/tournaments">Tournaments</a>
+                    {/*<a href="/shop">Shop</a>*/}
+                    {/*<a href="/tournaments">Tournaments</a>*/}
                 </div>
                 <div className="hidden sm:flex gap-3 items-center">
                     <div id="streak" className="flex gap-1">

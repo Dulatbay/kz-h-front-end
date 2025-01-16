@@ -27,7 +27,7 @@ export default function Quiz({
                     {
                         method: "POST",
                         headers: {
-                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6InRlc3R1c2VyIiwiaWF0IjoxNzM2NzY0OTA0LCJleHAiOjE3MzY4NTEzMDR9.K55cPUnFCZKTnq4fD98GmS1Eqp0XPyg0fklqQyztvTw"
+                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As"
                         }
                     }); 
                 const data = await response.json();
@@ -49,7 +49,7 @@ export default function Quiz({
                 {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVIiLCJlbWFpbCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsInN1YiI6InRlc3R1c2VyIiwiaWF0IjoxNzM2NTkyMzQxLCJleHAiOjE3MzY2Nzg3NDF9.z7rbW-pY2_PdXplFTvnnpth1W5O1JmH_sASRF5cztek",
+                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As",
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify([answer])

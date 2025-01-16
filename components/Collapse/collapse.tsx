@@ -14,7 +14,7 @@ export default function Collapse({className, name, children, id}:{className?: st
                 </svg>
                 <h1>{name}</h1>
             </label>
-            <div className={`overflow-y-scroll h- flex-col gap-2 hidden peer-checked:flex`}>
+            <div className={`overflow-y-auto h- flex-col gap-2 hidden peer-checked:flex`}>
                 {children}
             </div>
         </div>

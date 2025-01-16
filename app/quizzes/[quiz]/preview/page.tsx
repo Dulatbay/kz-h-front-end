@@ -43,7 +43,7 @@ export default function CreateQuiz(
             </div>
 
             <div className="flex-1">
-                <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)]" id="openAnswers">
+                <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)]" id="openAnswers" >
                         {
                             quizData.questions.map((question : string, index : number) => {
                                 return (
@@ -53,7 +53,6 @@ export default function CreateQuiz(
                                 )
                             })
                         }
-                    
                 </Collapse>
             </div>
         </div>
