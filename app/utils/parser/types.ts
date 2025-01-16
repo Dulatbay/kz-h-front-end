@@ -109,8 +109,8 @@ export interface Stack extends BaseNode {
 }
 
 export type Link = {
-    fromId: number;
-    toId: number;
+    fromId: string;
+    toId: string;
 };
 
 export interface Text extends BaseNode {

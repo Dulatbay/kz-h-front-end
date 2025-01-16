@@ -40,8 +40,8 @@ export const getStylesFromBaseNode = (obj: BaseNode) => {
         ...(obj.opacity !== null && {opacity: obj.opacity}),
         ...(obj.borderRadius !== null && {borderRadius: obj.borderRadius}),
         ...(obj.borderType && {border: getBorder(obj.borderType, obj.borderColor, "2px")}),
-        ...(obj.overflowX && {overflowX: 'scroll'}),
-        ...(obj.overflowY && {overflowY: 'scroll'}),
+        ...(obj.overflowX && {overflowX: obj.overflowX == 'scroll' ? 'scroll' : 'auto'}),
+        ...(obj.overflowY && {overflowY: obj.overflowY == 'scroll' ? 'scroll' : 'auto'}),
     };
 
     return style;
