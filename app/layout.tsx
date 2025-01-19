@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/Header/header";
 import { StoreProvider } from "./store/StoreProvider";
 import { ConfigProvider } from "antd";
 
@@ -14,6 +13,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <StoreProvider>
       <ConfigProvider>
@@ -21,7 +22,7 @@ export default function RootLayout({
           <body
             className={`antialiased bg-[#1A1A1A]`}
           >
-            <Header/>
+            {/*<Header/>*/}
             {children}
           </body>
         </html>

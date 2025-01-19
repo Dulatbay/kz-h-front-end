@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
-import { BaseNode, CenteredContainer } from '../types';
-import { getStylesFromBaseNode } from "@/app/utils/parser/lib";
-import { parser } from "@/app/utils/parser/parser";
+import { CenteredContainer } from '../types';
+import { getStylesFromBaseNode } from "@/utills/parser/lib";
+import { parser } from "@/utills/parser/parser";
 
 interface Props {
     obj: CenteredContainer;

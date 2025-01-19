@@ -7,7 +7,7 @@ import {
     FontSize,
     FontWeight,
     JustifyContent
-} from "@/app/utils/parser/types";
+} from "@/utills/parser/types";
 import React from "react";
 
 

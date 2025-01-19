@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Text } from '../types';
-import { getColor, getFontSize, getFontWeight, getStylesFromBaseNode } from "@/app/utils/parser/lib";
+import { getColor, getFontSize, getFontWeight, getStylesFromBaseNode } from "@/utills/parser/lib";
 
 interface Props {
     obj: Text;

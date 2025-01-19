@@ -1,8 +1,8 @@
-import { TitledContainer } from "@/app/utils/parser/types";
+import { TitledContainer } from "@/utills/parser/types";
 import React, { forwardRef } from "react";
 import { Flex } from "antd";
-import { parser } from "@/app/utils/parser/parser";
-import { getStylesFromBaseNode } from "@/app/utils/parser/lib";
+import { parser } from "@/utills/parser/parser";
+import { getStylesFromBaseNode } from "@/utills/parser/lib";
 
 interface Props {
     obj: TitledContainer;

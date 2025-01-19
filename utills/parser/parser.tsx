@@ -7,13 +7,12 @@ import {
     Stack,
     Text,
     TitledContainer
-} from "@/app/utils/parser/types";
-import StackNode from "@/app/utils/parser/nodes/StackNode";
-import {TextNode} from "@/app/utils/parser/nodes/TextNode";
-import {IconText} from "@/app/utils/parser/nodes/IconText";
-import {TitledContainerNode} from "@/app/utils/parser/nodes/TitledContainerNode";
-import CenteredContainerNode from "@/app/utils/parser/nodes/CenteredContainerNode";
-import Arrow from "@/app/utils/parser/nodes/edges/Arrow";
+} from "@/utills/parser/types";
+import StackNode from "@/utills/parser/nodes/StackNode";
+import {TextNode} from "@/utills/parser/nodes/TextNode";
+import {IconText} from "@/utills/parser/nodes/IconText";
+import {TitledContainerNode} from "@/utills/parser/nodes/TitledContainerNode";
+import CenteredContainerNode from "@/utills/parser/nodes/CenteredContainerNode";
 import {ArcherElement} from "react-archer";
 
 

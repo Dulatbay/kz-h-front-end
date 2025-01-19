@@ -8,12 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      extend: {
+        screens: {
+          'xs': '475px',
+        },
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
     },
-  },
-  plugins: [],
+  }
 };
 export default config;

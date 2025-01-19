@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Header from "@/components/Header/header";
+import LearnPage from "@/app/(main-pages)/learn/page";
 
 export default function Home() {
-  return (
-    <></>
-  );
+    return (
+        <LearnPage/>
+    );
 }

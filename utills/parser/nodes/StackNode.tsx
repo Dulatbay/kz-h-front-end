@@ -1,6 +1,6 @@
 import React, { ReactNode, forwardRef } from 'react';
-import { Stack } from "@/app/utils/parser/types";
-import { getAlignItemsValue, getEnumValue, getStylesFromBaseNode } from "@/app/utils/parser/lib";
+import { Stack } from "@/utills/parser/types";
+import { getAlignItemsValue, getEnumValue, getStylesFromBaseNode } from "@/utills/parser/lib";
 
 interface Props {
     obj: Stack;
