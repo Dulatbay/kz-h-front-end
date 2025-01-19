@@ -4,17 +4,17 @@ import axios from 'axios';
 const baseAxios = axios.create({
     baseURL: process.env.API_URL,
     headers: {
-        "Accept-Language": getAcceptLanguage()
+        "Accept-Language": 'KAZ'
     }
 });
 
-function getAcceptLanguage() {
-    const lang = localStorage.getItem('acceptLanguage');
-    if (!lang) {
-        return 'kaz'
-    }
-    return lang;
-}
+// function getAcceptLanguage() {
+//     const lang = localStorage.getItem('acceptLanguage');
+//     if (!lang) {
+//         return 'kaz'
+//     }
+//     return lang;
+// }
 
 baseAxios.interceptors.request.use(
     (config) => {
