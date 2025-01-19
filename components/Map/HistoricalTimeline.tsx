@@ -4,7 +4,7 @@ import { TimelineSlider } from "../TimelineSlider/TimelineSlider";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import type { HistoricalRange } from "@/app/types/History";
-import { getMapImageUrl } from "@/app/utils/getHistoryData";
+import {getMapImageUrl} from "@/utills/getHistoryData";
 
 interface HistoricalTimelineProps {
   years: number[];
