@@ -18,10 +18,9 @@ export default function LearnPage() {
 }
 
 function Head() {
-    let imgs = "https://www.figma.com/file/AiJWvz95uhBS2KAeVOFQfm/image/c22d071fb0fe1d988f8eb36efbb887789e183504";
     return (
         <>
-            <div className="bg-[#252b32] h-80 flex justify-center items-center">
+            <div className="bg-[#252b32] h-80 flex justify-center items-center px-4">
                 <div className="flex flex-col items-center gap-8">
                     <div className="flex flex-col gap-2 items-center">
                         <svg width="129" height="129" viewBox="0 0 129 129" fill="none"
@@ -44,7 +43,7 @@ function Head() {
                 </div>
                 <a href='#'
                    className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer">
-                    <img src={imgs} className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10"/>
+                    <img src={'./kzh-learn-page.jpg'} className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10"/>
                     <h3 className="text-yellow-200 text-2xl ml-auto">
                         56%
                     </h3>
@@ -81,7 +80,7 @@ function Modules() {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="flex flex-col w-full max-w-[900px] mx-auto gap-4 px-4">
+        <div className="flex flex-col w-full max-w-[900px] mx-auto gap-4 px-4 py-16">
             <h2 className="text-xl md:text-2xl">Modules</h2>
             <div className="flex flex-col gap-10">
                 {modules.map((module, i) => {
