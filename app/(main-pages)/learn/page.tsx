@@ -3,9 +3,9 @@
 import {Button} from 'antd'
 import styles from '@/app/styles/ultima.module.scss'
 import {useEffect, useState} from "react";
-import {fetchModules} from "@/services/module/modulesService";
+import {fetchLastTopic, fetchModules} from "@/services/module/modulesService";
 import {getImageUrl} from "@/utills/getHistoryData";
-import {ModuleResponse} from "@/services/module/types";
+import {LastTopicResponse, ModuleResponse} from "@/services/module/types";
 import Loader from "@/components/Loader/loader";
 
 export default function LearnPage() {
@@ -17,7 +17,21 @@ export default function LearnPage() {
     )
 }
 
-function Head() {
+const Head = () => {
+    const [loading, setLoading] = useState<boolean>(true);
+    const [lastTopic, setLastTopic] = useState<LastTopicResponse | null>(null);
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            const lastTopic = await fetchLastTopic();
+            setLastTopic(lastTopic);
+            setLoading(false);
+        }
+
+        fetchData();
+    }, []);
+
+
     return (
         <>
             <div className="bg-[#252b32] h-80 flex justify-center items-center px-4">
@@ -37,22 +51,29 @@ function Head() {
                     <h4 className="text-base">Learn the history Module By Module and Topic By Topic.</h4>
                 </div>
             </div>
-            <div className="h-80 w-full flex justify-center items-center relative px-4">
-                <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10">
+            {
+                (loading || !lastTopic) ?
+                    <Loader/> :
+                    <div className="h-80 w-full flex justify-center items-center relative px-4">
+                        <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10">
 
-                </div>
-                <a href='#'
-                   className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer">
-                    <img src={'./kzh-learn-page.jpg'} className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10"/>
-                    <h3 className="text-yellow-200 text-2xl ml-auto">
-                        56%
-                    </h3>
-                    <div className="flex flex-col">
-                        <h2 className="text-xl font-semibold">Кыпчаки</h2>
-                        <h3 className="text-sm">Тюркский период</h3>
+                        </div>
+                        <a href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
+                           className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
+                            <img src={getImageUrl(lastTopic.imageUrl)}
+                                 className="w-full h-full inset-0 brightness-[40%] absolute -z-10 aspect-video object-cover object-bottom"
+                                 alt={""}/>
+                            <h3 className="text-yellow-200 text-2xl ml-auto">
+                                {lastTopic.percent}%
+                            </h3>
+                            <div className="flex flex-col">
+                                <h2 className="text-xl font-semibold">{lastTopic.topicName}</h2>
+                                <h3 className="text-sm text-gray-400">{lastTopic.moduleName}</h3>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
+
+            }
         </>
     )
 }

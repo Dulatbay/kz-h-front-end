@@ -15,6 +15,18 @@ export interface ModuleResponse {
     topics: TopicResponse[];
 }
 
+export interface LastTopicResponse {
+    topicName: string;
+    moduleName: string;
+    topicNumber: number;
+    moduleNumber: number;
+    imageUrl: string;
+    fullyPassed: boolean;
+    didntStart: boolean;
+    percent: number;
+}
+
+
 export interface ModuleDetailResponse {
     id: string;
     name: string;
