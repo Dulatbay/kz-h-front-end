@@ -66,7 +66,7 @@ export default function ModuleDetail() {
                                     <div className={colClass}>
                                         <LevelButton
                                             topicNumber={index}
-                                            moduleNumber={moduleData.number}
+                                            moduleNumber={moduleData.number - 1}
                                             active={isActive}
                                         />
                                     </div>
