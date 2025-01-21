@@ -87,7 +87,6 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
                                 src={getMapImageUrl(currentRange.mapUrls[0])}
                                 alt={`Map of ${closestSelectedYear}`}
                                 fill
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
                                 priority
                                 className="object-contain"
                             />
