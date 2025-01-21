@@ -76,19 +76,18 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
             </div>
 
             <div className="grid sm:grid-cols-1 md:grid-cols-[2fr,1fr] gap-4 sm:gap-6 md:gap-8 max-w-6xl mx-auto">
-                <div className="bg-[#282828] border border-gray-800 rounded-md overflow-hidden">
-                    <div className="relative w-full pb-[56.25%]">
+                <div className="bg-[#282828] border border-gray-800 rounded-md overflow-hidden h-fit">
+                    <div className="relative w-full">
                         {isLoading ? (
                             <div className="absolute inset-0 flex items-center justify-center bg-[#282828]">
                                 <div className="text-white">Loading maps...</div>
                             </div>
                         ) : (
-                            <Image
+                            <img
                                 src={getMapImageUrl(currentRange.mapUrls[0])}
                                 alt={`Map of ${closestSelectedYear}`}
-                                fill
-                                priority
-                                className="object-contain"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
+                                className="object-cover"
                             />
                         )}
                     </div>
