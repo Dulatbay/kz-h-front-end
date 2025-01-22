@@ -1,73 +1,95 @@
 'use client'
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
+import { fetchQuizById, sendAnswerByGameId } from "@/services/quiz/quizService";
+import { QuizResponse } from "@/services/quiz/types";
 
 export default function Quiz({
     params,
   }: {
     params: Promise<{ quiz: string }>
   }){
-    const quizId = useParams().quiz;
-    const router = useRouter();
-    const [questionData, setQuestionData] = useState({ gameId: '', totalQuestions: 0, currentQuestionIndex: 0, 
-        currentQuestion: {
-            "quizQuestionId": "",
-            "question": "",
-            "questionIdx": 0,
-            "duration": 0,
-            "variants": [
-                "",
-                ""
-        ]} }); 
-    useEffect(() => {
-        const fetchQuizQuestion = async () => { 
-            try { 
-                const response = await fetch(`${process.env.API_URL}/solo-game/start/${quizId}`, 
-                    {
-                        method: "POST",
-                        headers: {
-                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As"
-                        }
-                    }); 
-                const data = await response.json();
-                console.log(data);
-                setQuestionData(data);
-            } catch (error) { 
-                console.error('Error fetching quiz data:', error); 
-            }
-        };
-        
-        fetchQuizQuestion();
-    }, [quizId])
+    const quizId = useParams().quiz as string;
+    const [questionData, setQuestionData] = useState<QuizResponse | null>(null);
 
-
-    const sendAnswer = async (answer : string) => {
-        
-        try { 
-            const response = await fetch(`${process.env.API_URL}/solo-game/next-question/${questionData.gameId}`, 
-                {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify([answer])
-                }); 
-            const data = await response.json();
-            console.log(data);
-            if(questionData.currentQuestionIndex + 1 == questionData.totalQuestions){
-                router.push(`/review/${questionData.gameId}`);
-                return;
-            }else{
-                setQuestionData(data);
-            }
-        } catch (error) { 
-            console.error('Error fetching quiz data:', error); 
+    const fetchQuizQuestion = async () => {
+        try {
+            const data = await fetchQuizById(quizId);
+            setQuestionData(data);
+        } catch (error) {
+            console.error("Error starting quiz:", error);
         }
     };
 
-    const colors = ['bg-red-500', 'bg-indigo-500', 'bg-green-500', 'bg-pink-500']
+    const handleQuiz = async (answer: string) => {
+        if(!questionData)return;
+        try {
+            const data = await sendAnswerByGameId(questionData.gameId, [answer]);
+            setQuestionData(data);
+        } catch (error) {
+            console.error("Error continuing quiz:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchQuizQuestion();
+    }, [quizId]);
+
+    
+
+    // useEffect(() => {
+    //     const fetchQuizQuestion = async () => { 
+    //         try { 
+    //             const response = await fetch(`${process.env.API_URL}/solo-game/start/${quizId}`, 
+    //                 {
+    //                     method: "POST",
+    //                     headers: {
+    //                         "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As"
+    //                     }
+    //                 }); 
+    //             const data = await response.json();
+    //             console.log(data);
+    //             setQuestionData(data);
+    //         } catch (error) { 
+    //             console.error('Error fetching quiz data:', error); 
+    //         }
+    //     };
+        
+    //     fetchQuizQuestion();
+    // }, [quizId])
+
+
+    // const sendAnswer = async (answer : string) => {
+        
+    //     try { 
+    //         const response = await fetch(`${process.env.API_URL}/solo-game/next-question/${questionData.gameId}`, 
+    //             {
+    //                 method: "POST",
+    //                 headers: {
+    //                     "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMjUzMjYsImV4cCI6MTczNzExMTcyNn0.2zr33iONW0PaRN3FvPNF69kdktf-9SBQIHqvtFWe-As",
+    //                     "Content-Type": "application/json",
+    //                 },
+    //                 body: JSON.stringify([answer])
+    //             }); 
+    //         const data = await response.json();
+    //         console.log(data);
+    //         if(questionData.currentQuestionIndex + 1 == questionData.totalQuestions){
+    //             router.push(`/review/${questionData.gameId}`);
+    //             return;
+    //         }else{
+    //             setQuestionData(data);
+    //         }
+    //     } catch (error) { 
+    //         console.error('Error fetching quiz data:', error); 
+    //     }
+    // };
+
+    if (!questionData) {
+        return <div>Loading...</div>;
+    }
+
+    const colors = ['bg-red-500', 'bg-indigo-500', 'bg-green-500', 'bg-pink-500'];
     return (
         <div className="flex flex-col w-11/12 max-w-[800px] mx-auto items-center mt-16 gap-10">
             <div className="flex flex-col gap-2 items-center">
@@ -79,7 +101,7 @@ export default function Quiz({
                     questionData.currentQuestion.variants.map((option, index) => {
                         
                         return (
-                            <a key={`button-${index}`} className={`w-full sm:w-1/2 h-24 ${colors[index]} text-center content-center`} onClick={() => sendAnswer(option)}>{option}</a>
+                            <a key={`button-${index}`} className={`w-full sm:w-1/2 h-24 ${colors[index]} text-center content-center`} onClick={() => handleQuiz(option)}>{option}</a>
                         )
                     })
                 }
