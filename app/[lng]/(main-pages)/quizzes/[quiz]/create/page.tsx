@@ -3,7 +3,6 @@
 import Collapse from "@/components/Collapse/collapse"
 import DefaultButton from "@/components/Button/button"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../../store/store";
 import { useEffect, useId, useState } from "react";
 import { addQuestion, removeQuestion, setTitle, setDescription, setShowQuestions, setLanguage } from "@/app/store/slice";
 import { Variant } from "@/app/types/Variant";
@@ -11,7 +10,7 @@ import { Question } from "@/app/types/Question";
 import { Dropdown, Space, Button, Checkbox } from "antd";
 import type { MenuProps, CheckboxProps } from 'antd';
 import styles from "@/app/styles/ultima.module.scss";
-import { send } from "process";
+import {RootState} from "@/app/store/store";
 
 export default function CreateQuiz(){
     const quizOptions = useSelector((state: RootState) => state.quizOptions);

@@ -1,12 +1,10 @@
 import axios from 'axios';
-
+import i18n from "@/i18n/i18n";
 
 const baseAxios = axios.create({
-    baseURL: process.env.API_URL,
-    headers: {
-        "Accept-Language": 'KAZ'
-    }
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`
 });
+
 
 baseAxios.interceptors.request.use(
     (config) => {
@@ -14,6 +12,7 @@ baseAxios.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+        config.headers['Accept-Language'] = i18n.language;
         return config;
     },
     (error) => {

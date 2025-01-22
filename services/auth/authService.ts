@@ -1,8 +1,9 @@
 import axios from "axios";
+import baseAxios from "@/services/baseAxios";
 
 export async function login(emailOrUsername: string, password: string) {
     try {
-        const response = await axios.post(`${process.env.API_URL}/auth/login`, {
+        const response = await baseAxios.post(`/auth/login`, {
             emailOrUsername,
             password,
         });

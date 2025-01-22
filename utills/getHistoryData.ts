@@ -25,7 +25,7 @@ export async function fetchHistoricalRanges() {
 }
 
 export function getMapImageUrl(filename: string) {
-    return `${process.env.API_URL}/files/maps/retrieve/files/${filename}`;
+    return `${process.env.NEXT_PUBLIC_API_URL}/files/maps/retrieve/files/${filename}`;
 }
 
 export function getImageUrl(filename: string) {
@@ -33,5 +33,5 @@ export function getImageUrl(filename: string) {
 
     if(dirAndName.length <= 1) return "empty"
 
-    return `${process.env.API_URL}/files/${dirAndName[0]}/retrieve/files/${dirAndName[1]}`;
+    return `${process.env.NEXT_PUBLIC_API_URL}/files/${dirAndName[0]}/retrieve/files/${dirAndName[1]}`;
 }

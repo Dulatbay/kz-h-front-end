@@ -18,7 +18,7 @@
 
 @font-face {
     font-family: "Inter";
-    src: url("./fonts/inter/Inter_18pt-Black.ttf") format("truetype");
+    src: url("../fonts/inter/Inter_18pt-Black.ttf") format("truetype");
     font-weight: 900;
     font-style: normal;
 }
@@ -27,7 +27,7 @@
 
 @font-face {
     font-family: "Inter";
-    src: url("./fonts/inter/Inter_18pt-Regular.ttf") format("truetype");
+    src: url("../fonts/inter/Inter_18pt-Regular.ttf") format("truetype");
     font-weight: 600;
     font-style: normal;
 }

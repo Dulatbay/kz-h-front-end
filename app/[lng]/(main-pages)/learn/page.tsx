@@ -9,6 +9,7 @@ import {LastTopicResponse, ModuleResponse} from "@/services/module/types";
 import Loader from "@/components/Loader/loader";
 
 export default function LearnPage() {
+
     return (
         <>
             <Head/>
@@ -86,7 +87,7 @@ function Modules() {
     useEffect(() => {
         const loadModules = async () => {
             try {
-                const data: ModuleResponse[] = await fetchModules('RU');
+                const data: ModuleResponse[] = await fetchModules();
                 setModules(data);
             } catch (err) {
                 setError('Ошибка при загрузке модулей');
@@ -97,7 +98,7 @@ function Modules() {
         loadModules();
     }, []);
 
-    if (loading) return <div className={"max-w-[900px] mx-auto flex justify-center mt-16"}><Loader/></div>
+    if (loading || !modules) return <div className={"max-w-[900px] mx-auto flex justify-center mt-16"}><Loader/></div>
     if (error) return <div>{error}</div>;
 
     return (
