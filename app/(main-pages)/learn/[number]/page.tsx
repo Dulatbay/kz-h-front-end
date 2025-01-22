@@ -66,7 +66,7 @@ export default function ModuleDetail() {
                                     <div className={colClass}>
                                         <LevelButton
                                             topicNumber={index}
-                                            moduleNumber={moduleData.number}
+                                            moduleNumber={moduleData.number - 1}
                                             active={isActive}
                                         />
                                     </div>
@@ -179,7 +179,7 @@ function Head({active, topic, number}: { active: boolean; topic: string; number:
                     </svg>
                 </div>
                 <div className="flex items-center gap-1 justify-center w-full">
-                    <h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {number + 1}</h3>
+                    <h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {number}</h3>
                 </div>
             </div>
         );

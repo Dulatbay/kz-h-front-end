@@ -49,6 +49,6 @@ jobs:
             docker-compose rm -f frontend
 
             echo "Starting up containers with Docker Compose..."
-            docker-compose up -d 
+            docker-compose up -d frontend
 
             echo "Deployment completed!"
