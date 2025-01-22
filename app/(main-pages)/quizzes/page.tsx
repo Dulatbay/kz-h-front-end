@@ -2,6 +2,7 @@
 
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
+import { ConfigProvider, Pagination, theme } from "antd";
 import Loader from "@/components/Loader/loader";
 
 class Quiz {
@@ -24,6 +25,8 @@ export default function Quizzes() {
     let [activeTags, setActiveTags] = useState([] as Tag[]);
     const [searchText, setSearchText] = useState("");
     const [quizzes, setQuizzes] = useState([] as Quiz[]);
+    const [totalElements, setTotalElements] = useState(0);
+    const [paginationParams, setPaginationParams] = useState({'pageNumber': 0, 'pageSize': 20});
     const [language, setLanguage] = useState("RU");
     const [loading, setLoading] = useState(false);
 
@@ -31,7 +34,7 @@ export default function Quizzes() {
         const fetchQuizzes = async () => {
             try {
                 setLoading(true);
-                let url = `${process.env.API_URL}/quizzes?page=0&size=20&searchText=${searchText}`;
+                let url = `${process.env.API_URL}/quizzes?page=${paginationParams.pageNumber}&size=${paginationParams.pageSize}&searchText=${searchText}`;
 
                 for (let tag of activeTags) {
                     url += `&${tag.type}=${tag.query_value}`;
@@ -46,6 +49,8 @@ export default function Quizzes() {
                 );
                 const data = await response.json();
                 setQuizzes(data.content);
+                setTotalElements(data.totalElements);
+                console.log(data);
                 setLoading(false);
 
             } catch (error) {
@@ -54,7 +59,7 @@ export default function Quizzes() {
         };
 
         fetchQuizzes();
-    }, [searchText, activeTags, language]);
+    }, [searchText, activeTags, language, paginationParams]);
 
     function toggleTag({type, tag, query_value}: { type: string, tag: string, query_value: string }) {
         const tagsArr = [...activeTags];
@@ -140,8 +145,7 @@ export default function Quizzes() {
                     </select>
                 </div>
             </div>
-            <div
-                className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <table cellPadding={6} className="gap-3 w-full">
                     <colgroup>
                         <col className="w-20"/>
@@ -204,6 +208,9 @@ export default function Quizzes() {
                     </tbody>
                 </table>
             </div>
+            <ConfigProvider theme={{algorithm: theme.darkAlgorithm,}}>
+            <Pagination onChange={(page, pageSize) => {setPaginationParams({'pageNumber': page - 1, 'pageSize': pageSize})}} total={totalElements} defaultPageSize={paginationParams.pageSize} showSizeChanger pageSizeOptions={[1, 10, 20, 50]} showQuickJumper/>
+        </ConfigProvider>
         </div>
     )
 }
