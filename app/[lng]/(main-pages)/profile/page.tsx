@@ -37,7 +37,7 @@ export default function Profile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`${process.env.API_URL}/auth/me`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
                     headers: {
                         "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMzE1NjAsImV4cCI6MTczNzExNzk2MH0._-O9zRt63R070XM00y7i1SfNZVBlCvvGeRHCxcSfiQQ",
                     }

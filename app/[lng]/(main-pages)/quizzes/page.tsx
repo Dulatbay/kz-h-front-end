@@ -34,7 +34,7 @@ export default function Quizzes() {
         const fetchQuizzes = async () => {
             try {
                 setLoading(true);
-                let url = `${process.env.API_URL}/quizzes?page=${paginationParams.pageNumber}&size=${paginationParams.pageSize}&searchText=${searchText}`;
+                let url = `${process.env.NEXT_PUBLIC_API_URL}/quizzes?page=${paginationParams.pageNumber}&size=${paginationParams.pageSize}&searchText=${searchText}`;
 
                 for (let tag of activeTags) {
                     url += `&${tag.type}=${tag.query_value}`;

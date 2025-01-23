@@ -12,7 +12,7 @@ RUN npm run build
 FROM node:lts as runner
 WORKDIR /app
 ENV NODE_ENV = production
-ENV API_URL = 'http://185.32.84.190/api'
+ENV NEXT_PUBLIC_API_URL = 'http://185.32.84.190/api'
 
 
 COPY --from=builder /app/public ./public

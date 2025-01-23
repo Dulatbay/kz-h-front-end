@@ -17,7 +17,7 @@ export default function CreateQuiz(
     useEffect(() => { 
         const fetchQuizData = async () => { 
             try { 
-                const response = await fetch(`${process.env.API_URL}/quizzes/${quiz}`); 
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quizzes/${quiz}`);
                 const data = await response.json(); 
                 setQuizData(data); 
             } catch (error) { 

@@ -9,6 +9,7 @@ export const fetchModules = async (): Promise<ModuleResponse[]> => {
 
 
 export const fetchModuleByNumber = async (number: string, language: string = 'RU') => {
+    console.log(process.env.NEXT_PUBLIC_API_URL)
     const response = await baseAxios.get(`/modules/${number}`, {
         headers: {
             'Accept-Language': language,

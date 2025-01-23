@@ -1,10 +1,6 @@
 // @ts-check
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    env: {
-        API_URL: 'http://185.32.84.190/api',
-    },
     eslint: {
         // Warning: This allows production builds to successfully complete even if
         // your project has ESLint errors.
@@ -14,6 +10,9 @@ const nextConfig = {
         remotePatterns: [
             {
                 hostname: '185.32.84.190',
+            },
+            {
+                hostname: 'localhost'
             }
         ],
     }

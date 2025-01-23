@@ -27,7 +27,7 @@ export default function Review({
     });
     
     // useEffect(() => {
-    //     fetch(`${process.env.API_URL}/solo-game/${gameId}`).then((response) => {return response.json();} ).then((data) => { console.log(data); setResultsData(data); });
+    //     fetch(`${process.env.NEXT_PUBLIC_API_URL}/solo-game/${gameId}`).then((response) => {return response.json();} ).then((data) => { console.log(data); setResultsData(data); });
 
     // }, [gameId]);
 

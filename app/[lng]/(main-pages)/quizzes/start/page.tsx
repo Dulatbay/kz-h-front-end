@@ -41,7 +41,7 @@ export default function Quiz({
     // useEffect(() => {
     //     const fetchQuizQuestion = async () => { 
     //         try { 
-    //             const response = await fetch(`${process.env.API_URL}/solo-game/start/${quizId}`, 
+    //             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/solo-game/start/${quizId}`,
     //                 {
     //                     method: "POST",
     //                     headers: {
@@ -63,7 +63,7 @@ export default function Quiz({
     // const sendAnswer = async (answer : string) => {
         
     //     try { 
-    //         const response = await fetch(`${process.env.API_URL}/solo-game/next-question/${questionData.gameId}`, 
+    //         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/solo-game/next-question/${questionData.gameId}`,
     //             {
     //                 method: "POST",
     //                 headers: {
