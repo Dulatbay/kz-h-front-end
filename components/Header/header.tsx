@@ -3,8 +3,12 @@
 import {useEffect} from "react"
 import {Avatar} from "antd";
 import Link from "next/link";
+import {useTranslation} from "react-i18next";
+import '@/i18n/i18n'
 
 export default function Header() {
+    const { t } = useTranslation();
+
 
     let data = {
         "streak": undefined,
@@ -37,11 +41,11 @@ export default function Header() {
             flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50">
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col">
                     <h1 className="text-[#5348F2] font-bold">KzH</h1>
-                    <Link href="/learn">Learn</Link>
-                    <Link href="/quizzes">Quizzes</Link>
-                    <Link href="/map">Map</Link>
-                    <Link href="/leaderboard">Leaders</Link>
-                    <Link href="/archive">Archive</Link>
+                    <Link href="/learn">{t('header.learn')}</Link>
+                    <Link href="/quizzes">{t('header.quizzes')}</Link>
+                    <Link href="/map">{t('header.map')}</Link>
+                    <Link href="/leaderboard">{t('header.leaders')}</Link>
+                    <Link href="/archive">{t('header.archive')}</Link>
                     {/*<a href="/shop">Shop</a>*/}
                     {/*<a href="/tournaments">Tournaments</a>*/}
                 </div>

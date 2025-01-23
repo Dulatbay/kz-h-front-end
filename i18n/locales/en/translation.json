@@ -1,0 +1,21 @@
+{
+  "header": {
+    "streak": "Streak",
+    "learn": "Learn",
+    "quizzes": "Quizzes",
+    "map": "Map",
+    "leaders": "Leaders",
+    "archive": "Archive"
+  },
+  "learn-page": {
+    "learning": "learning",
+    "description": "Learn the history Module By Module and Topic By Topic.",
+    "modules": "modules"
+  },
+  "module": {
+    "questions": "questions",
+    "minutes": "minutes",
+    "users": "users",
+    "start": "Start"
+  }
+}

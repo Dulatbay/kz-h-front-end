@@ -7,6 +7,9 @@ import {fetchLastTopic, fetchModules} from "@/services/module/modulesService";
 import {getImageUrl} from "@/utills/getHistoryData";
 import {LastTopicResponse, ModuleResponse} from "@/services/module/types";
 import Loader from "@/components/Loader/loader";
+import '@/i18n/i18n'
+import {useTranslation} from "react-i18next";
+import Module from "@/components/Module/module";
 
 export default function LearnPage() {
 
@@ -21,6 +24,7 @@ export default function LearnPage() {
 const Head = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [lastTopic, setLastTopic] = useState<LastTopicResponse | null>(null);
+    const {t} = useTranslation();
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -47,9 +51,9 @@ const Head = () => {
                                 d="M24.1875 20.1562C23.1183 20.1562 22.093 20.581 21.337 21.337C20.581 22.093 20.1562 23.1183 20.1562 24.1875V88.6875C20.1562 89.7567 20.581 90.782 21.337 91.538C22.093 92.294 23.1183 92.7188 24.1875 92.7188C36.3152 92.7314 48.0809 96.8522 57.5662 104.409L60.4688 106.747V20.8819C59.176 20.4125 57.8127 20.1672 56.4375 20.1562H24.1875ZM108.844 88.6875V24.1875C108.844 23.1183 108.419 22.093 107.663 21.337C106.907 20.581 105.882 20.1562 104.812 20.1562H72.5625C71.1873 20.1672 69.824 20.4125 68.5312 20.8819V106.747L71.4337 104.409C80.9191 96.8522 92.6848 92.7314 104.812 92.7188C105.882 92.7188 106.907 92.294 107.663 91.538C108.419 90.782 108.844 89.7567 108.844 88.6875Z"
                                 fill="white"/>
                         </svg>
-                        <h1 className="text-lg"><strong>KzH</strong> Learning</h1>
+                        <h1 className="text-lg"><strong>KzH</strong> {t('learn-page.learning')}</h1>
                     </div>
-                    <h4 className="text-base">Learn the history Module By Module and Topic By Topic.</h4>
+                    <h4 className="text-base">{t('learn-page.description')}</h4>
                 </div>
             </div>
             {
@@ -83,6 +87,7 @@ function Modules() {
     const [modules, setModules] = useState<ModuleResponse[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const {t} = useTranslation();
 
     useEffect(() => {
         const loadModules = async () => {
@@ -103,49 +108,11 @@ function Modules() {
 
     return (
         <div className="flex flex-col w-full max-w-[900px] mx-auto gap-4 px-4 py-16">
-            <h2 className="text-xl md:text-2xl">Modules</h2>
+            <h2 className="text-xl md:text-2xl">{t('learn-page.modules')}</h2>
             <div className="flex flex-col gap-10">
-                {modules.map((module, i) => {
-                    const difficultyArray = new Array(module.difficulty).fill(false);
-
-                    return (
-                        <div
-                            key={`module-${i}`}
-                            className="relative w-full aspect-video flex flex-col justify-end gap-2 p-4 sm:p-6 md:p-8"
-                        >
-                            <img
-                                src={getImageUrl(module.imageUrl)}
-                                className="w-full h-full rounded-3xl inset-0 brightness-[40%] absolute -z-10 object-cover"
-                                alt={""}
-                            />
-                            <h2 className="text-base sm:text-lg md:text-xl font-bold">{module.name}</h2>
-                            <p className="text-sm sm:text-base md:text-lg text-wrap line-clamp-3">
-                                {module.topics.map(topic => topic.topicName).join(', ')}
-                            </p>
-                            <div className="flex flex-wrap gap-3 text-xs sm:text-sm md:text-base">
-                                <div className="flex gap-2 items-center">
-                                    <QuestionsSVG/> {module.questionNumbers} вопросов
-                                </div>
-                                <div className="flex gap-2 items-center">
-                                    <ClockSVG/> {module.duration} минут
-                                </div>
-                                <div className="flex gap-2 items-center">
-                                    <UserSVG/> {module.passedUsersCount} пользователей
-                                </div>
-                            </div>
-                            <div className="flex justify-between">
-                                <div className="flex gap-2 items-center text-xs sm:text-sm md:text-base">
-                                    Сложность:{' '}
-                                    {difficultyArray.map((_, index) => (
-                                        <LightningSVG key={`LightningSVG-${index}`}/>
-                                    ))}
-                                </div>
-                                <Button className={`${styles.button_success}`}
-                                        href={`/learn/${module.number}`}>Начать</Button>
-                            </div>
-                        </div>
-                    );
-                })}
+                {modules.map((module, i) =>
+                    <Module module={module} key={i}/>
+                )}
             </div>
         </div>
 
@@ -153,42 +120,8 @@ function Modules() {
 }
 
 
-function LightningSVG() {
-    return (
-        <svg width="10" height="17" viewBox="0 0 10 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M4.08336 16.75H3.16669L4.08336 10.3333H0.875023C0.343356 10.3333 0.352523 10.04 0.526689 9.72833C0.700856 9.41667 0.572523 9.655 0.590856 9.61833C1.77336 7.52833 3.55169 4.41167 5.91669 0.25H6.83336L5.91669 6.66667H9.12502C9.57419 6.66667 9.63836 6.96917 9.55585 7.13417L9.49169 7.27167C5.88002 13.5875 4.08336 16.75 4.08336 16.75Z"
-                fill="#DADE1B"/>
-        </svg>
-    )
-}
 
-function QuestionsSVG() {
-    return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" clipRule="evenodd"
-                  d="M13.25 8.875H19.5V6.375H13.25V8.875ZM13.25 17.625H19.5V15.125H13.25V17.625ZM20.75 23.25H3.25C1.875 23.25 0.75 22.125 0.75 20.75V3.25C0.75 1.875 1.875 0.75 3.25 0.75H20.75C22.125 0.75 23.25 1.875 23.25 3.25V20.75C23.25 22.125 22.125 23.25 20.75 23.25ZM4.5 10.75H10.75V4.5H4.5V10.75ZM5.75 5.75H9.5V9.5H5.75V5.75ZM4.5 19.5H10.75V13.25H4.5V19.5ZM5.75 14.5H9.5V18.25H5.75V14.5Z"
-                  fill="#9632A6"/>
-        </svg>
-    )
-}
 
-function ClockSVG() {
-    return (
-        <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M15.75 0.25H8.25V2.75H15.75V0.25ZM10.75 16.5H13.25V9H10.75V16.5ZM20.7875 8.2375L22.5625 6.4625C22.025 5.825 21.4375 5.225 20.8 4.7L19.025 6.475C17.0875 4.925 14.65 4 12 4C5.7875 4 0.75 9.0375 0.75 15.25C0.75 21.4625 5.775 26.5 12 26.5C18.225 26.5 23.25 21.4625 23.25 15.25C23.25 12.6 22.325 10.1625 20.7875 8.2375ZM12 24C7.1625 24 3.25 20.0875 3.25 15.25C3.25 10.4125 7.1625 6.5 12 6.5C16.8375 6.5 20.75 10.4125 20.75 15.25C20.75 20.0875 16.8375 24 12 24Z"
-                fill="#00FFF0" fillOpacity="0.48"/>
-        </svg>
-    )
-}
 
-function UserSVG() {
-    return (
-        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M13 0.5C6.1 0.5 0.5 6.1 0.5 13C0.5 19.9 6.1 25.5 13 25.5C19.9 25.5 25.5 19.9 25.5 13C25.5 6.1 19.9 0.5 13 0.5ZM13 4.25C15.075 4.25 16.75 5.925 16.75 8C16.75 10.075 15.075 11.75 13 11.75C10.925 11.75 9.25 10.075 9.25 8C9.25 5.925 10.925 4.25 13 4.25ZM13 22C9.875 22 7.1125 20.4 5.5 17.975C5.5375 15.4875 10.5 14.125 13 14.125C15.4875 14.125 20.4625 15.4875 20.5 17.975C18.8875 20.4 16.125 22 13 22Z"
-                fill="#91898C"/>
-        </svg>
-    )
-}
+
+

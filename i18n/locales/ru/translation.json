@@ -1,0 +1,21 @@
+{
+  "header": {
+    "streak": "Streak",
+    "learn": "Learn",
+    "quizzes": "Quizzes",
+    "map": "Map",
+    "leaders": "Leaders",
+    "archive": "Archive"
+  },
+  "learn-page": {
+    "learning": "обучение",
+    "description": "Изучайте историю по модулям и темам.",
+    "modules": "модули"
+  },
+  "module": {
+    "questions": "вопросы",
+    "minutes": "минуты",
+    "users": "пользователи",
+    "start": "Начать"
+  }
+}
