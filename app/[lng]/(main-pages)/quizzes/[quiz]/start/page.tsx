@@ -18,7 +18,7 @@ export default function Start() {
         startGame(quizId)
             .then(res => {
                 console.log("res", res);
-                router.push(`/games/${res.gameId}`);
+                router.push(`/games/${res.gameId}/play`);
             })
             .catch((error) => {
                 console.error("Something went wrong", error);
