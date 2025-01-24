@@ -4,6 +4,7 @@ import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import { ConfigProvider, Pagination, theme } from "antd";
 import Loader from "@/components/Loader/loader";
+import {useTranslation} from "react-i18next";
 
 class Quiz {
     "id": string;
@@ -23,6 +24,7 @@ class Tag {
 
 export default function Quizzes() {
     let [activeTags, setActiveTags] = useState([] as Tag[]);
+    const {t} = useTranslation();
     const [searchText, setSearchText] = useState("");
     const [quizzes, setQuizzes] = useState([] as Quiz[]);
     const [totalElements, setTotalElements] = useState(0);
@@ -87,7 +89,7 @@ export default function Quizzes() {
 
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-80 mx-auto flex flex-col gap-6 sm:px-8 px-0">
-            <h1 className="text-4xl">Quizzes</h1>
+            <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
             <div className="flex flex-wrap w-full gap-2">
                 <Dropdown onSelect={(tag) => toggleTag({type: "topics", tag, query_value: `"${tag}"`})}
                           title="Topics"
@@ -107,8 +109,8 @@ export default function Quizzes() {
                 />
 
                 <div className="flex flex-1">
-                    <SearchBar onSearch={handleSearch} disabled={loading}/>
-                    <PickOne disabled={loading}/>
+                    <SearchBar placeholder={t('quizzes-page.search')} onSearch={handleSearch} disabled={loading}/>
+                    <PickOne text={t('quizzes-page.pickOne')} disabled={loading}/>
                 </div>
             </div>
             <div className="w-full flex flex-wrap gap-2">
@@ -156,11 +158,11 @@ export default function Quizzes() {
                     </colgroup>
                     <tbody>
                     <tr className="border-b-zinc-800 border-b-2 text-[#7E7E7E]">
-                        <td>Status</td>
-                        <td>Title</td>
-                        <td>Average</td>
-                        <td>Difficulty</td>
-                        <td>Questions</td>
+                        <td>{t('quizzes-page.status')}</td>
+                        <td>{t('quizzes-page.title')}</td>
+                        <td>{t('quizzes-page.average')}</td>
+                        <td>{t('quizzes-page.difficulty')}</td>
+                        <td>{t('quizzes-page.questions')}</td>
                     </tr>
 
 
@@ -237,19 +239,20 @@ function Dropdown({title, options, onSelect, disabled}: {
     )
 }
 
-function SearchBar({onSearch, disabled}: {
+function SearchBar({onSearch, disabled, placeholder}: {
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    disabled: boolean
+    disabled: boolean,
+    placeholder: string
 }) {
     return (
         <div className="flex flex-1 min-w-48">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search"
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder={placeholder}
                    onChange={onSearch} disabled={disabled}/>
         </div>
     )
 }
 
-function PickOne({disabled}: { disabled: boolean }) {
+function PickOne({disabled, text}: { disabled: boolean, text: string }) {
     const router = useRouter();
 
     async function pickRandom() {
@@ -275,7 +278,7 @@ function PickOne({disabled}: { disabled: boolean }) {
                     </defs>
                 </svg>
             </div>
-            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">Pick one</h3>
+            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">{text}</h3>
         </button>
     )
 }

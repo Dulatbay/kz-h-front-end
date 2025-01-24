@@ -17,5 +17,34 @@
     "minutes": "минуты",
     "users": "пользователи",
     "start": "Начать"
+  },
+  "quizzes-page": {
+    "quizzes": "Тесты",
+    "topics": "Темы",
+    "difficulty": "Сложность",
+    "status": "Статус",
+    "search": "Поиск",
+    "pickOne": "Случайный",
+    "title": "Название",
+    "average": "Среднее",
+    "questions": "Вопросы"
+  },
+  "profile-page": {
+    "joined": "Зарегистрирован",
+    "overview": "Статистика",
+    "fireDays": "Дней подряд",
+    "score": "Счёт",
+    "questions": "Вопросы",
+    "accuracy": "Точность"
+  },
+  "leaderboard-page": {
+      "leaderboard": "Таблица лидеров",
+      "description": "Таблица лидеров по всему Казахстану. Узнай на каком ты месте и прокачивай свой ранг.",
+      "users": "пользователей",
+      "rank": "Место",
+      "name": "Имя",
+      "questions": "Вопросы",
+      "streak": "Дней подряд",
+      "score": "Счёт"
   }
 }

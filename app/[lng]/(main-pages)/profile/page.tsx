@@ -1,6 +1,7 @@
 'use client'
 
 import {use, useEffect, useState} from "react"
+import { useTranslation } from "react-i18next";
 
 type User = {
     id: string;
@@ -17,6 +18,8 @@ type User = {
 };
 
 export default function Profile() {
+
+    const {t} = useTranslation();
 
 
     const [userData, setUserData] = useState({
@@ -86,17 +89,17 @@ export default function Profile() {
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
                     ·
-                    <h3>Joined {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
+                    <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "02.09.2024"}</h3>
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <h1 className="text-3xl">Overview</h1>
+                <h1 className="text-3xl">{t('profile-page.overview')}</h1>
                 <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
-                    <Stat svg="fire" textColor="text-orange-500" title="Fire days" stat={userData.fireDays.toString()}/>
-                    <Stat svg="score" textColor="text-green-600" title="Score" stat={userData.score.toString() + "%"}/>
-                    <Stat svg="questions" textColor="text-orange-600" title="Questions"
+                    <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')} stat={userData.fireDays.toString()}/>
+                    <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')} stat={userData.score.toString() + "%"}/>
+                    <Stat svg="questions" textColor="text-orange-600" title={t('profile-page.questions')}
                           stat={userData.answeredQuestionsCount.toString()}/>
-                    <Stat svg="accuracy" textColor="text-red-600" title="Accuracy"
+                    <Stat svg="accuracy" textColor="text-red-600" title={t('profile-page.accuracy')}
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>

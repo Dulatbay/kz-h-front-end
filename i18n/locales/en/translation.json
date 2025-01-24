@@ -17,5 +17,34 @@
     "minutes": "minutes",
     "users": "users",
     "start": "Start"
-  }
+  },
+  "quizzes-page": {
+    "quizzes": "Quizzes",
+    "topics": "Topics",
+    "difficulty": "Difficulty",
+    "status": "Status",
+    "search": "Search",
+    "pickOne": "Pick one",
+    "title": "Title",
+    "average": "Average",
+    "questions": "Questions"
+  },
+  "profile-page": {
+    "joined": "Joined",
+    "overview": "Overview",
+    "fireDays": "Fire days",
+    "score": "Score",
+    "questions": "Questions",
+    "accuracy": "Accuracy"
+  },
+  "leaderboard-page": {
+    "leaderboard": "Leaderboard",
+    "description": "Leaderboards for all of Kazakhstan. Find out where you stand and improve your rank.",
+    "users": "Users",
+    "rank": "Rank",
+    "name": "Name",
+    "questions": "Questions",
+    "streak": "Streak",
+    "score": "Score"
+}
 }
