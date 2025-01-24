@@ -1,8 +1,9 @@
 'use client'
 
-import { Button, Form, Input, message } from 'antd';
-import { login } from '@/services/auth/authService';
+import {Button, Form, Input, message} from 'antd';
+import {login} from '@/services/auth/authService';
 import {useRouter} from "next/navigation";
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "@/utills/constants";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -10,7 +11,8 @@ export default function LoginPage() {
     const onFinish = async (values: { username: string; password: string }) => {
         try {
             const data = await login(values.username, values.password);
-            localStorage.setItem('token', data.access_token);
+            localStorage.setItem(ACCESS_TOKEN, data.access_token);
+            localStorage.setItem(REFRESH_TOKEN, data.access_token);
 
             message.success('Успешный вход!');
 

@@ -1,14 +1,22 @@
 import axios from 'axios';
 import i18n from "@/i18n/i18n";
+import {HttpException} from "@/utills/exceptions";
+import {ACCESS_TOKEN} from "@/utills/constants";
 
-const baseAxios = axios.create({
+const baseApi = axios.create({
     baseURL: `${process.env.NEXT_PUBLIC_API_URL}`
 });
 
+export interface ErrorResponse {
+    error: string;
+    message: string;
+    timestamp: number;
+    status: number;
+}
 
-baseAxios.interceptors.request.use(
+baseApi.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(ACCESS_TOKEN);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -40,13 +48,10 @@ const processQueue = (error: any, token: string | null) => {
     failedQueue = [];
 };
 
-baseAxios.interceptors.response.use(
+baseApi.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        console.log(error.response && error.response.status === 401 && !originalRequest._retry, isRefreshing);
-
-        // Если ошибка - токен истек (401), пытаемся обновить токен
         if (error.response && error.response.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
                 // Ожидаем завершения обновления токена
@@ -55,7 +60,7 @@ baseAxios.interceptors.response.use(
                 })
                     .then((token) => {
                         originalRequest.headers.Authorization = `Bearer ${token}`;
-                        return baseAxios(originalRequest);
+                        return baseApi(originalRequest);
                     })
                     .catch((err) => Promise.reject(err));
             }
@@ -69,22 +74,20 @@ baseAxios.interceptors.response.use(
                     throw new Error("No refresh token available");
                 }
 
-                // Отправляем запрос на обновление токена
-                const response = await axios.post<{ token: string }>(
-                    `${process.env.API_URL}/refresh-token`,
+                const response = await baseApi.post<{ access_token: string }>(
+                    `/auth/refresh-token`,
                     {refreshToken}
                 );
 
-                const newToken = response.data.token;
+                const newToken = response.data.access_token;
 
-                // Сохраняем новый токен
-                localStorage.setItem('token', newToken);
+                localStorage.setItem(ACCESS_TOKEN, newToken);
 
                 processQueue(null, newToken);
 
-                // Добавляем новый токен в заголовки и повторяем запрос
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                return baseAxios(originalRequest);
+                console.log(originalRequest);
+                return baseApi(originalRequest);
             } catch (err) {
                 processQueue(err, null);
                 return Promise.reject(err);
@@ -98,4 +101,25 @@ baseAxios.interceptors.response.use(
 );
 
 
-export default baseAxios;
+export const handleApiRequest = async <T>(apiCall: () => Promise<T>): Promise<T> => {
+    try {
+        return await apiCall();
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            throw new HttpException({
+                error: error.response?.data?.error || "Unknown Error",
+                message: error.response?.data?.message || "An error occurred while processing the request.",
+                timestamp: error.response?.data?.timestamp || Date.now(),
+            } as ErrorResponse);
+        }
+
+        throw new HttpException({
+            error: "Unexpected Error",
+            message: "An unexpected error occurred while processing the request.",
+            timestamp: Date.now(),
+        } as ErrorResponse);
+    }
+};
+
+
+export default baseApi;

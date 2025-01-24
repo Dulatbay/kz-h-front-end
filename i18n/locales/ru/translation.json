@@ -1,16 +1,16 @@
 {
   "header": {
-    "streak": "Streak",
-    "learn": "Learn",
-    "quizzes": "Quizzes",
-    "map": "Map",
-    "leaders": "Leaders",
-    "archive": "Archive"
+    "streak": "Страйк",
+    "learn": "Обучение",
+    "quizzes": "Квизы",
+    "map": "Карта",
+    "leaders": "Лидеры",
+    "archive": "Архив"
   },
   "learn-page": {
     "learning": "обучение",
     "description": "Изучайте историю по модулям и темам.",
-    "modules": "модули"
+    "modules": "Модули"
   },
   "module": {
     "questions": "вопросы",

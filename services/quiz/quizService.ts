@@ -1,21 +1,30 @@
-// import {ModuleResponse} from "@/services/module/types";
-import baseAxios from "@/services/baseAxios";
-import { QuizResponse } from "./types";
+import baseApi, {handleApiRequest} from "@/services/baseApi";
+import {
+    PaginatedResponse,
+    QuizByIdResponse,
+    QuizCardResponse,
+    Tag
+} from "@/services/quiz/types";
 
-export const fetchQuizById = async (quizId: string): Promise<QuizResponse> => {
-    const response = await baseAxios.post<QuizResponse>(
-        `/solo-game/start/${quizId}`
+
+export const fetchQuizById = async (quizId: string): Promise<QuizByIdResponse> => {
+    return handleApiRequest(() => baseApi.get<QuizByIdResponse>(`/quizzes/${quizId}`).then((res) => res.data));
+};
+
+
+export const fetchQuizzes = async ({page, size, searchText, tags}: {
+    page: number,
+    size: number,
+    searchText?: string,
+    tags: Tag[]
+}) => {
+    let url = `/quizzes?page=${page}&size=${size}&searchText=${searchText}`;
+    tags.forEach((tag) => {
+        url += `&${tag.type}=${tag.query_value}`;
+    });
+
+    return handleApiRequest(() =>
+        baseApi.get<PaginatedResponse<QuizCardResponse>>(url).then((res) => res.data)
     );
+};
 
-    return response.data;
-}
-
-export const sendAnswerByGameId = async (gameId: string, answers: string[]): Promise<QuizResponse> => {
-    const response = await baseAxios.post<QuizResponse>(
-        `/solo-game/next-question/${gameId}`, {
-            body: answers,
-        }
-    );
-
-    return response.data;
-}
