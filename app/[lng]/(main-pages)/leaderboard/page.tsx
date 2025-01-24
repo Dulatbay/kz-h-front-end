@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+
 type Leader = {
     rank: number;
     img: string | undefined;

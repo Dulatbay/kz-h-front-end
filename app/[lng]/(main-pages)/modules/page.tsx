@@ -1,11 +1,12 @@
 'use client';
 
 import React, {ReactNode, Suspense, useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import {ArcherContainer} from "react-archer";
 import {parser} from "@/utills/parser/parser";
 import Loader from "@/components/Loader/loader";
 import {fetchTopicByParams} from "@/services/module/modulesService";
+import {HttpException} from "@/utills/exceptions";
 
 const Page = () => {
     return (
@@ -18,6 +19,7 @@ const Page = () => {
 };
 
 const ShowModule = () => {
+    const router = useRouter();
     const [topicContent, setTopicContent] = useState<ReactNode | null>(null);
     const searchParams = useSearchParams();
 
@@ -29,9 +31,11 @@ const ShowModule = () => {
             try {
                 const response = await fetchTopicByParams(module as string, topic as string, "RU")
                 setTopicContent(parser(response));
-
             } catch (error) {
-                console.error("Error fetching topic content:", error);
+                if (error instanceof HttpException) {
+                    console.log(error);
+                    router.push(`/error?status=${error.status}&message=${error.message}`);
+                }
             }
         };
 

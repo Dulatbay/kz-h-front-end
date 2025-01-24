@@ -1,7 +1,5 @@
 'use client'
 
-import {Button} from 'antd'
-import styles from '@/app/styles/ultima.module.scss'
 import {useEffect, useState} from "react";
 import {fetchLastTopic, fetchModules} from "@/services/module/modulesService";
 import {getImageUrl} from "@/utills/getHistoryData";

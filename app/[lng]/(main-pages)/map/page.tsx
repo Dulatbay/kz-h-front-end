@@ -1,6 +1,5 @@
 import {fetchHistoricalRanges} from '@/utills/getHistoryData';
 import HistoricalTimeline from '@/components/Map/HistoricalTimeline';
-import {ImagePreloader} from '@/components/Map/ImagePreloader';
 
 export default async function MapPage() {
     const response = await fetchHistoricalRanges();

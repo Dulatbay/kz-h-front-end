@@ -1,108 +1,82 @@
-'use client'
+'use client';
 
 import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
-import { ConfigProvider, Pagination, theme } from "antd";
+import React, {useEffect, useRef, useState} from "react";
+import {ConfigProvider, Pagination, theme} from "antd";
 import Loader from "@/components/Loader/loader";
-import {useTranslation} from "react-i18next";
-
-class Quiz {
-    "id": string;
-    "title": string;
-    "status": boolean;
-    "average": number;
-    "level": "EASY" | "MEDIUM" | "HARD";
-    "questions": number;
-    "verified": boolean;
-}
-
-class Tag {
-    "type": string;
-    "value": string;
-    "query_value": string;
-}
+import {fetchQuizzes} from "@/services/quiz/quizService";
+import {QuizCardResponse} from "@/services/quiz/types";
 
 export default function Quizzes() {
-    let [activeTags, setActiveTags] = useState([] as Tag[]);
-    const {t} = useTranslation();
+    const [activeTags, setActiveTags] = useState<{ type: string; value: string; query_value: string }[]>([]);
     const [searchText, setSearchText] = useState("");
-    const [quizzes, setQuizzes] = useState([] as Quiz[]);
+    const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);
     const [totalElements, setTotalElements] = useState(0);
-    const [paginationParams, setPaginationParams] = useState({'pageNumber': 0, 'pageSize': 20});
-    const [language, setLanguage] = useState("RU");
-    const [loading, setLoading] = useState(false);
+    const [paginationParams, setPaginationParams] = useState({pageNumber: 0, pageSize: 20});
+    const [loading, setLoading] = useState(true);
+    const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
-        const fetchQuizzes = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                let url = `${process.env.NEXT_PUBLIC_API_URL}/quizzes?page=${paginationParams.pageNumber}&size=${paginationParams.pageSize}&searchText=${searchText}`;
-
-                for (let tag of activeTags) {
-                    url += `&${tag.type}=${tag.query_value}`;
-                }
-
-                const response = await fetch(url,
-                    {
-                        headers: {
-                            "Accept-Language": language,
-                        }
-                    }
-                );
-                const data = await response.json();
+                const data = await fetchQuizzes({
+                    page: paginationParams.pageNumber,
+                    size: paginationParams.pageSize,
+                    searchText,
+                    tags: activeTags,
+                });
                 setQuizzes(data.content);
-                setTotalElements(data.totalElements);
-                console.log(data);
-                setLoading(false);
-
+                setTotalElements(data.totalElements)
             } catch (error) {
-                console.error('Error fetching quiz data:', error);
+                console.error("Error fetching quiz data:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchQuizzes();
-    }, [searchText, activeTags, language, paginationParams]);
+        fetchData();
+    }, [searchText, activeTags, paginationParams]);
 
-    function toggleTag({type, tag, query_value}: { type: string, tag: string, query_value: string }) {
-        const tagsArr = [...activeTags];
+    const toggleTag = (tag: { type: string; value: string; query_value: string }) => {
+        setActiveTags((prevTags) =>
+            prevTags.some((t) => t.value === tag.value)
+                ? prevTags.filter((t) => t.value !== tag.value)
+                : [...prevTags, tag]
+        );
+    };
 
-        if (activeTags.some(t => t.value === tag)) {
-            const filteredTags = tagsArr.filter(t => tag !== t.value);
-            setActiveTags(filteredTags);
+    function handleSearch(text: string, enterClicked: boolean) {
+
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        if (!enterClicked) {
+            searchTimeoutRef.current = setTimeout(() => {
+                setSearchText(text);
+            }, 3000);
         } else {
-            if (type === "status" && activeTags.some(t => t.type === "status")) {
-                const filteredTags = tagsArr.filter(t => "status" !== t.type);
-                filteredTags.push({"type": type, "value": tag, query_value: query_value});
-                setActiveTags(filteredTags);
-                return;
-            }
-
-            tagsArr.push({"type": type, "value": tag, query_value: query_value});
-            setActiveTags(tagsArr);
+            setSearchText(text)
         }
     }
-
-    function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-        setSearchText(e.target.value);
-    }
-
 
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-80 mx-auto flex flex-col gap-6 sm:px-8 px-0">
             <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
             <div className="flex flex-wrap w-full gap-2">
-                <Dropdown onSelect={(tag) => toggleTag({type: "topics", tag, query_value: `"${tag}"`})}
+                <Dropdown onSelect={(tag) => toggleTag({type: "topics", value: tag, query_value: `"${tag}"`})}
                           title="Topics"
                           options={["Древний век", "Тюркский период"]}
                           disabled={loading}
                 />
-                <Dropdown onSelect={(tag) => toggleTag({type: "level", tag, query_value: tag.toUpperCase()})}
+                <Dropdown onSelect={(tag) => toggleTag({type: "level", value: tag, query_value: tag.toUpperCase()})}
                           title="Difficulty" options={["Easy", "Medium", "Hard"]}
                           disabled={loading}
                 />
                 <Dropdown onSelect={(tag) => toggleTag({
                     type: "status",
-                    tag,
+                    value: tag,
                     query_value: tag == "Solved" ? "true" : "false"
                 })} title="Status" options={["Solved", "Not solved"]}
                           disabled={loading}
@@ -122,7 +96,7 @@ export default function Quizzes() {
                                 <h2 className="text-base">{tag.value}</h2>
                                 <button onClick={() => toggleTag({
                                     type: tag.type,
-                                    tag: tag.value,
+                                    value: tag.value,
                                     query_value: tag.query_value
                                 })} className="rounded-full bg-zinc-800 w-4 h-4 flex items-center justify-center">
                                     <svg width="8" height="8" viewBox="0 0 5 5" fill="none"
@@ -136,18 +110,8 @@ export default function Quizzes() {
                     })
                 }
             </div>
-            <div className="flex flex-col">
-                <div className="flex gap-3">
-                    <h1 className="text-2xl">Showing results in </h1>
-                    <select onChange={(lang) => setLanguage(lang.target.value.split(' ')[0])}
-                            className="bg-[#FFFFFF24] text-center px-1 py-2 rounded-md" disabled={loading}>
-                        <option className="bg-zinc-800">RU 🇷🇺</option>
-                        <option className="bg-zinc-800">KAZ 🇰🇿</option>
-                        <option className="bg-zinc-800">EN 🇬🇧</option>
-                    </select>
-                </div>
-            </div>
-            <div className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div
+                className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <table cellPadding={6} className="gap-3 w-full">
                     <colgroup>
                         <col className="w-20"/>
@@ -166,10 +130,10 @@ export default function Quizzes() {
                     </tr>
 
 
-                    {(!loading && quizzes && quizzes.length) ?
+                    {(!loading && quizzes) ?
                         quizzes.map((row, i) => {
-                            let colorClass = 'text-[#00B8A3]';
-                            let difficulty = 'Easy';
+                            let colorClass: string;
+                            let difficulty: string;
                             switch (row.level) {
                                 case "EASY":
                                     colorClass = 'text-[#00B8A3]';
@@ -189,10 +153,10 @@ export default function Quizzes() {
                                     break;
                             }
                             return (
-                                <tr key={"row" + i} className="odd:bg-zinc-800">
+                                <tr key={"row" + i} className="odd:bg-zinc-800 h-14">
                                     <td>
                                         {row.status ? (<SolvedMark/>) : (<></>)}</td>
-                                    <td><a href={`/quizzes/${row.id}/preview`}>{row.title}</a></td>
+                                    <td><a href={`/quizzes/${row.id}`}>{row.title}</a></td>
                                     <td>{43}%</td>
                                     <td className={colorClass}>{difficulty}</td>
                                     <td>{row.questions}</td>
@@ -210,9 +174,16 @@ export default function Quizzes() {
                     </tbody>
                 </table>
             </div>
-            <ConfigProvider theme={{algorithm: theme.darkAlgorithm,}}>
-            <Pagination onChange={(page, pageSize) => {setPaginationParams({'pageNumber': page - 1, 'pageSize': pageSize})}} total={totalElements} defaultPageSize={paginationParams.pageSize} showSizeChanger pageSizeOptions={[1, 10, 20, 50]} showQuickJumper/>
-        </ConfigProvider>
+            {
+                !loading ? <ConfigProvider theme={{algorithm: theme.darkAlgorithm,}}>
+                    <Pagination onChange={(page, pageSize) => {
+                        setPaginationParams({'pageNumber': page - 1, 'pageSize': pageSize})
+                    }} total={totalElements} defaultPageSize={paginationParams.pageSize} showSizeChanger
+                                pageSizeOptions={[5, 10, 20, 50]}
+                                disabled={loading}
+                    />
+                </ConfigProvider> : <></>
+            }
         </div>
     )
 }
@@ -220,7 +191,7 @@ export default function Quizzes() {
 function Dropdown({title, options, onSelect, disabled}: {
     title: string,
     options: string[],
-    onSelect: (tag: string) => void,
+    onSelect: (type: string) => void,
     disabled: boolean
 }) {
     return (
@@ -239,20 +210,32 @@ function Dropdown({title, options, onSelect, disabled}: {
     )
 }
 
-function SearchBar({onSearch, disabled, placeholder}: {
-    onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    disabled: boolean,
-    placeholder: string
+
+function SearchBar({onSearch, disabled}: {
+    onSearch: (text: string, enterClicked: boolean) => void,
+    disabled: boolean
 }) {
     return (
         <div className="flex flex-1 min-w-48">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder={placeholder}
-                   onChange={onSearch} disabled={disabled}/>
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search"
+                   onChange={(e: any) => onSearch(e.target.value, false)} disabled={disabled}
+                   onKeyDown={(e: any) => {
+                       if (e.key === 'Enter') {
+                           console.log(e.target.value)
+                           onSearch(e.target.value, true)
+                       }
+                   }}
+            />
         </div>
     )
 }
 
-function PickOne({disabled, text}: { disabled: boolean, text: string }) {
+
+function SolvedMark() {
+    return <span className="text-green-500">✔</span>;
+}
+
+function PickOne({disabled}: { disabled: boolean }) {
     const router = useRouter();
 
     async function pickRandom() {
@@ -280,24 +263,5 @@ function PickOne({disabled, text}: { disabled: boolean, text: string }) {
             </div>
             <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">{text}</h3>
         </button>
-    )
-}
-
-function SolvedMark() {
-    return (
-        <svg className="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clipPath="url(#clip0_33_141)">
-                <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="#2CBB5D" strokeLinecap="round" strokeLinejoin="round"/>
-                <path
-                    d="M7 3.33782C8.47088 2.48698 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48698 8.47088 3.33782 7"
-                    stroke="#2CBB5D" strokeLinecap="round"/>
-            </g>
-            <defs>
-                <clipPath id="clip0_33_141">
-                    <rect width="24" height="24" fill="white"/>
-                </clipPath>
-            </defs>
-        </svg>
-
     )
 }

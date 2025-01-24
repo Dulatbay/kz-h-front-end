@@ -2,9 +2,17 @@
 
 import {TimelineSlider} from "../TimelineSlider/TimelineSlider";
 import {useState, useEffect} from "react";
-import Image from "next/image";
-import type {HistoricalRange} from "@/app/types/History";
 import {getMapImageUrl} from "@/utills/getHistoryData";
+
+export interface HistoricalRange {
+    id: string;
+    summary: string;
+    keyMoments: string[];
+    mapUrls: string[];
+    min: number;
+    max: number;
+}
+
 
 interface HistoricalTimelineProps {
     years: number[];

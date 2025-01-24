@@ -1,6 +1,12 @@
 import { useRef, useEffect } from 'react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import { TimelineSliderProps } from '@/app/types/History'
+
+
+export interface TimelineSliderProps {
+    minYear: number
+    maxYear: number
+    onChange: (year: number) => void
+}
 
 export function TimelineSlider({ minYear, maxYear, onChange }: TimelineSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null)

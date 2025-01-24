@@ -1,16 +1,26 @@
 'use client'
 
 import Collapse from "@/components/Collapse/collapse"
-import DefaultButton from "@/components/Button/button"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useId, useState } from "react";
-import { addQuestion, removeQuestion, setTitle, setDescription, setShowQuestions, setLanguage } from "@/app/store/slice";
-import { Variant } from "@/app/types/Variant";
-import { Question } from "@/app/types/Question";
-import { Dropdown, Space, Button, Checkbox } from "antd";
-import type { MenuProps, CheckboxProps } from 'antd';
+import {useDispatch, useSelector} from "react-redux"
+import {useEffect, useState} from "react";
+import {addQuestion, removeQuestion, setDescription, setLanguage, setShowQuestions, setTitle} from "@/app/store/slice";
+import type {MenuProps} from 'antd';
+import {Button, Checkbox, Dropdown, Space} from "antd";
 import styles from "@/app/styles/ultima.module.scss";
 import {RootState} from "@/app/store/store";
+
+export type Question = {
+    'question': string,
+    'topicId': string,
+    'level': number,
+    'durationInSeconds': number,
+    'variants': Variant[],
+}
+
+export type Variant = {
+    'text': string,
+    'correct': boolean,
+};
 
 export default function CreateQuiz(){
     const quizOptions = useSelector((state: RootState) => state.quizOptions);

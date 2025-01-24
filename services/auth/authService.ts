@@ -1,9 +1,9 @@
 import axios from "axios";
-import baseAxios from "@/services/baseAxios";
+import baseApi from "@/services/baseApi";
 
 export async function login(emailOrUsername: string, password: string) {
     try {
-        const response = await baseAxios.post(`/auth/login`, {
+        const response = await baseApi.post(`/auth/login`, {
             emailOrUsername,
             password,
         });

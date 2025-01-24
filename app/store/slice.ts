@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Question } from '../types/Question'
+import {createSlice} from '@reduxjs/toolkit'
+import {Question} from "@/app/[lng]/(main-pages)/quizzes/create/page";
 
 // export const questionsSlice = createSlice({
 //   name: 'questionsCreated',
