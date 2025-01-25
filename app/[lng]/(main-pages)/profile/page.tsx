@@ -1,78 +1,62 @@
 'use client'
 
 import {useEffect, useState} from "react"
-
-type User = {
-    id: string;
-    fullName: string | null;
-    username: string;
-    imageUrl: string | null;
-    email: string;
-    fireDays: number;
-    wasPlayedYesterday: boolean;
-    answeredQuestionsCount: number;
-    score: number;
-    accuracy: number;
-    joinDate: string | undefined | null;
-};
+import {UserResponse} from "@/services/auth/types";
+import Loader from "@/components/Loader/loader";
+import {getMe} from "@/services/auth/authService";
+import {useRouter} from "next/navigation";
+import {HttpException} from "@/utills/exceptions";
+import {getImageUrl} from "@/utills/getHistoryData";
+import {Button, ConfigProvider} from "antd";
 
 export default function Profile() {
+    const [userData, setUserData] = useState<UserResponse | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
+    const router = useRouter();
 
-
-    const [userData, setUserData] = useState({
-        "id": "6787c281b73c4f5aff016e50",
-        "fullName": null,
-        "username": "",
-        "imageUrl": null,
-        "email": "",
-        "fireDays": 0,
-        "wasPlayedYesterday": false,
-        "answeredQuestionsCount": 0,
-        "score": 0.0,
-        "accuracy": 0.0,
-        "joinDate": "September 2024",
-    } as User);
-    const token = "";
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, {
-                    headers: {
-                        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IkFETUlOIiwiZW1haWwiOiJzdHJpbmciLCJzdWIiOiJzdHJpbmciLCJpYXQiOjE3MzcwMzE1NjAsImV4cCI6MTczNzExNzk2MH0._-O9zRt63R070XM00y7i1SfNZVBlCvvGeRHCxcSfiQQ",
-                    }
-                });
-                const data = await response.json();
-                if (response.status == 200)
-                    setUserData(data);
-                else {
-
-                }
-                // setUserData({
-                //     "id": "6787c281b73c4f5aff016e50",
-                //     "fullName": null,
-                //     "username": "testuser",
-                //     "imageUrl": null,
-                //     "email": "testuser@gmail.com",
-                //     "fireDays": 0,
-                //     "wasPlayedYesterday": false,
-                //     "questions": 0,
-                //     "score": 0.0,
-                //     "accuracy": 0.0
-                // });
+                setLoading(true);
+                const user = await getMe()
+                setUserData(user)
             } catch (error) {
-                console.error('Error fetching quiz data:', error);
+                if (error instanceof HttpException) {
+                    router.push(`/error?status=${error.status}&message=${error.message}`);
+                }
+            } finally {
+                setLoading(false);
             }
+
         };
 
         fetchUserData();
-    }, [token])
+    }, [])
 
+    function handleLogout() {
+        localStorage.clear();
+        router.push("/login");
+    }
+
+    if (loading)
+        return (
+            <div className={"max-w-[800px] m-auto mt-64"}>
+                <Loader/>
+            </div>
+        )
+
+    if (userData == null)
+        throw new Error("No user data found.");
 
     return (
         <div className="w-full p-3 max-w-[800px] flex flex-col mx-auto gap-8 mt-3">
             <div className="flex flex-col ">
-                <div className="w-full h-[400px] relative bg-zinc-800">
+                <div className="w-full h-[400px] relative">
+                    <img src={getImageUrl("other/profile-header.png")}
+                         className="w-full h-full object-cover brightness-50 rounded-xl "
+                         alt={""}
+                    />
                     <button className="right-2 top-2 absolute">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -80,9 +64,14 @@ export default function Profile() {
                                 fill="#91898C"/>
                         </svg>
                     </button>
-                    <img hidden={userData.imageUrl == null} className="bg-zinc-800 w-full h-full object-cover"/>
                 </div>
-                <h1 className="text-4xl mt-4">{userData.fullName ? userData.fullName : "<Set Your Name>"}</h1>
+                {
+                    userData.fullName ?
+                        <h1 className="text-4xl mt-4 self-start">userData.fullName</h1>
+                        :
+                        <Button size={"large"} className={'self-start mt-4'} type="dashed" danger
+                                style={{background: 'transparent'}}>Set username</Button>
+                }
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
                     ·
@@ -100,11 +89,12 @@ export default function Profile() {
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
+            <Button type={"primary"} danger onClick={handleLogout}>Logout</Button>
         </div>
     )
 }
 
-function SVG({svg}: { svg: "fire" | "score" | "questions" | "accuracy" }) {
+export function SVG({svg}: { svg: "fire" | "score" | "questions" | "accuracy" }) {
     switch (svg) {
         case "fire":
             return (

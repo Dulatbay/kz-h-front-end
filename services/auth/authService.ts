@@ -1,17 +1,18 @@
-import axios from "axios";
-import baseApi from "@/services/baseApi";
+import baseApi, {handleApiRequest} from "@/services/baseApi";
+import {AuthResponse, UserResponse} from "@/services/auth/types";
 
 export async function login(emailOrUsername: string, password: string) {
-    try {
-        const response = await baseApi.post(`/auth/login`, {
+    return handleApiRequest(() =>
+        baseApi.post<AuthResponse>(`/auth/login`, {
             emailOrUsername,
             password,
-        });
-        return response.data;
-    } catch (error: any) {
-        if (error.response) {
-            throw new Error(error.response.data.message || 'Ошибка авторизации');
-        }
-        throw new Error('Сервер недоступен');
-    }
+        }).then((res) => res.data)
+    );
 }
+
+export async function getMe() {
+    return handleApiRequest(() =>
+        baseApi.get<UserResponse>(`/auth/me`).then((res) => res.data)
+    );
+}
+

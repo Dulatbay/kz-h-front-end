@@ -5,15 +5,18 @@ import {languages} from "./i18n/setting";
 
 export function middleware(request) {
     const {pathname} = request.nextUrl;
-    console.log(pathname);
     const pathnameIsMissingLocale = languages.every(
         (locale) => !pathname.startsWith(`/${locale}`)
     );
 
     if (pathnameIsMissingLocale) {
         const locale = i18n.language;
-
         return NextResponse.redirect(new URL(`/${locale}${pathname}`, request.url));
+    }
+
+    if (pathname.split("/").length <= 1) {
+        const locale = i18n.language;
+        return NextResponse.redirect(new URL(`/${locale}/learn`, request.url));
     }
 
     return NextResponse.next();

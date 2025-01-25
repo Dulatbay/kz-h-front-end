@@ -1,13 +1,15 @@
 'use client';
 
-import {useRouter} from "next/navigation";
 import React, {useEffect, useRef, useState} from "react";
 import {ConfigProvider, Pagination, theme} from "antd";
 import Loader from "@/components/Loader/loader";
 import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
+import {HttpException} from "@/utills/exceptions";
+import {useRouter} from "next/navigation";
 
 export default function Quizzes() {
+
     const [activeTags, setActiveTags] = useState<{ type: string; value: string; query_value: string }[]>([]);
     const [searchText, setSearchText] = useState("");
     const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);
@@ -29,7 +31,9 @@ export default function Quizzes() {
                 setQuizzes(data.content);
                 setTotalElements(data.totalElements)
             } catch (error) {
-                console.error("Error fetching quiz data:", error);
+                if (error instanceof HttpException) {
+                    // router.push(`/error?status=${error.status}&message=${error.message}`);
+                }
             } finally {
                 setLoading(false);
             }

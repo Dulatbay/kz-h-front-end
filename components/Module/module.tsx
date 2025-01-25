@@ -15,7 +15,7 @@ export default function Module({module}: { module: ModuleResponse }) {
 
     return (
         <div
-            className="relative w-full aspect-video flex flex-col justify-end gap-2 p-4 sm:p-6 md:p-8"
+            className="relative w-full aspect-video flex flex-col justify-end gap-2 p-4 sm:p-6 md:p-8 z-20"
         >
             <img
                 src={getImageUrl(module.imageUrl)}
@@ -44,8 +44,10 @@ export default function Module({module}: { module: ModuleResponse }) {
                         <LightningSVG key={index}/>
                     ))}
                 </div>
-                <Button className={`${styles.button_success}`}
-                        href={`/learn/${module.number}`}>{t('module.start')}</Button>
+                <Button
+                    color={"primary"}
+                    type={"primary"}
+                    href={`/learn/${module.number}`}>{t('module.start')}</Button>
             </div>
         </div>
     )

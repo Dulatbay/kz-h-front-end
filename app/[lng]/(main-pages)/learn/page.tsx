@@ -8,6 +8,7 @@ import Loader from "@/components/Loader/loader";
 import '@/i18n/i18n'
 import {useTranslation} from "react-i18next";
 import Module from "@/components/Module/module";
+import Link from "next/link";
 
 export default function LearnPage() {
 
@@ -57,14 +58,14 @@ const Head = () => {
             {
                 (loading || !lastTopic) ?
                     <Loader/> :
-                    <div className="h-80 w-full flex justify-center items-center relative px-4">
+                    <div className="h-80 w-full flex justify-center items-center relative px-4 z-10">
                         <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10">
 
                         </div>
-                        <a href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
+                        <Link href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
                            className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
                             <img src={getImageUrl(lastTopic.imageUrl)}
-                                 className="w-full h-full inset-0 brightness-[40%] absolute -z-10 aspect-video object-cover object-bottom"
+                                 className="w-full h-full inset-0 brightness-[40%] absolute aspect-video object-cover object-bottom -z-10"
                                  alt={""}/>
                             <h3 className="text-yellow-200 text-2xl ml-auto">
                                 {lastTopic.percent}%
@@ -73,7 +74,7 @@ const Head = () => {
                                 <h2 className="text-xl font-semibold">{lastTopic.topicName}</h2>
                                 <h3 className="text-sm text-gray-400">{lastTopic.moduleName}</h3>
                             </div>
-                        </a>
+                        </Link>
                     </div>
 
             }
