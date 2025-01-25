@@ -94,7 +94,7 @@ export default function Profile() {
     )
 }
 
-export function SVG({svg}: { svg: "fire" | "score" | "questions" | "accuracy" }) {
+function SVG({svg}: { svg: "fire" | "score" | "questions" | "accuracy" }) {
     switch (svg) {
         case "fire":
             return (
@@ -145,6 +145,8 @@ export function SVG({svg}: { svg: "fire" | "score" | "questions" | "accuracy" })
                         fill="#FE4346"/>
                 </svg>
             )
+        default:
+            return <></>
     }
 }
 
