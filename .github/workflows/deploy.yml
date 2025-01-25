@@ -33,6 +33,9 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/kzh-frontend:latest
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push-docker-image
+    steps:
       - name: Deploy to Server using SSH
         uses: appleboy/ssh-action@v0.1.8
         with:
