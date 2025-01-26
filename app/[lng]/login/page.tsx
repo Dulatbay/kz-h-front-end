@@ -4,7 +4,6 @@ import {Button, Form, Input, message} from 'antd';
 import {login} from '@/services/auth/authService';
 import {useRouter} from "next/navigation";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "@/utills/constants";
-import {getImageUrl} from "@/utills/getHistoryData";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -79,7 +78,7 @@ export default function LoginPage() {
                         <a href="#" className="hover:text-white">
                             Forgot password?
                         </a>
-                        <a href="/signup" className="hover:text-green-400">
+                        <a href="/register" className="hover:text-green-400">
                             Sign up
                         </a>
                     </div>
