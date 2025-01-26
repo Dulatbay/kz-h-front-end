@@ -8,7 +8,8 @@ export default function Home() {
     return (
         <>
             <Header/>
-            <LearnPage/>
+            {/*<LearnPage/>*/}
+            <div>MAIN PAGE BLALALA</div>
         </>
     );
 }

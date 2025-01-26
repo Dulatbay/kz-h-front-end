@@ -76,18 +76,24 @@ export default function Header() {
             flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
             >
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
-                    <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0"><LogoSVG/></h1>
-                    <Link href="/learn" className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"} onClick={closeMenu}>
+                    <Link className="text-[#5348F2] font-bold mr-8 max-sm:mr-0" href={"/"}><LogoSVG/></Link>
+                    <Link href="/learn"
+                          className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                          onClick={closeMenu}>
                         {t('header.learn')}
                     </Link>
-                    <Link href="/quizzes" className={isActive("/quizzes") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"} onClick={closeMenu}>
+                    <Link href="/quizzes"
+                          className={isActive("/quizzes") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                          onClick={closeMenu}>
                         {t('header.quizzes')}
                     </Link>
-                    <Link href="/map" className={`${isActive("/map") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}`}
+                    <Link href="/map"
+                          className={`${isActive("/map") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}`}
                           onClick={closeMenu}>
                         {t('header.map')}
                     </Link>
-                    <Link href="/leaderboard" className={isActive("/leaderboard") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                    <Link href="/leaderboard"
+                          className={isActive("/leaderboard") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                           onClick={closeMenu}>
                         {t('header.leaders')}
                     </Link>
