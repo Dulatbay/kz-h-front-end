@@ -1,10 +1,6 @@
 import type {Metadata} from "next";
-import {Layout} from 'antd';
 import React from "react";
-import {AppSider} from "@/components/AppSider/app-sider";
-import {AppContent} from "@/components/AppContent/app-content";
-import AppHeader from "@/components/AppHeader/app-header";
-import AppFooter from "@/components/AppFooter/app-footer";
+import Header from "@/components/Header/header";
 
 export const metadata: Metadata = {
     title: "KzH",
@@ -19,15 +15,9 @@ export default function RootLayout({
 }>) {
 
     return (
-        <Layout>
-            {/*<AppHeader />*/}
-
-            <Layout>
-                <AppSider/>
-                <AppContent children={children} />
-            </Layout>
-
-            {/*<AppFooter/>*/}
-        </Layout>
+        <>
+            <Header/>
+            {children}
+        </>
     );
 }

@@ -1,9 +1,9 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {UserResponse} from "@/services/auth/types";
+import { createSlice } from "@reduxjs/toolkit";
+import { UserResponse } from "@/services/auth/types";
 
 interface UserState {
     user: UserResponse | null;
-    lastFetched: number | null; // Дата последнего запроса в формате ISO
+    lastFetched: number | null;
 }
 
 const initialState: UserState = {
@@ -12,18 +12,19 @@ const initialState: UserState = {
 };
 
 export const userOptions = createSlice({
-    name: 'userOptions',
+    name: "userOptions",
     initialState,
     reducers: {
         setCurrentUser: (state, action) => {
             state.user = action.payload;
             state.lastFetched = Date.now();
-        }
-    }
-})
+        },
+        resetUser: (state) => {
+            state.user = null;
+            state.lastFetched = null;
+        },
+    },
+});
 
-
-export const {
-    setCurrentUser
-} = userOptions.actions
-export default userOptions.reducer
+export const { setCurrentUser, resetUser } = userOptions.actions;
+export default userOptions.reducer;

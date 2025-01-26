@@ -66,7 +66,7 @@ export default function Quizzes() {
     }
 
     return (
-        <div className="mt-10 w-full max-w-[1200px] min-w-80 mx-auto flex flex-col gap-6 sm:px-8 px-0">
+        <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 sm:px-8 px-0">
             <h1 className="text-4xl">Quizzes</h1>
             <div className="flex flex-wrap w-full gap-2">
                 <Dropdown onSelect={(tag) => toggleTag({type: "topics", value: tag, query_value: `"${tag}"`})}
@@ -199,7 +199,7 @@ function Dropdown({title, options, onSelect, disabled}: {
     disabled: boolean
 }) {
     return (
-        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer"
+        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer h-11"
                 value={title} onChange={(e) => onSelect(e.target.value)} disabled={disabled}>
             <option className="bg-zinc-800" disabled>{title}</option>
             {
@@ -219,8 +219,8 @@ function SearchBar({onSearch, disabled}: {
     disabled: boolean
 }) {
     return (
-        <div className="flex flex-1 min-w-48">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search"
+        <div className="flex flex-1 min-w-32">
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3 h-11" type="text" placeholder="Search"
                    onChange={(e: any) => onSearch(e.target.value, false)} disabled={disabled}
                    onKeyDown={(e: any) => {
                        if (e.key === 'Enter') {
