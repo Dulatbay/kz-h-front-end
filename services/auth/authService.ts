@@ -16,3 +16,11 @@ export async function getMe() {
     );
 }
 
+export async function register({email, username, password, confirmPassword}: { email: string, username: string, password: string, confirmPassword: string }) {
+    return handleApiRequest(() =>
+        baseApi.post<void>(`/auth/register`, {
+            email, username, password, confirm_password: confirmPassword
+        })
+    )
+}
+
