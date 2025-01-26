@@ -72,11 +72,18 @@ export default function Header() {
             </label>
             <div
                 className="px-8 sm:h-full flex sm:flex-row sm:items-center sm:justify-between max-sm:invisible max-sm:opacity-0 sm:static
-            peer-checked/navbar:visible peer-checked/navbar:opacity-100 max-sm:transition-all max-sm:duration-150  peer-checked/navbar:max-sm:top-16 top-14
-            flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
+        peer-checked/navbar:visible peer-checked/navbar:opacity-100 max-sm:transition-all max-sm:duration-150 peer-checked/navbar:max-sm:top-16 top-14
+        flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
             >
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
                     <Link className="text-[#5348F2] font-bold mr-8 max-sm:mr-0" href={"/"}><LogoSVG/></Link>
+                    <div className="flex sm:hidden">
+                        <Link href="/learn"
+                              className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                              onClick={closeMenu}>
+                            {t('header.profile')}
+                        </Link>
+                    </div>
                     <Link href="/learn"
                           className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                           onClick={closeMenu}>
@@ -98,13 +105,16 @@ export default function Header() {
                         {t('header.leaders')}
                     </Link>
                 </div>
+                {/* Desktop Version */}
                 <div className="hidden sm:flex gap-3 items-center">
-                    {
-                        user ? <div id="streak" className="flex gap-1">
+                    {user ? (
+                        <div id="streak" className="flex gap-1">
                             <h3 className="text-sm text-[#F66F3E]">{user?.fireDays}</h3>
                             <FireIcon/>
-                        </div> : <></>
-                    }
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                     {loading ? (
                         <Link href="/profile">
                             <Avatar shape="circle" icon={<UserIcon/>} alt="pic"/>
@@ -119,6 +129,7 @@ export default function Header() {
                 </div>
             </div>
         </div>
+
     );
 }
 
