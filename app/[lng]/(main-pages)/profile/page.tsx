@@ -7,13 +7,16 @@ import {getMe} from "@/services/auth/authService";
 import {useRouter} from "next/navigation";
 import {HttpException} from "@/utills/exceptions";
 import {getImageUrl} from "@/utills/getHistoryData";
-import {Button, ConfigProvider} from "antd";
+import {Button, Input} from "antd";
+import {editFullName} from "@/services/user/userService";
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const router = useRouter();
-
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -37,6 +40,14 @@ export default function Profile() {
     function handleLogout() {
         localStorage.clear();
         router.push("/login");
+    }
+
+    const handleSave = () => {
+        editFullName(firstName, lastName)
+            .then((data) => {
+                setUserData(data);
+                setIsEditing(false);
+            });
     }
 
     if (loading)
@@ -65,13 +76,41 @@ export default function Profile() {
                         </svg>
                     </button>
                 </div>
-                {
-                    userData.fullName ?
-                        <h1 className="text-4xl mt-4 self-start">userData.fullName</h1>
-                        :
-                        <Button size={"large"} className={'self-start mt-4'} type="dashed" danger
-                                style={{background: 'transparent'}}>Set username</Button>
-                }
+                {isEditing ? (
+                    <div className="flex flex-col gap-4 mt-4">
+                        <Input
+                            placeholder="First Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                        />
+                        <Input
+                            placeholder="Last Name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                        />
+                        <div className="flex gap-4">
+                            <Button type="primary" onClick={handleSave}>
+                                Save
+                            </Button>
+                            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        {
+                            userData.fullName ? <h1 className="text-4xl mt-4 self-start">
+                                {userData.fullName}
+                            </h1> : <Button
+                                size={'large'}
+                                className={'self-start mt-4'}
+                                type="dashed"
+                                onClick={() => setIsEditing(true)}
+                            >
+                                Edit Full Name
+                            </Button>
+                        }
+                    </>
+                )}
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
                     ·
