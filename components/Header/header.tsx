@@ -78,7 +78,7 @@ export default function Header() {
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
                     <Link className="text-[#5348F2] font-bold mr-8 max-sm:mr-0" href={"/"}><LogoSVG/></Link>
                     <div className="flex sm:hidden">
-                        <Link href="/learn"
+                        <Link href="/profile"
                               className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                               onClick={closeMenu}>
                             {t('header.profile')}
