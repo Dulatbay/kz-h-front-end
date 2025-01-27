@@ -1,12 +1,14 @@
+@import "~antd/dist/reset.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 :root {
     --background: #0a0a0a;
     --foreground: #ededed;
 }
-
 
 
 @font-face {
@@ -15,7 +17,6 @@
     font-weight: 900;
     font-style: normal;
 }
-
 
 
 @font-face {
@@ -32,33 +33,41 @@ body {
 }
 
 
-
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 50px;
     aspect-ratio: 1;
     display: grid;
 }
+
 .loader:before,
 .loader:after {
     content: "";
     grid-area: 1/1;
     border-radius: 50%;
     background: #5348F2;
-    -webkit-mask:repeating-linear-gradient(#000 0 5px,#0000 0 10px);
+    -webkit-mask: repeating-linear-gradient(#000 0 5px, #0000 0 10px);
     animation: l35 1.5s infinite;
 }
 
 .loader:after {
-    -webkit-mask:repeating-linear-gradient(#0000 0 5px,#000 0 10px);
-    --s:-1;
+    -webkit-mask: repeating-linear-gradient(#0000 0 5px, #000 0 10px);
+    --s: -1;
 }
 
 @keyframes l35 {
     0%,
-    10% {transform: translate(0) rotate(0)}
-    35% {transform: translate(calc(var(--s,1)*50%)) rotate(0)}
-    66% {transform: translate(calc(var(--s,1)*50%)) rotate(calc(var(--s,1)*180deg))}
+    10% {
+        transform: translate(0) rotate(0)
+    }
+    35% {
+        transform: translate(calc(var(--s, 1) * 50%)) rotate(0)
+    }
+    66% {
+        transform: translate(calc(var(--s, 1) * 50%)) rotate(calc(var(--s, 1) * 180deg))
+    }
     90%,
-    100% {transform: translate(0) rotate(calc(var(--s,1)*180deg))}
+    100% {
+        transform: translate(0) rotate(calc(var(--s, 1) * 180deg))
+    }
 }

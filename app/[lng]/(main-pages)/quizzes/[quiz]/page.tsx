@@ -1,4 +1,6 @@
 'use client'
+
+
 import Collapse from '@/components/Collapse/collapse';
 import {useParams, useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';

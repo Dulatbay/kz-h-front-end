@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -H 192.168.0.37",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.2",
     "@reduxjs/toolkit": "^2.5.0",
     "antd": "^5.22.2",
     "axios": "^1.7.9",
@@ -23,7 +24,8 @@
     "react-dom": "^18.3.1",
     "react-i18next": "^15.4.0",
     "react-redux": "^9.2.0",
-    "sass": "^1.81.0"
+    "sass": "^1.81.0",
+    "swr": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

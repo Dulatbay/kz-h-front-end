@@ -1,7 +1,8 @@
 import type {Metadata} from "next";
 import './[lng]/globals.css'
-import {ConfigProvider} from "antd";
 import {StoreProvider} from "@/app/store/StoreProvider";
+import {AntdRegistry} from "@ant-design/nextjs-registry";
+import {ConfigProvider, theme} from "antd";
 
 export const metadata: Metadata = {
     title: "KzH",
@@ -17,15 +18,15 @@ export default function RootLayout({
 
     return (
         <StoreProvider>
-            <ConfigProvider>
-                <html lang="en">
-                <body
-                    className={`antialiased bg-[#1A1A1A]`}
-                >
+            <html lang="en">
+            <body
+                className={`antialiased bg-[#1A1A1A]`}
+            >
+            <AntdRegistry>
                 {children}
-                </body>
-                </html>
-            </ConfigProvider>
+            </AntdRegistry>
+            </body>
+            </html>
         </StoreProvider>
     );
 }

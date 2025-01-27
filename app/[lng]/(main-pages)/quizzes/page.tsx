@@ -1,13 +1,15 @@
 'use client';
 
-import {useRouter} from "next/navigation";
 import React, {useEffect, useRef, useState} from "react";
 import {ConfigProvider, Pagination, theme} from "antd";
 import Loader from "@/components/Loader/loader";
 import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
+import {HttpException} from "@/utills/exceptions";
+import {useRouter} from "next/navigation";
 
 export default function Quizzes() {
+
     const [activeTags, setActiveTags] = useState<{ type: string; value: string; query_value: string }[]>([]);
     const [searchText, setSearchText] = useState("");
     const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);
@@ -29,7 +31,9 @@ export default function Quizzes() {
                 setQuizzes(data.content);
                 setTotalElements(data.totalElements)
             } catch (error) {
-                console.error("Error fetching quiz data:", error);
+                if (error instanceof HttpException) {
+                    // router.push(`/error?status=${error.status}&message=${error.message}`);
+                }
             } finally {
                 setLoading(false);
             }
@@ -62,8 +66,8 @@ export default function Quizzes() {
     }
 
     return (
-        <div className="mt-10 w-full max-w-[1200px] min-w-80 mx-auto flex flex-col gap-6 sm:px-8 px-0">
-            <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
+        <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 sm:px-8 px-0">
+            <h1 className="text-4xl">Quizzes</h1>
             <div className="flex flex-wrap w-full gap-2">
                 <Dropdown onSelect={(tag) => toggleTag({type: "topics", value: tag, query_value: `"${tag}"`})}
                           title="Topics"
@@ -83,8 +87,8 @@ export default function Quizzes() {
                 />
 
                 <div className="flex flex-1">
-                    <SearchBar placeholder={t('quizzes-page.search')} onSearch={handleSearch} disabled={loading}/>
-                    <PickOne text={t('quizzes-page.pickOne')} disabled={loading}/>
+                    <SearchBar onSearch={handleSearch} disabled={loading}/>
+                    <PickOne disabled={loading}/>
                 </div>
             </div>
             <div className="w-full flex flex-wrap gap-2">
@@ -122,11 +126,11 @@ export default function Quizzes() {
                     </colgroup>
                     <tbody>
                     <tr className="border-b-zinc-800 border-b-2 text-[#7E7E7E]">
-                        <td>{t('quizzes-page.status')}</td>
-                        <td>{t('quizzes-page.title')}</td>
-                        <td>{t('quizzes-page.average')}</td>
-                        <td>{t('quizzes-page.difficulty')}</td>
-                        <td>{t('quizzes-page.questions')}</td>
+                        <td>Status</td>
+                        <td>Title</td>
+                        <td>Average</td>
+                        <td>Difficulty</td>
+                        <td>Questions</td>
                     </tr>
 
 
@@ -195,7 +199,7 @@ function Dropdown({title, options, onSelect, disabled}: {
     disabled: boolean
 }) {
     return (
-        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer"
+        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer h-11"
                 value={title} onChange={(e) => onSelect(e.target.value)} disabled={disabled}>
             <option className="bg-zinc-800" disabled>{title}</option>
             {
@@ -210,14 +214,13 @@ function Dropdown({title, options, onSelect, disabled}: {
     )
 }
 
-
 function SearchBar({onSearch, disabled}: {
     onSearch: (text: string, enterClicked: boolean) => void,
     disabled: boolean
 }) {
     return (
-        <div className="flex flex-1 min-w-48">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3" type="text" placeholder="Search"
+        <div className="flex flex-1 min-w-32">
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3 h-11" type="text" placeholder="Search"
                    onChange={(e: any) => onSearch(e.target.value, false)} disabled={disabled}
                    onKeyDown={(e: any) => {
                        if (e.key === 'Enter') {
@@ -229,7 +232,6 @@ function SearchBar({onSearch, disabled}: {
         </div>
     )
 }
-
 
 function SolvedMark() {
     return <span className="text-green-500">✔</span>;
@@ -261,7 +263,7 @@ function PickOne({disabled}: { disabled: boolean }) {
                     </defs>
                 </svg>
             </div>
-            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">{text}</h3>
+            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">Pick one</h3>
         </button>
     )
 }
