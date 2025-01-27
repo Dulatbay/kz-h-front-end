@@ -9,6 +9,8 @@ import {HttpException} from "@/utills/exceptions";
 import {getImageUrl} from "@/utills/getHistoryData";
 import {Button, Input} from "antd";
 import {editFullName} from "@/services/user/userService";
+import { ACCESS_TOKEN } from "@/utills/constants";
+import { useTranslation } from "react-i18next";
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
@@ -16,9 +18,15 @@ export default function Profile() {
     const router = useRouter();
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [firstName, setFirstName] = useState<string>('');
+    const {t} = useTranslation();
     const [lastName, setLastName] = useState<string>('');
 
     useEffect(() => {
+        const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
+        if (!isAuthenticated) {
+            router.push("/login");
+        };
+
         const fetchUserData = async () => {
             try {
                 setLoading(true);
@@ -114,21 +122,21 @@ export default function Profile() {
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
                     ·
-                    <h3>Joined {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
+                    <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
                 </div>
             </div>
             <div className="flex flex-col gap-4">
-                <h1 className="text-3xl">Overview</h1>
+                <h1 className="text-3xl">{t('profile-page.overview')}</h1>
                 <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
-                    <Stat svg="fire" textColor="text-orange-500" title="Fire days" stat={userData.fireDays.toString()}/>
-                    <Stat svg="score" textColor="text-green-600" title="Score" stat={userData.score.toString() + "%"}/>
-                    <Stat svg="questions" textColor="text-orange-600" title="Questions"
+                    <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')} stat={userData.fireDays.toString()}/>
+                    <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')} stat={userData.score.toString() + "%"}/>
+                    <Stat svg="questions" textColor="text-orange-600" title={t('profile-page.questions')}
                           stat={userData.answeredQuestionsCount.toString()}/>
-                    <Stat svg="accuracy" textColor="text-red-600" title="Accuracy"
+                    <Stat svg="accuracy" textColor="text-red-600" title={t('profile-page.accuracy')}
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
-            <Button type={"primary"} danger onClick={handleLogout}>Logout</Button>
+            <Button type={"primary"} danger onClick={handleLogout}>{t('profile-page.logout')}</Button>
         </div>
     )
 }

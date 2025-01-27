@@ -7,6 +7,7 @@ import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
 import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export default function Quizzes() {
 
@@ -14,6 +15,7 @@ export default function Quizzes() {
     const [searchText, setSearchText] = useState("");
     const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);
     const [totalElements, setTotalElements] = useState(0);
+    const {t} = useTranslation();
     const [paginationParams, setPaginationParams] = useState({pageNumber: 0, pageSize: 20});
     const [loading, setLoading] = useState(true);
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -67,28 +69,28 @@ export default function Quizzes() {
 
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 sm:px-8 px-0">
-            <h1 className="text-4xl">Quizzes</h1>
+            <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
             <div className="flex flex-wrap w-full gap-2">
                 <Dropdown onSelect={(tag) => toggleTag({type: "topics", value: tag, query_value: `"${tag}"`})}
-                          title="Topics"
+                          title={t('quizzes-page.topics')}
                           options={["Древний век", "Тюркский период"]}
                           disabled={loading}
                 />
-                <Dropdown onSelect={(tag) => toggleTag({type: "level", value: tag, query_value: tag.toUpperCase()})}
-                          title="Difficulty" options={["Easy", "Medium", "Hard"]}
+                <Dropdown onSelect={(tag) => toggleTag({type: "level", value: tag, query_value: (tag === t('quizzes-page.easy')) ? "EASY" : (tag === t('quizzes-page.medium')) ? "MEDIUM" : "HARD"})}
+                          title={t('quizzes-page.difficulty')} options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
                           disabled={loading}
                 />
                 <Dropdown onSelect={(tag) => toggleTag({
                     type: "status",
                     value: tag,
-                    query_value: tag == "Solved" ? "true" : "false"
-                })} title="Status" options={["Solved", "Not solved"]}
+                    query_value: tag == t('quizzes-page.solved') ? "true" : "false"
+                })} title={t('quizzes-page.status')} options={[t('quizzes-page.solved'), t('quizzes-page.notSolved')]}
                           disabled={loading}
                 />
 
                 <div className="flex flex-1">
-                    <SearchBar onSearch={handleSearch} disabled={loading}/>
-                    <PickOne disabled={loading}/>
+                    <SearchBar text={t('quizzes-page.search')} onSearch={handleSearch} disabled={loading}/>
+                    <PickOne text={t('quizzes-page.pickOne')} disabled={loading}/>
                 </div>
             </div>
             <div className="w-full flex flex-wrap gap-2">
@@ -126,11 +128,11 @@ export default function Quizzes() {
                     </colgroup>
                     <tbody>
                     <tr className="border-b-zinc-800 border-b-2 text-[#7E7E7E]">
-                        <td>Status</td>
-                        <td>Title</td>
-                        <td>Average</td>
-                        <td>Difficulty</td>
-                        <td>Questions</td>
+                        <td>{t('quizzes-page.status')}</td>
+                        <td>{t('quizzes-page.title')}</td>
+                        <td>{t('quizzes-page.average')}</td>
+                        <td>{t('quizzes-page.difficulty')}</td>
+                        <td>{t('quizzes-page.questions')}</td>
                     </tr>
 
 
@@ -141,15 +143,15 @@ export default function Quizzes() {
                             switch (row.level) {
                                 case "EASY":
                                     colorClass = 'text-[#00B8A3]';
-                                    difficulty = 'Easy';
+                                    difficulty = t('quizzes-page.easy');
                                     break;
                                 case "MEDIUM":
                                     colorClass = 'text-yellow-500';
-                                    difficulty = 'Medium';
+                                    difficulty = t('quizzes-page.medium');
                                     break;
                                 case "HARD":
                                     colorClass = 'text-red-500';
-                                    difficulty = 'Hard';
+                                    difficulty = t('quizzes-page.hard');
                                     break;
                                 default:
                                     colorClass = 'text-white';
@@ -183,7 +185,7 @@ export default function Quizzes() {
                     <Pagination onChange={(page, pageSize) => {
                         setPaginationParams({'pageNumber': page - 1, 'pageSize': pageSize})
                     }} total={totalElements} defaultPageSize={paginationParams.pageSize} showSizeChanger
-                                pageSizeOptions={[5, 10, 20, 50]}
+                                pageSizeOptions={[5, 10, 20, 50]} current={paginationParams.pageNumber + 1}
                                 disabled={loading}
                     />
                 </ConfigProvider> : <></>
@@ -214,13 +216,14 @@ function Dropdown({title, options, onSelect, disabled}: {
     )
 }
 
-function SearchBar({onSearch, disabled}: {
+function SearchBar({text, onSearch, disabled}: {
+    text: string,
     onSearch: (text: string, enterClicked: boolean) => void,
     disabled: boolean
 }) {
     return (
         <div className="flex flex-1 min-w-32">
-            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3 h-11" type="text" placeholder="Search"
+            <input className="bg-[#FFFFFF24] w-full text-[#91898C] rounded-lg pl-3 h-11" type="text" placeholder={text}
                    onChange={(e: any) => onSearch(e.target.value, false)} disabled={disabled}
                    onKeyDown={(e: any) => {
                        if (e.key === 'Enter') {
@@ -237,7 +240,7 @@ function SolvedMark() {
     return <span className="text-green-500">✔</span>;
 }
 
-function PickOne({disabled}: { disabled: boolean }) {
+function PickOne({text, disabled}: {text: boolean, disabled: boolean }) {
     const router = useRouter();
 
     async function pickRandom() {
@@ -263,7 +266,7 @@ function PickOne({disabled}: { disabled: boolean }) {
                     </defs>
                 </svg>
             </div>
-            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">Pick one</h3>
+            <h3 className="text-[#2CBB5D] text-md text-nowrap max-[400px]:hidden">{text}</h3>
         </button>
     )
 }

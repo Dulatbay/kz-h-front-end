@@ -28,7 +28,12 @@
     "pickOne": "Pick one",
     "title": "Title",
     "average": "Average",
-    "questions": "Questions"
+    "questions": "Questions",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "solved": "Solved",
+    "notSolved": "Not solved"
   },
   "profile-page": {
     "joined": "Joined",
@@ -36,7 +41,20 @@
     "fireDays": "Fire days",
     "score": "Score",
     "questions": "Questions",
-    "accuracy": "Accuracy"
+    "accuracy": "Accuracy",
+    "logout": "Logout"
+  },
+  "map-page": {
+      "title": "KZH Map",
+      "description": "Explore the history of Kazakhstan using the interactive KZH map.",
+      "chosenYear": "Chosen year",
+      "shortDescription": "Short description",
+      "keyMoments": "Key moments"
+  },
+  "module-page": {
+      "module": "Module",
+      "notFinishedAlert": "You need to close this module to move to the next module",
+      "goToNextModule": "Go to the next module"
   },
   "leaderboard-page": {
     "leaderboard": "Leaderboard",
