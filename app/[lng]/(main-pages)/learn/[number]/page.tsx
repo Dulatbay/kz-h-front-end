@@ -1,11 +1,11 @@
 'use client'
 
 import {useEffect, useState} from 'react';
-import Link from 'next/link';
 import {ModuleDetailResponse} from "@/services/module/types";
 import {fetchModuleByNumber} from "@/services/module/modulesService";
-import {useParams} from "next/navigation";
+import {useParams,} from "next/navigation";
 import Loader from "@/components/Loader/loader";
+import Link from "next/link";
 
 export default function ModuleDetail() {
     const number = useParams().number;
@@ -74,6 +74,22 @@ export default function ModuleDetail() {
                             );
                         })}
                     </div>
+                    {
+                        (moduleData.active && moduleData.topicsCount == moduleData.firstActive) ?
+                            (<div
+                                className={"bg-[#2CBB5D] w-full rounded-3xl p-4 flex flex-col justify-center mt-32 mb-8 min-h-20 cursor-pointer"}>
+                                <Link className="text-xl sm:text-xl text-center"
+                                      href={`/learn/${moduleData.number + 1}`}>Перейти к следующему модулю</Link>
+                            </div>) : (
+                                <div
+                                    className={"bg-[#282828] w-full rounded-3xl p-8 flex flex-col justify-center mt-32 mb-8 cursor-not-allowed"}>
+                                    <h3 className="text-xl sm:text-xl text-center">
+                                        Требуется закрыть этот модуль для
+                                        перехода в следующий модуль</h3>
+                                </div>
+                            )
+                    }
+
                 </>
             )}
         </div>
@@ -85,12 +101,13 @@ function LevelButton({active, topicNumber, moduleNumber}: {
     topicNumber: number;
     moduleNumber: number
 }) {
+    console.log(topicNumber, moduleNumber)
     if (active) {
         return (
-            <a
-                href={`/modules?topic=${topicNumber}&module=${moduleNumber}`}
+            <Link
+                href={`/modules/?module=${moduleNumber}&topic=${topicNumber}`}
                 className={`py-6 px-3 text-base rounded-full pb-5 bg-[#5348F2] border-[#393393] active:border-b-0 active:mt-2 border-b-8 w-20 flex items-center justify-center`}
-            >
+                >
                 <span className="text-base">
                     <svg
                         width="26"
@@ -105,7 +122,7 @@ function LevelButton({active, topicNumber, moduleNumber}: {
                         />
                     </svg>
                 </span>
-            </a>
+            </Link>
         );
     }
 
@@ -135,15 +152,13 @@ function LevelButton({active, topicNumber, moduleNumber}: {
 function Head({active, topic, number}: { active: boolean; topic: string; number: number }) {
     if (active) {
         return (
-            <div className="bg-[#5046E5] w-full h-24 rounded-3xl p-4 flex flex-col justify-center mt-4">
-                <Link className="flex items-center gap-1" href={`/learn/${number}`}>
+            <>
+                <Link className="flex items-center gap-1 mt-14" href={`/learn`}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
-                        fill="#FFFFFF99"
-                        viewBox="0 0 16 16"
-                    >
+                        fill="#FFFFFF99">
                         <path
                             fillRule="evenodd"
                             d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
@@ -151,8 +166,10 @@ function Head({active, topic, number}: { active: boolean; topic: string; number:
                     </svg>
                     <h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {number}</h3>
                 </Link>
-                <h1 className="text-xl sm:text-3xl text-center">{topic}</h1>
-            </div>
+                <div className="bg-[#5046E5] w-full rounded-3xl p-4 flex flex-col justify-center mt-2 mb-8 min-h-24">
+                    <h1 className="text-xl sm:text-3xl text-center">{topic}</h1>
+                </div>
+            </>
         );
     } else {
         return (
