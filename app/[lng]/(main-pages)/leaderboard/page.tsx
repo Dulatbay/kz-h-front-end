@@ -1,6 +1,8 @@
 'use client'
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
 
 type Leader = {
     rank: number;
@@ -13,6 +15,8 @@ type Leader = {
 }
 
 export default function Leaderboard(){
+
+  const {t} = useTranslation();
 
     const [leaders, setLeaders] = useState([] as Leader[]);
     const token = "";
@@ -39,13 +43,13 @@ export default function Leaderboard(){
     return (
         <div className="w-full p-3 mx-auto max-w-[1200px] flex flex-col pt-12 gap-8">
             <div className="w-full max-w-96 text-center flex flex-col gap-2 mx-auto">
-                <h1 className="text-3xl font-bold">Leader Board</h1>
-                <h2 className="text-neutral-500">Таблица лидеров по всему Казахстану. Узнай на каком ты месте и прокачивай свой ранг.</h2>
+                <h1 className="text-3xl font-bold">{t('leaderboard-page.leaderboard')}</h1>
+                <h2 className="text-neutral-500">{t('leaderboard-page.description')}</h2>
             </div>
             
 
             <div className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                <h2 className="text-neutral-500 pb-3">500k Users</h2>
+                <h2 className="text-neutral-500 pb-3">500k {t('leaderboard-page.users')}</h2>
                 <table cellPadding={6} className="gap-3 w-full">
                 <colgroup>
                     <col className="w-12"/>
@@ -56,11 +60,11 @@ export default function Leaderboard(){
                 </colgroup>
                     <tbody>
                         <tr className="border-b-zinc-800 border-b-2 text-[#7E7E7E] text-sm">
-                            <td>Rank</td>
-                            <td>Name</td>
-                            <td>Questions</td>
-                            <td>Streak</td>
-                            <td>Score</td>
+                            <td>{t('leaderboard-page.rank')}</td>
+                            <td>{t('leaderboard-page.name')}</td>
+                            <td>{t('leaderboard-page.questions')}</td>
+                            <td>{t('leaderboard-page.streak')}</td>
+                            <td>{t('leaderboard-page.score')}</td>
                         </tr>
                         
                         {
