@@ -1,4 +1,4 @@
-import { LastTopicResponse, ModuleResponse } from "@/services/module/types";
+import {LastTopicResponse, ModuleResponse, TopicDetailResponse} from "@/services/module/types";
 import baseApi, {handleApiRequest} from "@/services/baseApi";
 
 export const fetchModules = async (): Promise<ModuleResponse[]> => {
@@ -26,7 +26,7 @@ export const fetchTopicByParams = async (
 ) => {
     return handleApiRequest(() =>
         baseApi
-            .get(`/modules/initializer-test/${moduleNumber}/topics/${topicNumber}`, {
+            .get<TopicDetailResponse>(`/modules/initializer-test/${moduleNumber}/topics/${topicNumber}`, {
                 headers: {
                     "Accept-Language": language,
                 },

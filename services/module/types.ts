@@ -1,3 +1,5 @@
+import { BaseNode } from "@/utills/parser/types";
+
 export interface TopicResponse {
     topicId: string;
     topicName: string;
@@ -34,4 +36,20 @@ export interface ModuleDetailResponse {
     number: number;
     active: boolean;
     firstActive: number;
+}
+
+interface TopicLink {
+    topicNumber: number;
+    moduleNumber: number;
+    topicName: string;
+    moduleName: string;
+    passed: boolean;
+    availableToPass: boolean;
+}
+
+export interface TopicDetailResponse {
+    content: BaseNode;
+    current: TopicLink;
+    next: TopicLink;
+    prev: TopicLink;
 }
