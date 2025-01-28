@@ -71,6 +71,7 @@ const ShowModule = () => {
     const [topicContent, setTopicContent] = useState<ReactNode | null>(null);
     const [topicResponse, setTopicResponse] = useState<TopicDetailResponse | null>(null);
     const searchParams = useSearchParams();
+    const [loading, setLoading] = useState(true);
 
     const module = searchParams?.get("module") ?? 0;
     const topic = searchParams?.get("topic") ?? 0;
@@ -78,6 +79,7 @@ const ShowModule = () => {
     useEffect(() => {
         const fetchContent = async () => {
             try {
+                setLoading(true)
                 const response = await fetchTopicByParams(module as string, topic as string, "RU")
                 setTopicContent(parser(response.content));
                 setTopicResponse(response)
@@ -86,6 +88,8 @@ const ShowModule = () => {
                     console.log(error);
                     router.push(`/error?status=${error.status}&message=${error.message}`);
                 }
+            } finally {
+                setLoading(false)
             }
         };
 
@@ -113,6 +117,9 @@ const ShowModule = () => {
             router.push(`?module=${module - 1}&topic=${topic - 1}`);
         }
     };
+
+    if (loading)
+        return <Loader/>
 
     return (
         <div className={'mb-32'}>
