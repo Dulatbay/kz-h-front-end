@@ -28,12 +28,6 @@ export interface LastTopicResponse {
     percent: number;
 }
 
-export interface ApiErrorResponse {
-    error: string;
-    message: string;
-    timestamp: number;
-}
-
 
 export interface ModuleDetailResponse {
     id: string;

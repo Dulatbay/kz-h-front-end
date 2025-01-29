@@ -1,5 +1,5 @@
-import {ApiErrorResponse, LastTopicResponse, ModuleResponse, TopicDetailResponse} from "@/services/module/types";
-import baseApi, {handleApiRequest} from "@/services/baseApi";
+import {LastTopicResponse, ModuleResponse, TopicDetailResponse} from "@/services/module/types";
+import baseApi, {handleApiRequest, ErrorResponse} from "@/services/baseApi";
 
 export const fetchModules = async (): Promise<ModuleResponse[]> => {
     return handleApiRequest(() =>
@@ -52,7 +52,7 @@ export const postPassedTopic = async (
     topicNumber: string,
     language: string = "RU",
     
-): Promise<ApiErrorResponse | null> => {
+): Promise<ErrorResponse | null> => {
     return handleApiRequest(() =>
         baseApi
             .post(`/modules/${moduleNumber}/pass/${topicNumber}`, {
@@ -67,7 +67,7 @@ export const postPassedTopic = async (
                 return response.data;
             }).catch((error) => {
                 if (error.response && error.response.data) {
-                    return error.response.data as ApiErrorResponse;
+                    return error.response.data as ErrorResponse;
                 }
                 throw error;
             })
