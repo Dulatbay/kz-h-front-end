@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react';
-import {Layout, Button} from 'antd';
-import {motion} from 'framer-motion';
+import {Layout} from 'antd';
+import {motion, HTMLMotionProps} from 'framer-motion';
 import {
     FadeInUp,
     FadeInLeft,
@@ -155,7 +155,9 @@ const HomePage: React.FC = () => {
                         {/* Контейнер с изображением и текстовыми блоками */}
                         <div className="flex flex-col md:flex-row-reverse items-center justify-between gap-8">
                             {/* Правая сторона - изображение конспекта */}
+
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/interactive-notes.png"
                                 alt="Интерактивные конспекты"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
@@ -238,6 +240,7 @@ const HomePage: React.FC = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                             {/* Левая сторона - изображение карты */}
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/map-preview.png"
                                 alt="Интерактивная карта"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
@@ -314,6 +317,7 @@ const HomePage: React.FC = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                             {/* Левая сторона - изображение */}
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/ent-prep.jpg"
                                 alt="Подготовка к ЕНТ"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
@@ -409,6 +413,7 @@ const HomePage: React.FC = () => {
 
                             {/* Правая сторона - изображение */}
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/gamification.jpg"
                                 alt="Геймификация"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
@@ -456,6 +461,7 @@ const HomePage: React.FC = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                             {/* Левая сторона - изображение */}
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/mobile-app.png"
                                 alt="Мобильное приложение KZH"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
@@ -522,6 +528,7 @@ const HomePage: React.FC = () => {
                         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                             {/* Левая сторона - изображение */}
                             <motion.img
+                                /*@ts-ignore*/
                                 src="/images/global-history.png"
                                 alt="Интернационализация истории Казахстана"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
