@@ -11,6 +11,7 @@ import {
     FadeInContainer
 } from '@/utills/animations';
 import Header from "@/components/Header/header";
+import Link from "next/link";
 
 const {Content} = Layout;
 
@@ -18,7 +19,7 @@ const HomePage: React.FC = () => {
     return (
         <Layout style={{backgroundColor: '#000'}}>
             <Header/>
-            <Content className={'flex flex-col gap-64'}>
+            <Content className={'flex flex-col md:gap-0 gap-48'}>
                 {/* ---------- 0) HERO SECTION ---------- */}
                 <section
                     id="hero"
@@ -551,8 +552,14 @@ const HomePage: React.FC = () => {
                                 </motion.div>
                             </div>
                         </div>
-
-
+                        <motion.div
+                            className="mt-8 text-center"
+                            variants={FadeInUp}
+                        >
+                            <p className="text-xl text-yellow-400 font-semibold">
+                                🌐 Открываем историю Казахстана для всего мира!
+                            </p>
+                        </motion.div>
                     </motion.div>
                 </section>
 
@@ -596,17 +603,17 @@ const HomePage: React.FC = () => {
                                 💎 История – это не прошлое. Это то, что мы понимаем сегодня.
                             </p>
                         </motion.div>
-                        <motion.div className="mt-4" variants={FadeInUp}>
-                            <button
+                        <motion.div className="mt-8" variants={FadeInUp}>
+                            <Link
                                 className="mx-2 border-2 border-yellow-400 text-yellow-400
                                             rounded-lg px-12 py-4 font-semibold
                                             transition-all duration-700 ease-in-out
                                             hover:bg-yellow-400 hover:text-white
-                                            text-xl
-                                            "
+                                            text-xl"
+                                href="/learn"
                             >
                                 Учить историю!
-                            </button>
+                            </Link>
 
                         </motion.div>
                     </motion.div>
