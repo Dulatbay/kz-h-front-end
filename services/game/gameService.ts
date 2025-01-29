@@ -6,7 +6,11 @@ export const sendAnswerByGameId = async (gameId: string, answers: string[]): Pro
         baseApi.post<ProcessGameResponse>(
             `/solo-game/next-question/${gameId}`,
             answers
-        ).then((res) => res.data)
+        ).then((res) => {
+            localStorage.removeItem("lastFetched")
+            localStorage.removeItem("user")
+            return res.data;
+        })
     );
 };
 

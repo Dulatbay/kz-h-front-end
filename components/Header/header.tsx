@@ -52,6 +52,9 @@ export default function Header() {
 
     const isActive = (path: string) => {
         const arr = pathname.split("/").filter(i => i);
+
+        if (arr.length === 1) return path === '/';
+
         return '/' + arr[1] === path;
     };
 
@@ -76,7 +79,7 @@ export default function Header() {
         flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
             >
                 <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
-                    <Link className="text-[#5348F2] font-bold mr-8 max-sm:mr-0" href={"/"}><LogoSVG/></Link>
+                    <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0"><LogoSVG/></h1>
                     <div className="flex sm:hidden">
                         <Link href="/profile"
                               className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
@@ -84,6 +87,11 @@ export default function Header() {
                             {t('header.profile')}
                         </Link>
                     </div>
+                    <Link href="/"
+                          className={isActive("/") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                          onClick={closeMenu}>
+                        Home
+                    </Link>
                     <Link href="/learn"
                           className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                           onClick={closeMenu}>
