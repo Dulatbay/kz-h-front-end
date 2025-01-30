@@ -1,8 +1,12 @@
 'use client';
-import {useRouter} from "next/navigation";
+import {Button} from "antd";
+import {redirect} from "next/navigation";
 
 export default function NotFoundPage() {
-    const router = useRouter();
+
+    const handleNavigation = async () => {
+        redirect('/learn');
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
@@ -12,12 +16,10 @@ export default function NotFoundPage() {
                 <p className="text-gray-400 mb-6">
                     Кажется, вы заблудились. Страница, которую вы ищете, не существует.
                 </p>
-                <button
-                    onClick={() => router.push('/')}
-                    className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded transition-colors"
-                >
+                <Button
+                    onClick={() => handleNavigation()}>
                     Вернуться на главную
-                </button>
+                </Button>
             </div>
         </div>
     );

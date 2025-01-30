@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Layout} from 'antd';
-import {motion, HTMLMotionProps} from 'framer-motion';
+import {motion} from 'framer-motion';
 import {
     FadeInUp,
     FadeInLeft,
@@ -17,20 +17,15 @@ const {Content} = Layout;
 
 const HomePage: React.FC = () => {
     return (
-        <Layout style={{backgroundColor: '#000'}} className={'overflow-x-hidden'}>
+        <div className={'overflow-x-hidden bg-black'}>
             <Header/>
-            <Content className={'flex flex-col md:gap-0 gap-48'}>
+            <Content className={'flex flex-col md:gap-0 gap-32'}>
                 {/* ---------- 0) HERO SECTION ---------- */}
                 <section
                     id="hero"
-                    className="
-            h-screen w-full
-            flex flex-col items-center justify-center
-            text-white
-            px-4 text-center
-            bg-[#000]
-          "
-                >
+                    className="h-screen w-full
+                                flex flex-col items-center justify-center
+                                text-white px-4 text-center bg-[#000]">
                     <motion.div
                         className="max-w-3xl"
                         initial="hidden"
@@ -68,7 +63,6 @@ const HomePage: React.FC = () => {
                         className="max-w-[1200px]"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={ZoomInContainer}
                     >
                         {/* Главный заголовок */}
@@ -138,7 +132,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -223,7 +216,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={ZoomInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -289,17 +281,15 @@ const HomePage: React.FC = () => {
                 {/* ---------- 4) ПОДГОТОВКА К ЕНТ ---------- */}
                 <section
                     id="ent-section"
-                    className="
-    min-h-screen w-full
-    flex flex-col justify-center items-center
-    text-white px-4 bg-[#000]
-  "
+                    className="min-h-screen w-full
+                                flex flex-col justify-center items-center
+                                text-white px-4 bg-[#000]"
                 >
                     <motion.div
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
+
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -362,17 +352,14 @@ const HomePage: React.FC = () => {
                 {/* ---------- 5) ГЕЙМИФИКАЦИЯ ---------- */}
                 <section
                     id="gamification-section"
-                    className="
-    min-h-screen w-full
-    flex flex-col justify-center items-center
-    text-white px-4 bg-[#000]
-  "
-                >
+                    className="min-h-screen w-full
+                                flex flex-col justify-center items-center
+                                text-white px-4 bg-[#000]">
                     <motion.div
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
+
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -444,7 +431,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -509,7 +495,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -574,19 +559,14 @@ const HomePage: React.FC = () => {
                 {/* ---------- 8) CTA SECTION ---------- */}
                 <section
                     id="cta-section"
-                    className="
-            h-screen w-full
-            flex flex-col items-center justify-center
-            text-white
-            px-4 text-center
-            bg-[#000]
-          "
+                    className="h-screen w-full
+                            flex flex-col items-center justify-center
+                            text-white px-4 text-center bg-[#000]"
                 >
                     <motion.div
                         className="max-w-3xl"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{once: true}}
                         variants={FadeInContainer}
                     >
                         <motion.h2
@@ -626,7 +606,7 @@ const HomePage: React.FC = () => {
                     </motion.div>
                 </section>
             </Content>
-        </Layout>
+        </div>
     );
 };
 

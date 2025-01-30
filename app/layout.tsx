@@ -2,7 +2,6 @@ import type {Metadata} from "next";
 import './[lng]/globals.css'
 import {StoreProvider} from "@/app/store/StoreProvider";
 import {AntdRegistry} from "@ant-design/nextjs-registry";
-import {ConfigProvider, theme} from "antd";
 
 export const metadata: Metadata = {
     title: "KzH",

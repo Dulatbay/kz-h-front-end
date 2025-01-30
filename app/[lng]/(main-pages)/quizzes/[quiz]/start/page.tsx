@@ -1,17 +1,27 @@
 'use client'
 
 import Timer from "@/components/Timer/timer";
-import {useParams, useRouter} from "next/navigation";
-import {useState} from "react";
+import {redirect, useParams, useRouter} from "next/navigation";
+import {useEffect, useState} from "react";
 import Loader from "@/components/Loader/loader";
 import {startGame} from "@/services/game/gameService";
 import {HttpException} from "@/utills/exceptions";
+import {ACCESS_TOKEN} from "@/utills/constants";
+import {message} from "antd";
 
 
 export default function Start() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter();
     const quizId = useParams().quiz as string;
+
+    useEffect(() => {
+        const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
+        if (!isAuthenticated) {
+            message.error("Войдите в систему чтобы продолжить")
+            redirect("/login")
+        }
+    }, [])
 
     const handleComplete = () => {
         setIsLoading(true);

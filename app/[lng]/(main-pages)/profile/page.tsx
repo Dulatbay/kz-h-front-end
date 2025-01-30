@@ -4,28 +4,29 @@ import {useEffect, useState} from "react"
 import {UserResponse} from "@/services/auth/types";
 import Loader from "@/components/Loader/loader";
 import {getMe} from "@/services/auth/authService";
-import {useRouter} from "next/navigation";
 import {HttpException} from "@/utills/exceptions";
 import {getImageUrl} from "@/utills/getHistoryData";
-import {Button, Input} from "antd";
+import {Button, Input, message} from "antd";
 import {editFullName} from "@/services/user/userService";
-import { ACCESS_TOKEN } from "@/utills/constants";
-import { useTranslation } from "react-i18next";
+import {ACCESS_TOKEN} from "@/utills/constants";
+import {useTranslation} from "react-i18next";
+import {redirect, useRouter} from 'next/navigation';
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
-    const router = useRouter();
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [firstName, setFirstName] = useState<string>('');
     const {t} = useTranslation();
     const [lastName, setLastName] = useState<string>('');
+    const router = useRouter();
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
         if (!isAuthenticated) {
-            router.push("/login");
-        };
+            message.error("Войдите в систему чтобы продолжить")
+            redirect("/login")
+        }
 
         const fetchUserData = async () => {
             try {
@@ -34,7 +35,9 @@ export default function Profile() {
                 setUserData(user)
             } catch (error) {
                 if (error instanceof HttpException) {
-                    router.push(`/error?status=${error.status}&message=${error.message}`);
+                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
                 }
             } finally {
                 setLoading(false);
@@ -128,8 +131,10 @@ export default function Profile() {
             <div className="flex flex-col gap-4">
                 <h1 className="text-3xl">{t('profile-page.overview')}</h1>
                 <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
-                    <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')} stat={userData.fireDays.toString()}/>
-                    <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')} stat={userData.score.toString() + "%"}/>
+                    <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')}
+                          stat={userData.fireDays.toString()}/>
+                    <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')}
+                          stat={userData.score.toString() + "%"}/>
                     <Stat svg="questions" textColor="text-orange-600" title={t('profile-page.questions')}
                           stat={userData.answeredQuestionsCount.toString()}/>
                     <Stat svg="accuracy" textColor="text-red-600" title={t('profile-page.accuracy')}

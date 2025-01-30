@@ -1,12 +1,12 @@
 'use client';
 
 import {Button, Form, Input, message} from 'antd';
-import {register} from '@/services/auth/authService';
+import {login, register} from '@/services/auth/authService';
 import {useRouter} from 'next/navigation';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "@/utills/constants";
 
 export default function RegisterPage() {
     const router = useRouter();
-
     const onFinish = async (values: { email: string; username: string; password: string; confirmPassword: string }) => {
         if (values.password !== values.confirmPassword) {
             message.error('Пароли не совпадают!');
@@ -21,8 +21,15 @@ export default function RegisterPage() {
                 confirmPassword: values.confirmPassword,
             });
 
-            message.success('Регистрация прошла успешно!');
-            router.push('/login');
+            const hideMessage = message.loading('Вход в систему...', 0);
+
+            login(values.email, values.password)
+                .then(res => {
+                    localStorage.setItem(ACCESS_TOKEN, res.access_token);
+                    localStorage.setItem(REFRESH_TOKEN, res.access_token);
+                    hideMessage();
+                    router.push("/learn")
+                })
         } catch (error: any) {
             message.error(error.message || 'Ошибка при регистрации.');
         }

@@ -1,12 +1,20 @@
 'use client';
-import {useRouter} from "next/navigation";
+import {redirect} from "next/navigation";
+import {Button} from "antd";
+
+ErrorPage.getInitialProps = ({res, err}: { res: any; err: any }) => {
+    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+    return {statusCode};
+};
 
 interface ErrorPageProps {
     statusCode?: number;
 }
 
-export default function ErrorPage({ statusCode }: ErrorPageProps) {
-    const router = useRouter();
+export default function ErrorPage({statusCode}: ErrorPageProps) {
+    const handleNavigation = async () => {
+        redirect('/learn');
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
@@ -17,19 +25,12 @@ export default function ErrorPage({ statusCode }: ErrorPageProps) {
                         ? "Страница не найдена"
                         : "Что-то пошло не так. Попробуйте позже."}
                 </p>
-                <button
-                    onClick={() => router.push('/')}
-                    className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded transition-colors mt-4"
-                >
+                <Button
+                    onClick={() => handleNavigation()}>
                     Вернуться на главную
-                </button>
+                </Button>
             </div>
         </div>
     );
 }
 
-// Получаем статус ошибки
-ErrorPage.getInitialProps = ({ res, err }: { res: any; err: any }) => {
-    const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
-    return { statusCode };
-};
