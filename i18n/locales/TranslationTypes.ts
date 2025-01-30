@@ -28,6 +28,11 @@ export interface TranslationTypes {
         title: string,
         average: string,
         questions: string,
+        easy: string,
+        medium: string,
+        hard: string,
+        solved: string,
+        notSolved: string,
     },
     "profile-page": {
         joined: string,
@@ -36,6 +41,17 @@ export interface TranslationTypes {
         score: string,
         questions: string,
         accuracy: string,
+        logout: string,
+    },
+    "map-page": {
+        title: string,
+        description: string,
+        chosenYear: string,
+        shortDescription: string,
+        keyMoments: string
+    },
+    "module-page": {
+        notFinishedAlert: string
     },
     "leaderboard-page": {
         leaderboard: string,

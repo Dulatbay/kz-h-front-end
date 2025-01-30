@@ -3,6 +3,7 @@
 import {TimelineSlider} from "../TimelineSlider/TimelineSlider";
 import {useState, useEffect} from "react";
 import {getMapImageUrl} from "@/utills/getHistoryData";
+import { useTranslation } from "react-i18next";
 
 export interface HistoricalRange {
     id: string;
@@ -23,6 +24,7 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
     const [closestSelectedYear, setClosestSelectedYear] = useState(years[years.length - 1]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedYear, setSelectedYear] = useState(years[years.length - 1]);
+    const {t} = useTranslation();
 
     useEffect(() => {
         const preloadImages = async () => {
@@ -69,11 +71,11 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
 
     return (
         <div className="min-h-screen text-white p-4 sm:px-6 lg:px-20">
-            <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">KZH Map</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">{t('map-page.title')}</h1>
             <p className="text-center text-gray-400 mb-4 text-xs sm:text-sm">
-                Осваивайте историю Казахстана используя интерактивную карту KZH.
+                {t('map-page.description')}
             </p>
-            <p className={'text-center'}>Выбранный год - {selectedYear}</p>
+            <p className={'text-center'}>{t('map-page.chosenYear')} - {selectedYear}</p>
 
             <div className="flex mx-auto mb-6 sm:mb-8 max-w-6xl">
                 <TimelineSlider
@@ -103,7 +105,7 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
                 <div className="space-y-4">
                     <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
                         <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">
-                            Краткое описание
+                            {t('map-page.shortDescription')}
                         </h2>
                         <p className="text-gray-300 text-xs sm:text-sm">
                             {currentRange.summary}
@@ -111,7 +113,7 @@ function HistoricalTimeline({years, historicalRanges}: HistoricalTimelineProps) 
                     </div>
                     <div className="p-3 sm:p-4 bg-[#282828] border border-gray-800 rounded-md">
                         <h2 className="text-base sm:text-lg font-bold mb-2 text-violet-700">
-                            Ключевые моменты
+                            {t('map-page.keyMoments')}
                         </h2>
                         <ul className="space-y-1 text-xs sm:text-sm">
                             {currentRange.keyMoments.map((moment, index) => (

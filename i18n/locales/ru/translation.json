@@ -28,7 +28,12 @@
     "pickOne": "Случайный",
     "title": "Название",
     "average": "Среднее",
-    "questions": "Вопросы"
+    "questions": "Вопросы",
+    "easy": "Лёгкий",
+    "medium": "Средний",
+    "hard": "Сложный",
+    "solved": "Пройденный",
+    "notSolved": "Непройденный"
   },
   "profile-page": {
     "joined": "Зарегистрирован",
@@ -36,7 +41,20 @@
     "fireDays": "Дней подряд",
     "score": "Счёт",
     "questions": "Вопросы",
-    "accuracy": "Точность"
+    "accuracy": "Точность",
+    "logout": "Выйти"
+  },
+  "map-page": {
+      "title": "Карта KZH",
+      "description": "Осваивайте историю Казахстана используя интерактивную карту KZH.",
+      "chosenYear": "Выбранный год",
+      "shortDescription": "Краткое описание",
+      "keyMoments": "Ключевые моменты"
+  },
+  "module-page": {
+      "module": "Модуль",
+      "notFinishedAlert": "Требуется закрыть этот модуль для перехода в следующий модуль",
+      "goToNextModule": "Перейти к следующему модулю"
   },
   "leaderboard-page": {
       "leaderboard": "Таблица лидеров",

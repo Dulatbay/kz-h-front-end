@@ -6,6 +6,7 @@ import {fetchModuleByNumber} from "@/services/module/modulesService";
 import {useParams,} from "next/navigation";
 import Loader from "@/components/Loader/loader";
 import Link from "next/link";
+import { useTranslation } from 'react-i18next';
 
 export default function ModuleDetail() {
     const number = useParams().number;
@@ -13,6 +14,7 @@ export default function ModuleDetail() {
     const [moduleData, setModuleData] = useState<ModuleDetailResponse | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!number) return;
@@ -41,6 +43,7 @@ export default function ModuleDetail() {
                         active={moduleData.active}
                         topic={moduleData.name}
                         number={moduleData.number}
+                        text={t('module-page.module')}
                     />
                     <div className="flex flex-col gap-3 py-3">
                         {Array.from({length: moduleData.topicsCount}).map((_, index) => {
@@ -79,13 +82,13 @@ export default function ModuleDetail() {
                             (<div
                                 className={"bg-[#2CBB5D] w-full rounded-3xl p-4 flex flex-col justify-center mt-32 mb-8 min-h-20 cursor-pointer"}>
                                 <Link className="text-xl sm:text-xl text-center"
-                                      href={`/learn/${moduleData.number + 1}`}>Перейти к следующему модулю</Link>
+                                      href={`/learn/${moduleData.number + 1}`}>{t('module-page.goToNextModule')}</Link>
                             </div>) : (
                                 <div
                                     className={"bg-[#282828] w-full rounded-3xl p-8 flex flex-col justify-center mt-32 mb-8 cursor-not-allowed"}>
                                     <h3 className="text-xl sm:text-xl text-center">
-                                        Требуется закрыть этот модуль для
-                                        перехода в следующий модуль</h3>
+                                        {t('module-page.notFinishedAlert')}
+                                    </h3>
                                 </div>
                             )
                     }
@@ -149,7 +152,7 @@ function LevelButton({active, topicNumber, moduleNumber}: {
     );
 }
 
-function Head({active, topic, number}: { active: boolean; topic: string; number: number }) {
+function Head({text, active, topic, number}: {text: string, active: boolean; topic: string; number: number }) {
     if (active) {
         return (
             <>
@@ -164,7 +167,7 @@ function Head({active, topic, number}: { active: boolean; topic: string; number:
                             d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
                         />
                     </svg>
-                    <h3 className="text-[#FFFFFF99] text-sm sm:text-base">МОДУЛЬ {number}</h3>
+                    <h3 className="text-[#FFFFFF99] text-sm sm:text-base">{text.toUpperCase()} {number}</h3>
                 </Link>
                 <div className="bg-[#5046E5] w-full rounded-3xl p-4 flex flex-col justify-center mt-2 mb-8 min-h-24">
                     <h1 className="text-xl sm:text-3xl text-center">{topic}</h1>

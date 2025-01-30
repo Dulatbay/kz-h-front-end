@@ -28,7 +28,12 @@
     "pickOne": "Кездейсоқ таңдау",
     "title": "Тақырып",
     "average": "Орташа",
-    "questions": "Сұрақтар"
+    "questions": "Сұрақтар",
+    "easy": "Оңай",
+    "medium": "Орташа",
+    "hard": "Қиын",
+    "solved": "Өтті",
+    "notSolved": "Өтпеген"
   },
   "profile-page": {
     "joined": "Тіркелген",
@@ -36,7 +41,20 @@
     "fireDays": "Өрт күндері",
     "score": "Тексеру",
     "questions": "Сұрақтар",
-    "accuracy": "Дәлдік"
+    "accuracy": "Дәлдік",
+    "logout": "Шығу"
+  },
+  "map-page": {
+      "title": "KZH картасы",
+      "description": "KZH интерактивті картасын пайдалана отырып, Қазақстан тарихын меңгеріңіз.",
+      "chosenYear": "Таңдалған жыл",
+      "shortDescription": "Қысқаша сипаттама",
+      "keyMoments": "Негізгі ойлар"
+  },
+  "module-page": {
+      "module": "Модуль",
+      "notFinishedAlert": "Келесі модульге өту үшін осы модульді жабу қажет",
+      "goToNextModule": "Келесі модульге өтіңіз"
   },
   "leaderboard-page": {
     "leaderboard": "Көшбасшылар тақтасы",

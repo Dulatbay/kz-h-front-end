@@ -5,7 +5,7 @@ import {useRouter, useSearchParams} from "next/navigation";
 import {ArcherContainer} from "react-archer";
 import {parser} from "@/utills/parser/parser";
 import Loader from "@/components/Loader/loader";
-import {fetchTopicByParams} from "@/services/module/modulesService";
+import {fetchTopicByParams, postPassedTopic} from "@/services/module/modulesService";
 import {HttpException} from "@/utills/exceptions";
 import {TopicDetailResponse} from "@/services/module/types";
 import {ArrowLeftOutlined, ArrowRightOutlined} from "@ant-design/icons";
@@ -107,14 +107,20 @@ const ShowModule = () => {
         }
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         const module = topicResponse?.next?.moduleNumber;
         const topic = topicResponse?.next?.topicNumber;
-
+        
         if (!module || !topic) {
             message.error("No available topic")
+            return;
         } else {
-            router.push(`?module=${module - 1}&topic=${topic - 1}`);
+            const response = await postPassedTopic((topicResponse.current.moduleNumber).toString(), (topicResponse.current.topicNumber).toString(), "RU");
+            if(!response){
+                router.push(`?module=${module - 1}&topic=${topic - 1}`);
+            }else{
+                console.log(response);
+            }
         }
     };
 
