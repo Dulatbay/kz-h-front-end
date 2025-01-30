@@ -13,7 +13,7 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                hostname: '185.32.84.190',
+                hostname: 'https://kz-history.kz',
             },
             {
                 hostname: 'localhost'
