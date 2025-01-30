@@ -57,6 +57,9 @@ export interface BaseNode {
     links?: Link[];
     overflowX?: string;
     overflowY?: string;
+    flex?: number;
+    minWidth?: string;
+    minHeight?: string;
 }
 
 // Enum for Node Types

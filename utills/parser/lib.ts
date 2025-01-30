@@ -42,6 +42,9 @@ export const getStylesFromBaseNode = (obj: BaseNode) => {
         ...(obj.borderType && {border: getBorder(obj.borderType, obj.borderColor, "2px")}),
         ...(obj.overflowX && {overflowX: obj.overflowX == 'scroll' ? 'scroll' : 'auto'}),
         ...(obj.overflowY && {overflowY: obj.overflowY == 'scroll' ? 'scroll' : 'auto'}),
+        ...(obj.flex && {flex: obj.flex}),
+        ...(obj.minWidth && {minWidth: obj.minWidth}),
+        ...(obj.minHeight && {minHeight: obj.minHeight}),
     };
 
     return style;
