@@ -27,7 +27,6 @@ export default function Game() {
             .then((data) => {
                 setGameData(data);
                 setLoading(false);
-                console.log(data);
             })
             .catch((err) => {
                 setLoading(false);

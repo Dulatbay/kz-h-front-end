@@ -1,11 +1,13 @@
 'use client';
 import {Button} from "antd";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export default function NotFoundPage() {
+    const router = useRouter();
+
 
     const handleNavigation = async () => {
-        redirect('/learn');
+        router.push('/learn');
     };
 
     return (

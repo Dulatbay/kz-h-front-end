@@ -4,6 +4,7 @@ import {Button, Form, Input, message} from 'antd';
 import {login} from '@/services/auth/authService';
 import {useRouter} from "next/navigation";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "@/utills/constants";
+import Link from "next/link";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -29,10 +30,7 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex justify-center">
-            <div>
-
-            </div>
-            <div className="flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
                 <div className="w-[400px] bg-[#282828] p-10 rounded-lg shadow-lg">
                     <h2 className="text-4xl font-bold text-red-600 mb-6 text-center">SIGN IN</h2>
                     <Form
@@ -83,6 +81,7 @@ export default function LoginPage() {
                         </a>
                     </div>
                 </div>
+                <Link href={'/learn'} className={'text-gray-500 text-sm mt-2'}>Continue as guest</Link>
             </div>
         </div>
     );

@@ -71,7 +71,6 @@ const GamePlayPage = () => {
                 setTimeLeft(fetchedGame.currentQuestion.duration);
             }
         } catch (error) {
-            console.log("Error: ", error);
             if (error instanceof HttpException) {
                 router.push(`/error?status=${error.status}&message=${error.message}`);
             }
@@ -95,7 +94,7 @@ const GamePlayPage = () => {
                 <h3 className="text-sm text-[#91898C]">
                     {game.currentQuestionIndex + 1}/{game.totalQuestions} Вопрос
                 </h3>
-                <h1 className="text-base">{game.currentQuestion.question}</h1>
+                <h1 className="text-base text-center">{game.currentQuestion.question}</h1>
                 {timeLeft !== null && (
                     <h2 className="text-lg font-bold text-red-500">
                         Осталось времени: {timeLeft} сек

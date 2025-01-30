@@ -1,5 +1,5 @@
 'use client';
-import {redirect} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 import {Button} from "antd";
 
 ErrorPage.getInitialProps = ({res, err}: { res: any; err: any }) => {
@@ -12,8 +12,10 @@ interface ErrorPageProps {
 }
 
 export default function ErrorPage({statusCode}: ErrorPageProps) {
+    const router = useRouter();
+
     const handleNavigation = async () => {
-        redirect('/learn');
+        router.push('/learn');
     };
 
     return (

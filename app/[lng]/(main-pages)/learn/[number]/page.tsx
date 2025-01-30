@@ -104,7 +104,6 @@ function LevelButton({active, topicNumber, moduleNumber}: {
     topicNumber: number;
     moduleNumber: number
 }) {
-    console.log(topicNumber, moduleNumber)
     if (active) {
         return (
             <Link

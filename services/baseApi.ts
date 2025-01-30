@@ -86,7 +86,6 @@ baseApi.interceptors.response.use(
                 processQueue(null, newToken);
 
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
-                console.log(originalRequest);
                 return baseApi(originalRequest);
             } catch (err) {
                 processQueue(err, null);
@@ -107,6 +106,7 @@ export const handleApiRequest = async <T>(apiCall: () => Promise<T>): Promise<T>
     } catch (error) {
         if (axios.isAxiosError(error)) {
             throw new HttpException({
+                status: error.response?.status || 500,
                 error: error.response?.data?.error || "Unknown Error",
                 message: error.response?.data?.message || "An error occurred while processing the request.",
                 timestamp: error.response?.data?.timestamp || Date.now(),
@@ -114,6 +114,7 @@ export const handleApiRequest = async <T>(apiCall: () => Promise<T>): Promise<T>
         }
 
         throw new HttpException({
+            status: 500,
             error: "Unexpected Error",
             message: "An unexpected error occurred while processing the request.",
             timestamp: Date.now(),

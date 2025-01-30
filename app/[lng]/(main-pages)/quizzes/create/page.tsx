@@ -96,8 +96,7 @@ export default function CreateQuiz() {
                     <AddedQuestions/>
                     <div className="flex gap-2">
                         <Checkbox id="previewCheckbox"/>
-                        <label htmlFor="previewCheckbox" className="cursor-pointer select-none">Show questions before
-                            start</label>
+                        <label htmlFor="previewCheckbox" className="cursor-pointer select-none">Show questions before start</label>
                     </div>
                     <Button className={`w-full h-12`} onClick={createQuiz}>Create Quiz</Button>
                 </div>

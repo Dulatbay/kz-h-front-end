@@ -5,7 +5,6 @@ import {languages} from "./i18n/setting";
 
 export function middleware(request) {
     const {pathname, search} = request.nextUrl;
-    console.log(pathname, search);
     const pathnameIsMissingLocale = languages.every(
         (locale) => !pathname.startsWith(`/${locale}`)
     );

@@ -19,6 +19,7 @@ export default function Quizzes() {
     const [paginationParams, setPaginationParams] = useState({pageNumber: 0, pageSize: 20});
     const [loading, setLoading] = useState(true);
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const router = useRouter()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +35,7 @@ export default function Quizzes() {
                 setTotalElements(data.totalElements)
             } catch (error) {
                 if (error instanceof HttpException) {
-                    // router.push(`/error?status=${error.status}&message=${error.message}`);
+                    router.push(`/error?status=${error.status}&message=${error.message}`);
                 }
             } finally {
                 setLoading(false);
@@ -227,7 +228,6 @@ function SearchBar({text, onSearch, disabled}: {
                    onChange={(e: any) => onSearch(e.target.value, false)} disabled={disabled}
                    onKeyDown={(e: any) => {
                        if (e.key === 'Enter') {
-                           console.log(e.target.value)
                            onSearch(e.target.value, true)
                        }
                    }}

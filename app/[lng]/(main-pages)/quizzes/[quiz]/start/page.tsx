@@ -27,7 +27,6 @@ export default function Start() {
         setIsLoading(true);
         startGame(quizId)
             .then(res => {
-                console.log("res", res);
                 router.push(`/games/${res.gameId}/play`);
             })
             .catch((error) => {

@@ -50,26 +50,10 @@ export const fetchLastTopic = async (language: string = "RU"): Promise<LastTopic
 export const postPassedTopic = async (
     moduleNumber: string,
     topicNumber: string,
-    language: string = "RU",
-    
 ): Promise<ErrorResponse | null> => {
     return handleApiRequest(() =>
         baseApi
-            .post(`/modules/${moduleNumber}/pass/${topicNumber}`, {
-                headers: {
-                    "Accept-Language": language,
-                },
-            })
-            .then((response) => {
-                if(response.status === 201){
-                    return null;
-                }
-                return response.data;
-            }).catch((error) => {
-                if (error.response && error.response.data) {
-                    return error.response.data as ErrorResponse;
-                }
-                throw error;
-            })
+            .post(`/modules/${moduleNumber}/pass/${topicNumber}`)
+            .then((response) => response.data)
     );
 };

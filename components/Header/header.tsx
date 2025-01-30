@@ -73,8 +73,9 @@ export default function Header() {
 
     return (
         <>
-            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-end max-sm:items-center">
+            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center">
                 <input type="checkbox" id="check" className="hidden peer/navbar"/>
+                <h1 className="cursor-pointer sm:hidden ml-8"><LogoSVG/></h1>
                 <label htmlFor="check" className="cursor-pointer sm:hidden mr-4 order-1">
                     <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px"
                          fill="#e8eaed">
@@ -87,13 +88,19 @@ export default function Header() {
         flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
                 >
                     <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
-                        <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0"><LogoSVG/></h1>
-                        <div className="flex sm:hidden">
-                            <Link href="/profile"
-                                  className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
-                                  onClick={closeMenu}>
-                                {t('header.profile')}
-                            </Link>
+                        <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0 max-sm:hidden"><LogoSVG/></h1>
+                        <div className="flex sm:hidden mt-8">
+                            {
+                                user ? <Link href="/profile"
+                                             className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                                             onClick={closeMenu}>
+                                    {t('header.profile')}
+                                </Link> : <Link href="/login"
+                                                className={isActive("/login") ? "text-[#fff] underline underline-offset-8" : "text-yellow-400"}
+                                                onClick={closeMenu}>
+                                    Login
+                                </Link>
+                            }
                         </div>
                         <Link href="/"
                               className={isActive("/") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
