@@ -2,7 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        NEXT_PUBLIC_API_URL: 'http://185.32.84.190/api'
+        NEXT_PUBLIC_API_URL: 'https://kz-history.kz/api'
     },
     eslint: {
 
