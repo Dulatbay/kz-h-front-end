@@ -17,7 +17,7 @@ const {Content} = Layout;
 
 const HomePage: React.FC = () => {
     return (
-        <Layout style={{backgroundColor: '#000'}}>
+        <Layout style={{backgroundColor: '#000'}} className={'overflow-x-hidden'}>
             <Header/>
             <Content className={'flex flex-col md:gap-0 gap-48'}>
                 {/* ---------- 0) HERO SECTION ---------- */}

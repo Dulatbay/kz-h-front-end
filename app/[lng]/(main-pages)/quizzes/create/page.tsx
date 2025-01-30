@@ -13,7 +13,6 @@ import {
 } from "@/app/store/slices/quiz-slice/slice";
 import type {MenuProps} from 'antd';
 import {Button, Checkbox, Dropdown, Space} from "antd";
-import styles from "@/app/styles/ultima.module.scss";
 import {RootState} from "@/app/store/store";
 
 export type Question = {
@@ -100,7 +99,7 @@ export default function CreateQuiz() {
                         <label htmlFor="previewCheckbox" className="cursor-pointer select-none">Show questions before
                             start</label>
                     </div>
-                    <Button className={`w-full h-12 ${styles.button_primary}`} onClick={createQuiz}>Create Quiz</Button>
+                    <Button className={`w-full h-12`} onClick={createQuiz}>Create Quiz</Button>
                 </div>
                 <div className="w-1/2">
                     <Switch/>
@@ -316,9 +315,8 @@ function CreateQuestionBlock() {
                 }
             </div>
             <Button disabled={optionInputs.length >= 4} onClick={addOption}
-                    className={`${styles.dropdown} w-full h-10`}>+ Add option</Button>
-            <Button onClick={addQuestions} className={`${styles.button_success} p-2 rounded-r-md mt-10 w-full`}>Create
-                question</Button>
+                    className={`w-full h-10`}>+ Add option</Button>
+            <Button onClick={addQuestions} className={`p-2 rounded-r-md mt-10 w-full`}>Create question</Button>
         </>
     )
 }
@@ -346,15 +344,15 @@ function GenerateQuestionBlock() {
         <>
             <h1 className="text-[#91898C] mx-auto">Question generating</h1>
             <div className="flex">
-                <Dropdown className={`h-auto rounded-r-none ${styles.dropdown}`} menu={{items}} trigger={['click']}>
-                    <Button className={`${styles.dropdown}`}>
+                <Dropdown className={`h-auto rounded-r-none`} menu={{items}} trigger={['click']}>
+                    <Button className={``}>
                         <Space>
                             Topics
                             <DownOutlined/>
                         </Space>
                     </Button>
                 </Dropdown>
-                <Button className={`py-2 px-3 rounded-l-none flex-1 text-start text-sm ${styles.button_success}`}>Generate
+                <Button className={`py-2 px-3 rounded-l-none flex-1 text-start text-sm`}>Generate
                     question</Button>
             </div>
         </>
