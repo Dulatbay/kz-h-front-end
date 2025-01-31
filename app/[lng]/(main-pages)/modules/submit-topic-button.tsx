@@ -7,7 +7,7 @@ import Confetti from "react-confetti";
 interface SubmitTopicButtonProps {
     moduleNumber: number;
     topicNumber: number;
-    onSubmitSuccess?: () => void; // Функция, вызываемая после успешной сдачи темы
+    onSubmitSuccess?: () => void;
 }
 
 const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, topicNumber, onSubmitSuccess }) => {
@@ -37,9 +37,8 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
             await postPassedTopic(moduleNumber.toString(), topicNumber.toString());
             setSubmitted(true);
             message.success("🎉 Тема успешно сдана!");
-            setShowConfetti(true); // Запуск фейерверков
+            setShowConfetti(true);
 
-            // Через 3 секунды выключаем фейерверки и вызываем `onSubmitSuccess`
             setTimeout(() => {
                 setShowConfetti(false);
                 onSubmitSuccess?.();
@@ -53,10 +52,21 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
 
     return (
         <div className={"overflow-x-hidden"}>
-            {/* Фейерверки рендерятся ВНЕШНЕ в body через React Portal */}
             {showConfetti &&
                 createPortal(
-                    <Confetti width={dimensions.width} height={dimensions.height} numberOfPieces={500} recycle={false} />,
+                    <div
+                        style={{
+                            position: "fixed",
+                            top: 0,
+                            left: 0,
+                            width: "100vw",
+                            height: "100vh",
+                            zIndex: 9999,
+                            pointerEvents: "none",
+                        }}
+                    >
+                        <Confetti width={dimensions.width} height={dimensions.height} numberOfPieces={500} recycle={false} />
+                    </div>,
                     document.body
                 )}
 

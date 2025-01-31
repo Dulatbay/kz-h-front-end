@@ -7,42 +7,29 @@ export const fetchModules = async (): Promise<ModuleResponse[]> => {
     );
 };
 
-export const fetchModuleByNumber = async (number: string, language: string = "RU") => {
+export const fetchModuleByNumber = async (number: string) => {
     return handleApiRequest(() =>
         baseApi
-            .get(`/modules/${number}`, {
-                headers: {
-                    "Accept-Language": language,
-                },
-            })
+            .get(`/modules/${number}`)
             .then((response) => response.data)
     );
 };
 
 export const fetchTopicByParams = async (
     moduleNumber: string,
-    topicNumber: string,
-    language: string = "RU"
+    topicNumber: string
 ) => {
     return handleApiRequest(() =>
         baseApi
-            .get<TopicDetailResponse>(`/modules/initializer-test/${moduleNumber}/topics/${topicNumber}`, {
-                headers: {
-                    "Accept-Language": language,
-                },
-            })
+            .get<TopicDetailResponse>(`/modules/initializer-test/${moduleNumber}/topics/${topicNumber}`)
             .then((response) => response.data)
     );
 };
 
-export const fetchLastTopic = async (language: string = "RU"): Promise<LastTopicResponse> => {
+export const fetchLastTopic = async (): Promise<LastTopicResponse> => {
     return handleApiRequest(() =>
         baseApi
-            .get<LastTopicResponse>(`/modules/me/last`, {
-                headers: {
-                    "Accept-Language": language,
-                },
-            })
+            .get<LastTopicResponse>(`/modules/me/last`)
             .then((response) => response.data)
     );
 };

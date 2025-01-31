@@ -47,7 +47,7 @@ interface PreviousQuestion {
 
 
 export interface Variant {
-    answer: string;
+    text: string;
     correct: boolean;
 }
 

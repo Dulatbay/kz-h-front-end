@@ -1,6 +1,6 @@
 import {useRouter, useSearchParams} from "next/navigation";
 import {TopicDetailResponse} from "@/services/module/types";
-import {fetchTopicByParams, postPassedTopic} from "@/services/module/modulesService";
+import {fetchTopicByParams} from "@/services/module/modulesService";
 import {parser} from "@/utills/parser/parser";
 import {HttpException} from "@/utills/exceptions";
 import {message} from "antd";
@@ -24,7 +24,7 @@ const ShowModule = () => {
         const fetchContent = async () => {
             try {
                 setLoading(true)
-                const response = await fetchTopicByParams(module as string, topic as string, "RU")
+                const response = await fetchTopicByParams(module as string, topic as string)
                 setTopicContent(parser(response.content));
                 setTopicResponse(response)
             } catch (error) {

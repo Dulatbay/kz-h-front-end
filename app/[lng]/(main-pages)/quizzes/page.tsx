@@ -244,8 +244,8 @@ function PickOne({text, disabled}: {text: boolean, disabled: boolean }) {
     const router = useRouter();
 
     async function pickRandom() {
-        await fetch(`${process.env.API_URL}/quizzes/random`).then((response) => response.json()).then((data) => {
-            router.push(`/quizzes/${data.id}/preview`);
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quizzes/random`).then((response) => response.json()).then((data) => {
+            router.push(`/quizzes/${data.id}`);
         });
     }
 
