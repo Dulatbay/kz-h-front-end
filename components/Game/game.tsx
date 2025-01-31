@@ -147,10 +147,10 @@ const QuestionItem = ({question}: { question: AnsweredQuestionResponse }) => {
 
                     return (
                         <div
-                            key={`option-${index}-${option.answer}`}
+                            key={`option-${index}-${option.text}`}
                             className={`${buttonStyle} mt-2 text-center py-1 px-6 border-4 flex-col`}
                         >
-                            {option.answer}
+                            {option.text}
                         </div>
                     );
                 })}
