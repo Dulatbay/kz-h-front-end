@@ -76,9 +76,9 @@ const ShowModule = () => {
                     title={topicResponse?.prev?.topicName || 'No previous topic'}
                     subtitle={topicResponse?.prev?.moduleName || ''}
                     onClick={handlePrevious}
-                    disabled={!topicResponse?.prev || (!topicResponse?.prev?.availableToPass && !topicResponse.prev.passed)}
+                    disabled={!topicResponse?.prev || (!topicResponse?.prev?.availableToPass && !topicResponse.prev?.passed)}
                     passed={topicResponse?.prev?.passed || false}
-                    nextAvailable={topicResponse?.prev?.availableToPass || topicResponse?.prev.passed}
+                    nextAvailable={topicResponse?.prev?.availableToPass || topicResponse?.prev?.passed}
                     nextPassed={topicResponse?.prev?.passed || false}
                 />
                 {
@@ -91,9 +91,9 @@ const ShowModule = () => {
                             title={topicResponse?.next?.topicName || 'No next topic'}
                             subtitle={topicResponse?.next?.moduleName || ''}
                             onClick={handleNext}
-                            disabled={!topicResponse?.next || (!topicResponse?.next?.availableToPass && !topicResponse.next.passed)}
+                            disabled={!topicResponse?.next || (!topicResponse?.next?.availableToPass && !topicResponse.next?.passed)}
                             passed={topicResponse?.next?.passed || false}
-                            nextAvailable={topicResponse?.next?.availableToPass || topicResponse?.next.passed}
+                            nextAvailable={topicResponse?.next?.availableToPass || topicResponse?.next?.passed}
                             nextPassed={topicResponse?.next?.passed || false}
                         />
                 }
