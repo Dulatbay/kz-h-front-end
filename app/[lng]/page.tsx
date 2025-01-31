@@ -12,6 +12,7 @@ import {
 } from '@/utills/animations';
 import Header from "@/components/Header/header";
 import Link from "next/link";
+import {getImageUrl} from "@/utills/getHistoryData";
 
 const {Content} = Layout;
 
@@ -151,9 +152,9 @@ const HomePage: React.FC = () => {
 
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/interactive-notes.png"
+                                src={getImageUrl("welcome-page/interactive.webp")}
                                 alt="Интерактивные конспекты"
-                                className="w-[450px] md:w-[500px] rounded-md shadow-lg"
+                                className="w-[450px] md:w-[500px] antialiased object-center object-cover rounded-md shadow-lg"
                                 variants={FadeInRight}
                             />
 
@@ -233,7 +234,7 @@ const HomePage: React.FC = () => {
                             {/* Левая сторона - изображение карты */}
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/map-preview.png"
+                                src={`${getImageUrl("welcome-page/map.webp")}`}
                                 alt="Интерактивная карта"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
                                 variants={FadeInLeft}
@@ -289,7 +290,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -308,7 +308,7 @@ const HomePage: React.FC = () => {
                             {/* Левая сторона - изображение */}
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/ent-prep.jpg"
+                                src={`${getImageUrl("welcome-page/ent.webp")}`}
                                 alt="Подготовка к ЕНТ"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
                                 variants={FadeInLeft}
@@ -318,8 +318,7 @@ const HomePage: React.FC = () => {
                             <div className="flex flex-col gap-4 w-full md:max-w-lg">
                                 <motion.div
                                     className="bg-[#282828] p-4 rounded-lg shadow-md flex items-center"
-                                    variants={FadeInRight}
-                                >
+                                    variants={FadeInRight}>
                                     ✅ <span
                                     className="ml-2">Чётко структурированные темы – только нужная информация</span>
                                 </motion.div>
@@ -359,7 +358,6 @@ const HomePage: React.FC = () => {
                         className="max-w-5xl w-full"
                         initial="hidden"
                         whileInView="visible"
-
                         variants={FadeInContainer}
                     >
                         {/* Заголовок и описание - в самом верху */}
@@ -401,7 +399,7 @@ const HomePage: React.FC = () => {
                             {/* Правая сторона - изображение */}
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/gamification.jpg"
+                                src={`${getImageUrl("welcome-page/game.webp")}`}
                                 alt="Геймификация"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
                                 variants={FadeInRight}
@@ -448,7 +446,7 @@ const HomePage: React.FC = () => {
                             {/* Левая сторона - изображение */}
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/mobile-app.png"
+                                src={`${getImageUrl("welcome-page/mobile.webp")}`}
                                 alt="Мобильное приложение KZH"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
                                 variants={FadeInLeft}
@@ -514,7 +512,7 @@ const HomePage: React.FC = () => {
                             {/* Левая сторона - изображение */}
                             <motion.img
                                 /*@ts-ignore*/
-                                src="/images/global-history.png"
+                                src={`${getImageUrl("welcome-page/everyone.webp")}`}
                                 alt="Интернационализация истории Казахстана"
                                 className="w-[450px] md:w-[500px] rounded-md shadow-lg"
                                 variants={FadeInLeft}
