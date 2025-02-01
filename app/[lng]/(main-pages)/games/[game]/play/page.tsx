@@ -76,7 +76,6 @@ const GamePlayPage = () => {
                 router.push(`/games/${gameId}`);
             }
 
-            // Определяем правильный ответ (ищем в previousQuestion.variants)
             const correctVariant = fetchedGame.previousQuestion.variants.find(v => v.correct);
             if (correctVariant) {
                 setShowCorrectAnswer(correctVariant.text);

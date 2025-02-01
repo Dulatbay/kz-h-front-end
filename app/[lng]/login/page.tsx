@@ -13,7 +13,6 @@ export default function LoginPage() {
         try {
             const data = await login(values.username, values.password);
             localStorage.setItem(ACCESS_TOKEN, data.access_token);
-            localStorage.setItem(REFRESH_TOKEN, data.access_token);
 
             message.success('Успешный вход!');
 

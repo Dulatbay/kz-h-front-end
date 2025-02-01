@@ -2,9 +2,11 @@ import axios from 'axios';
 import i18n from "@/i18n/i18n";
 import {HttpException} from "@/utills/exceptions";
 import {ACCESS_TOKEN} from "@/utills/constants";
+import {cookies} from "next/headers";
 
 const baseApi = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
+    withCredentials: true
 });
 
 export interface ErrorResponse {
@@ -69,14 +71,13 @@ baseApi.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                const refreshToken = localStorage.getItem('refreshToken');
+                const refreshToken = localStorage.getItem(ACCESS_TOKEN);
                 if (!refreshToken) {
-                    throw new Error("No refresh token available");
+                    throw new Error("No access token available");
                 }
 
                 const response = await baseApi.post<{ access_token: string }>(
-                    `/auth/refresh-token`,
-                    {refreshToken}
+                    `/auth/refresh-token`
                 );
 
                 const newToken = response.data.access_token;
@@ -88,6 +89,7 @@ baseApi.interceptors.response.use(
                 originalRequest.headers.Authorization = `Bearer ${newToken}`;
                 return baseApi(originalRequest);
             } catch (err) {
+                localStorage.clear();
                 processQueue(err, null);
                 return Promise.reject(err);
             } finally {

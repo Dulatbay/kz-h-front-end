@@ -27,7 +27,6 @@ export default function RegisterPage() {
             login(values.email, values.password)
                 .then(res => {
                     localStorage.setItem(ACCESS_TOKEN, res.access_token);
-                    localStorage.setItem(REFRESH_TOKEN, res.access_token);
                     hideMessage();
                     router.push("/learn")
                 })
