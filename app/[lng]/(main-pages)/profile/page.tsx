@@ -128,9 +128,9 @@ export default function Profile() {
                     <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
                 </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 max-md:w-fit max-md:mx-auto">
                 <h1 className="text-3xl">{t('profile-page.overview')}</h1>
-                <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
+                <div className="grid grid-cols-2 md:grid-cols-4 md:w-full mx-auto w-fit gap-6 place-items-center">
                     <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')}
                           stat={userData.fireDays.toString()}/>
                     <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')}
