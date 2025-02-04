@@ -95,6 +95,7 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
                 {
                     key: 'preferences',
                     label: 'Preferences',
+                    disabled: true
                 },
                 {
                     key: 'sessions',
@@ -109,10 +110,12 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
                 {
                     key: 'help-center',
                     label: 'Help Center',
+                    disabled: true
                 },
                 {
                     key: 'about',
                     label: 'About us',
+                    disabled: true
                 },
             ],
         },
