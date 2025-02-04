@@ -32,6 +32,10 @@ body {
     font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
+.ant-menu-item-only-child {
+    padding-inline: 12px !important;
+}
+
 
 /* HTML: <div class="loader"></div> */
 .loader {
