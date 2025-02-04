@@ -79,13 +79,13 @@ export default function Profile() {
                          className="w-full h-full object-cover brightness-50 rounded-xl "
                          alt={""}
                     />
-                    <button className="right-2 top-2 absolute">
+                    <a href="/settings" className="right-2 top-2 absolute">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M17.6407 10.98C17.6818 10.66 17.7127 10.34 17.7127 10C17.7127 9.66 17.6818 9.34 17.6407 9.02L19.8099 7.37C20.0052 7.22 20.0566 6.95 19.9333 6.73L17.8772 3.27C17.7538 3.05 17.4762 2.97 17.25 3.05L14.6902 4.05C14.1556 3.65 13.5799 3.32 12.9528 3.07L12.5621 0.42C12.5313 0.18 12.3154 0 12.0584 0H7.94616C7.68915 0 7.47326 0.18 7.44242 0.42L7.05176 3.07C6.42464 3.32 5.84894 3.66 5.31435 4.05L2.7545 3.05C2.51804 2.96 2.25075 3.05 2.12738 3.27L0.0712765 6.73C-0.0623704 6.95 -0.00068705 7.22 0.194643 7.37L2.36384 9.02C2.32271 9.34 2.29187 9.67 2.29187 10C2.29187 10.33 2.32271 10.66 2.36384 10.98L0.194643 12.63C-0.00068705 12.78 -0.0520898 13.05 0.0712765 13.27L2.12738 16.73C2.25075 16.95 2.52832 17.03 2.7545 16.95L5.31435 15.95C5.84894 16.35 6.42464 16.68 7.05176 16.93L7.44242 19.58C7.47326 19.82 7.68915 20 7.94616 20H12.0584C12.3154 20 12.5313 19.82 12.5621 19.58L12.9528 16.93C13.5799 16.68 14.1556 16.34 14.6902 15.95L17.25 16.95C17.4865 17.04 17.7538 16.95 17.8772 16.73L19.9333 13.27C20.0566 13.05 20.0052 12.78 19.8099 12.63L17.6407 10.98ZM10.0023 13.5C8.01813 13.5 6.40408 11.93 6.40408 10C6.40408 8.07 8.01813 6.5 10.0023 6.5C11.9864 6.5 13.6005 8.07 13.6005 10C13.6005 11.93 11.9864 13.5 10.0023 13.5Z"
                                 fill="#91898C"/>
                         </svg>
-                    </button>
+                    </a>
                 </div>
                 {isEditing ? (
                     <div className="flex flex-col gap-4 mt-4">
@@ -128,9 +128,9 @@ export default function Profile() {
                     <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
                 </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 max-md:w-fit max-md:mx-auto">
                 <h1 className="text-3xl">{t('profile-page.overview')}</h1>
-                <div className="flex max-sm:flex-wrap w-full gap-3 justify-around">
+                <div className="grid grid-cols-2 md:grid-cols-4 md:w-full mx-auto w-fit gap-6 place-items-center">
                     <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')}
                           stat={userData.fireDays.toString()}/>
                     <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')}
@@ -209,7 +209,7 @@ function Stat({svg, textColor, stat, title}: {
     title: string
 }) {
     return (
-        <div className="rounded-lg border-white border py-2 px-3  flex w-1/4 min-w-32 gap-2 items-center">
+        <div className="rounded-lg border-white border py-2 px-3 flex w-1/4 min-w-40 gap-2 items-center">
             <SVG svg={svg}/>
             <div className="">
                 <strong className={`${textColor} text-xl`}>{stat}</strong>
