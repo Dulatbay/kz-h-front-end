@@ -15,3 +15,18 @@ export interface UserResponse {
     accuracy: number;
     joinDate: string;
 }
+
+export interface Session {
+    tokenId: string;
+    remoteAddress: string;
+    remoteHost: string;
+    userAgent: string;
+    expiredAt: string;
+    createdDate: string;
+    currentSession: boolean;
+}
+
+export interface SessionsResponse {
+    webSessions: Session[];
+    mobileSessions: Session[];
+}

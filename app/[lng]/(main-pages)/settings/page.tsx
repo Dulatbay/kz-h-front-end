@@ -3,23 +3,12 @@
 import {Button, Menu, ConfigProvider, Input, MenuProps} from "antd"
 import DesktopSVG from "@/components/icons/DesktopSVG";
 import MobileSVG from "@/components/icons/MobileSVG";
-import {useState} from "react";
-
-const sessions = [
-    {
-        category: "Web Sessions",
-        devices: [
-            {name: "Windows 11", current: true, deviceType: "desktop"},
-            {name: "IOS 19", lastAccess: "Jan 28, 2025", deviceType: "mobile"},
-        ],
-    },
-    {
-        category: "Mobile Sessions",
-        devices: [
-            {name: "iPhone 13", lastAccess: "Jan 28, 2025", deviceType: "mobile"},
-        ],
-    },
-];
+import {useEffect, useState} from "react";
+import { redirect, useRouter } from "next/navigation";
+import { getSessions, terminateSession } from "@/services/auth/authService";
+import { Session, SessionsResponse } from "@/services/auth/types";
+import { HttpException } from "@/utills/exceptions";
+import Loader from "@/components/Loader/loader";
 
 
 export default function Settings() {
@@ -61,7 +50,7 @@ export default function Settings() {
             },
         }}>
 
-            <div className="w-full p-3 max-w-[800px] flex mx-auto mt-3 flex-wrap">
+            <div className="w-full p-3 max-w-[800px] flex mx-auto mt-3">
                 <Sidebar setOpenedTab={(value: string) => {
                     setOpenedTab(value)
                 }}/>
@@ -82,6 +71,14 @@ function Controller({openedTab}: { openedTab: string }) {
 }
 
 const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
+
+    const router = useRouter();
+
+    function handleLogout() {
+        localStorage.clear();
+        router.push("/login");
+    }
+
     type MenuItem = Required<MenuProps>['items'][number];
     const items: MenuItem[] = [
         {
@@ -120,6 +117,7 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
             ],
         },
         {
+            onClick: handleLogout,
             key: 'logout',
             label: 'LOGOUT',
             danger: true,
@@ -200,36 +198,83 @@ const ProfileSettings = () => {
 };
 
 function SessionsSettings() {
+    const [sessions, setSessions] = useState<SessionsResponse | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
+
+
+    useEffect(() => {
+        const fetchSessions = async () => {
+            try {
+                setLoading(true);
+                const activeSessions = await getSessions();
+                setSessions(activeSessions);
+
+            } catch(error){
+                if (error instanceof HttpException) {
+                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
+                }
+            } finally{
+                setLoading(false);
+            }
+        }
+
+        fetchSessions();
+    }, [true]);
+
+    
+
+    
+    if (loading)
+    return (
+        <div className={"max-w-[800px] m-auto mt-64"}>
+            <Loader/>
+        </div>
+    )
+
+    if (sessions == null)
+        throw new Error("No sessions data found.");
+
+    const terminateAllSessions = async () => {
+        sessions.webSessions?.forEach(session => {
+            try{
+                terminateSession(session.tokenId);
+            }catch(error){
+                if (error instanceof HttpException) {
+                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
+                }
+            }
+        });
+
+        sessions.mobileSessions?.forEach(session => {
+            try{
+                terminateSession(session.tokenId);
+            }catch(error){
+                if (error instanceof HttpException) {
+                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
+                }
+            }
+        });
+    } 
+
     return (
         <div className="min-h-screen flex flex-col flex-grow items-center p-6">
             <div className="w-full max-w-lg">
-                {sessions.map((section, index) => (
-                    <div key={index} className="flex flex-col">
-                        <h2 className="text-white text-lg font-semibold mb-3">{section.category}</h2>
-                        {section.devices.map((device, i) => (
-                            <div key={i}
-                                 className="bg-[#1E1E1E] flex items-center justify-between text-white mb-3 border border-white px-4 py-3 rounded-xl">
-                                <div className="flex items-center space-x-3">
-                                    <span className="text-xl">{<DeviceIcon device={device.deviceType}/>}</span>
-                                    <div>
-                                        <p className="font-medium">{device.name}</p>
-                                        {device.current ? (
-                                            <p className="text-blue-400 text-sm">Your current session</p>
-                                        ) : (
-                                            <p className="text-gray-400 text-sm">Last accessed
-                                                on {device.lastAccess}</p>
-                                        )}
-                                    </div>
-                                </div>
-                                <a className="text-gray-400 text-sm hover:text-white">View more</a>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                <div className="flex flex-col">
+                    <SessionsBlock deviceType="Web sessions" deviceTypeSessions={sessions.webSessions}/>
+                    <SessionsBlock deviceType="Mobile sessions" deviceTypeSessions={sessions.mobileSessions}/>
+                </div>
             </div>
 
             {/* Terminate All Button */}
             <Button
+                hidden = {!((sessions.webSessions && sessions.webSessions.length != 0)|| (sessions.mobileSessions && sessions.mobileSessions.length != 0))}
+                onClick={() => terminateAllSessions()}
                 type="default"
                 danger
                 className="border-red-500 text-red-500 w-full max-w-lg mt-6 py-2 text-lg"
@@ -239,6 +284,66 @@ function SessionsSettings() {
         </div>
     );
 };
+
+function SessionsBlock({deviceType, deviceTypeSessions} : {deviceType: string, deviceTypeSessions : Session[]}){
+
+    if (!deviceTypeSessions || deviceTypeSessions.length == 0){
+        return (
+            <>
+            </>
+        )
+    }
+
+    return (
+        <>
+            <h2 className="text-white text-lg font-semibold mb-3">{deviceType}</h2>
+            <div className="flex flex-col gap-4">
+            {
+                deviceTypeSessions.map((session, index) => (
+                    <SessionCard key={index} session={session}/>
+                ))
+            }
+            </div>
+        </>
+    )
+}
+
+function SessionCard({session}: {session: Session}){
+
+    const [opened, setOpened] = useState(false);
+    
+    const handleTerminateSession = async (tokenId: string) => {
+        terminateSession(tokenId);
+    }
+
+    return (
+        <div className="bg-[#1E1E1E] border border-white px-4 py-3 rounded-xl space-y-3">
+            <div className="flex items-center justify-between text-white">
+                <div className="flex items-center space-x-3">
+                    <span className="text-xl">{<DeviceIcon device={"desktop"}/>}</span>
+                    <div>
+                        <p className="font-medium">{session.userAgent}</p>
+                        {session.currentSession ? (
+                            <p className="text-blue-400 text-sm">Your current session</p>
+                        ) : (
+                            <p className="text-gray-400 text-sm">Last accessed
+                                on {session.createdDate}</p>
+                        )}
+                    </div>
+                </div>
+                <a onClick={() => setOpened(!opened)} className="text-gray-400 text-sm hover:text-white text-nowrap text-center">{opened ? "Hide info" : "View more"}</a>
+            </div>
+            <div hidden={!opened} className="flex w-full justify-between items-end">
+                <div className="flex flex-col w-1/2">
+                    <p>Remote address: {session.remoteAddress}</p>
+                    <p>Remote host: {session.remoteHost}</p>
+                    <p>Session expired at: {session.expiredAt}</p>
+                </div>
+                <Button onClick={() => handleTerminateSession(session.tokenId)} danger>Terminate session</Button>
+            </div>
+        </div>
+    )
+}
 
 function DeviceIcon({device}: { device: string }) {
     if (device === "mobile") return <MobileSVG/>;
