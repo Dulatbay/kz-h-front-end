@@ -1,5 +1,5 @@
 import baseApi, {handleApiRequest} from "@/services/baseApi";
-import {AuthResponse, UserResponse} from "@/services/auth/types";
+import {AuthResponse, SessionsResponse, UserResponse} from "@/services/auth/types";
 
 export async function login(emailOrUsername: string, password: string) {
     return handleApiRequest(() =>
@@ -21,6 +21,17 @@ export async function register({email, username, password, confirmPassword}: { e
         baseApi.post<void>(`/auth/register`, {
             email, username, password, confirm_password: confirmPassword
         })
-    )
+    );
 }
 
+export async function getSessions(){
+    return handleApiRequest(() => 
+        baseApi.get<SessionsResponse>(`/auth/devices`).then((res) => res.data)
+    );
+}
+
+export async function terminateSession(tokenId: string){
+    return handleApiRequest(() =>
+        baseApi.delete<void>(`/auth/devices/${tokenId}`)
+    );
+}
