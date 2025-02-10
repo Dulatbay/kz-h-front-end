@@ -11,14 +11,6 @@ export interface QuizByIdResponse {
     verified: boolean
 }
 
-export interface PaginatedResponse<T> {
-    content: T[]
-    page: number
-    size: number
-    totalElements: number
-    totalPages: number
-    last: boolean
-}
 
 export interface QuizCardResponse {
     id: string

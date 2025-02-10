@@ -13,6 +13,7 @@ import Link from "next/link";
 import UserIcon from "@/components/Header/user-icon";
 import FireIcon from "@/components/Header/fire-icon.svg";
 import LogoSVG from "@/components/icons/LogoSVG";
+import {getImageUrl} from "@/utills/getHistoryData";
 
 const oneDayInMillis = 24 * 60 * 60 * 1000;
 
@@ -69,6 +70,7 @@ export default function Header() {
         const checkbox = document.getElementById('check') as HTMLInputElement;
         if (checkbox) checkbox.checked = false;
     };
+
 
 
     return (
@@ -144,7 +146,8 @@ export default function Header() {
                             </Link>
                         ) : user ? (
                             <Link href="/profile">
-                                <Avatar shape="circle" icon={<UserIcon/>} alt="pic"/>
+                                {user?.imageUrl ? <Avatar src={getImageUrl(user.imageUrl)} alt=""/> :
+                                    <Avatar icon={<UserIcon/>} alt="pic"/>}
                             </Link>
                         ) : (
                             <Button href={'/login'}>Login</Button>

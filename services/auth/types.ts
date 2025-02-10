@@ -14,6 +14,7 @@ export interface UserResponse {
     score: number;
     accuracy: number;
     joinDate: string;
+    imageUrl: string | null;
 }
 
 export interface Session {

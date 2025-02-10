@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { UserResponse } from "@/services/auth/types";
+import {createSlice} from "@reduxjs/toolkit";
+import {UserResponse} from "@/services/auth/types";
 
 interface UserState {
     user: UserResponse | null;
@@ -18,6 +18,8 @@ export const userOptions = createSlice({
         setCurrentUser: (state, action) => {
             state.user = action.payload;
             state.lastFetched = Date.now();
+            localStorage.setItem("user", JSON.stringify(action.payload));
+            localStorage.setItem("lastFetched", String(state.lastFetched));
         },
         resetUser: (state) => {
             state.user = null;
@@ -26,5 +28,5 @@ export const userOptions = createSlice({
     },
 });
 
-export const { setCurrentUser, resetUser } = userOptions.actions;
+export const {setCurrentUser, resetUser} = userOptions.actions;
 export default userOptions.reducer;

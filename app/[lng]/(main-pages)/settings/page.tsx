@@ -1,14 +1,20 @@
 'use client'
 
-import {Button, Menu, ConfigProvider, Input, MenuProps} from "antd"
+import {Button, Menu, ConfigProvider, Input, MenuProps, Avatar} from "antd"
 import DesktopSVG from "@/components/icons/DesktopSVG";
 import MobileSVG from "@/components/icons/MobileSVG";
-import {useEffect, useState} from "react";
-import { redirect, useRouter } from "next/navigation";
-import { getMe, getSessions, terminateSession } from "@/services/auth/authService";
-import { Session, SessionsResponse, UserResponse } from "@/services/auth/types";
-import { HttpException } from "@/utills/exceptions";
+import {useEffect, useRef, useState} from "react";
+import {redirect, useRouter} from "next/navigation";
+import {getMe, getSessions, terminateSession} from "@/services/auth/authService";
+import {Session, SessionsResponse, UserResponse} from "@/services/auth/types";
+import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
+import {editUserImage} from "@/services/user/userService";
+import {getImageUrl} from "@/utills/getHistoryData";
+import UserIcon from "@/components/Header/user-icon";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
+import {setCurrentUser} from "@/app/store/slices/user-slice/slice";
 
 
 export default function Settings() {
@@ -138,9 +144,11 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
 };
 
 const ProfileSettings = () => {
-
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [profile, setProfile] = useState<UserResponse | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -149,40 +157,70 @@ const ProfileSettings = () => {
                 setLoading(true);
                 const profileData = await getMe();
                 setProfile(profileData);
-
-            } catch(error){
+                setAvatarUrl(profileData.imageUrl);
+            } catch (error) {
                 if (error instanceof HttpException) {
                     redirect(`/error?status=${error.status}&message=${error.message}`);
                 } else {
                     redirect('/error?status=500&message=Invalid error`);')
                 }
-            } finally{
+            } finally {
                 setLoading(false);
             }
         }
 
         fetchSessions();
-    }, [true]);    
+    }, [true]);
 
-    
+    const handleEditAvatar = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            try {
+                const newImageUrl = await editUserImage(file);
+                setAvatarUrl(newImageUrl);
+                dispatch(setCurrentUser({...profile, imageUrl: newImageUrl}));
+
+            } catch (error) {
+                console.error("Error uploading avatar:", error);
+            }
+        }
+    };
+
+
     if (loading)
-    return (
-        <div className={"max-w-[800px] m-auto mt-64"}>
-            <Loader/>
-        </div>
-    )
+        return (
+            <div className={"max-w-[800px] m-auto mt-64"}>
+                <Loader/>
+            </div>
+        )
 
     if (profile == null)
-        throw new Error("No sessions data found.");    
+        throw new Error("No sessions data found.");
 
     return (
         <div className="min-h-screen flex flex-col items-center p-6 flex-grow">
             {/* Avatar Section */}
             <div className="flex flex-col items-center">
-                <img className="w-32 h-32 bg-gray-600 rounded-full"/>
-                <Button className="mt-3" type="default">
+                {
+                    avatarUrl ? (
+                        <img src={getImageUrl(avatarUrl)} alt="avatar" className="w-24 h-24 rounded-full"/>
+                    ) : (
+                        <Avatar className="w-24 h-24" icon={<UserIcon/>} size={168}/>)
+                }
+                <Button className="mt-3" type="default" onClick={handleEditAvatar}>
                     Edit avatar
                 </Button>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                />
             </div>
 
             {/* Input Fields */}
@@ -243,13 +281,13 @@ function SessionsSettings() {
                 const activeSessions = await getSessions();
                 setSessions(activeSessions);
 
-            } catch(error){
+            } catch (error) {
                 if (error instanceof HttpException) {
                     redirect(`/error?status=${error.status}&message=${error.message}`);
                 } else {
                     redirect('/error?status=500&message=Invalid error`);')
                 }
-            } finally{
+            } finally {
                 setLoading(false);
             }
         }
@@ -257,24 +295,22 @@ function SessionsSettings() {
         fetchSessions();
     }, [true]);
 
-    
 
-    
     if (loading)
-    return (
-        <div className={"max-w-[800px] m-auto mt-64"}>
-            <Loader/>
-        </div>
-    )
+        return (
+            <div className={"max-w-[800px] m-auto mt-64"}>
+                <Loader/>
+            </div>
+        )
 
     if (sessions == null)
         throw new Error("No sessions data found.");
 
     const terminateAllSessions = async () => {
         sessions.webSessions?.forEach(session => {
-            try{
+            try {
                 terminateSession(session.tokenId);
-            }catch(error){
+            } catch (error) {
                 if (error instanceof HttpException) {
                     redirect(`/error?status=${error.status}&message=${error.message}`);
                 } else {
@@ -284,9 +320,9 @@ function SessionsSettings() {
         });
 
         sessions.mobileSessions?.forEach(session => {
-            try{
+            try {
                 terminateSession(session.tokenId);
-            }catch(error){
+            } catch (error) {
                 if (error instanceof HttpException) {
                     redirect(`/error?status=${error.status}&message=${error.message}`);
                 } else {
@@ -294,7 +330,7 @@ function SessionsSettings() {
                 }
             }
         });
-    } 
+    }
 
     return (
         <div className="min-h-screen flex flex-col flex-grow items-center p-6">
@@ -307,7 +343,7 @@ function SessionsSettings() {
 
             {/* Terminate All Button */}
             <Button
-                hidden = {!((sessions.webSessions && sessions.webSessions.length != 0)|| (sessions.mobileSessions && sessions.mobileSessions.length != 0))}
+                hidden={!((sessions.webSessions && sessions.webSessions.length != 0) || (sessions.mobileSessions && sessions.mobileSessions.length != 0))}
                 onClick={() => terminateAllSessions()}
                 type="default"
                 danger
@@ -319,9 +355,9 @@ function SessionsSettings() {
     );
 };
 
-function SessionsBlock({deviceType, deviceTypeSessions} : {deviceType: string, deviceTypeSessions : Session[]}){
+function SessionsBlock({deviceType, deviceTypeSessions}: { deviceType: string, deviceTypeSessions: Session[] }) {
 
-    if (!deviceTypeSessions || deviceTypeSessions.length == 0){
+    if (!deviceTypeSessions || deviceTypeSessions.length == 0) {
         return (
             <>
             </>
@@ -332,20 +368,20 @@ function SessionsBlock({deviceType, deviceTypeSessions} : {deviceType: string, d
         <>
             <h2 className="text-white text-lg font-semibold mb-3">{deviceType}</h2>
             <div className="flex flex-col gap-4">
-            {
-                deviceTypeSessions.map((session, index) => (
-                    <SessionCard key={index} session={session}/>
-                ))
-            }
+                {
+                    deviceTypeSessions.map((session, index) => (
+                        <SessionCard key={index} session={session}/>
+                    ))
+                }
             </div>
         </>
     )
 }
 
-function SessionCard({session}: {session: Session}){
+function SessionCard({session}: { session: Session }) {
 
     const [opened, setOpened] = useState(false);
-    
+
     const handleTerminateSession = async (tokenId: string) => {
         terminateSession(tokenId);
     }
@@ -365,7 +401,8 @@ function SessionCard({session}: {session: Session}){
                         )}
                     </div>
                 </div>
-                <a onClick={() => setOpened(!opened)} className="text-gray-400 text-sm hover:text-white text-nowrap text-center">{opened ? "Hide info" : "View more"}</a>
+                <a onClick={() => setOpened(!opened)}
+                   className="text-gray-400 text-sm hover:text-white text-nowrap text-center">{opened ? "Hide info" : "View more"}</a>
             </div>
             <div hidden={!opened} className="flex w-full justify-between items-end">
                 <div className="flex flex-col w-1/2">

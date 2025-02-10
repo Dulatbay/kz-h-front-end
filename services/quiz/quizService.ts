@@ -1,10 +1,10 @@
 import baseApi, {handleApiRequest} from "@/services/baseApi";
 import {
-    PaginatedResponse,
     QuizByIdResponse,
     QuizCardResponse,
     Tag
 } from "@/services/quiz/types";
+import {PaginatedResponse} from "@/services/baseTypes";
 
 
 export const fetchQuizById = async (quizId: string): Promise<QuizByIdResponse> => {
