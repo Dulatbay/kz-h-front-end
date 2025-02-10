@@ -5,8 +5,8 @@ import DesktopSVG from "@/components/icons/DesktopSVG";
 import MobileSVG from "@/components/icons/MobileSVG";
 import {useEffect, useState} from "react";
 import { redirect, useRouter } from "next/navigation";
-import { getSessions, terminateSession } from "@/services/auth/authService";
-import { Session, SessionsResponse } from "@/services/auth/types";
+import { getMe, getSessions, terminateSession } from "@/services/auth/authService";
+import { Session, SessionsResponse, UserResponse } from "@/services/auth/types";
 import { HttpException } from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
 
@@ -138,6 +138,43 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
 };
 
 const ProfileSettings = () => {
+
+    const [profile, setProfile] = useState<UserResponse | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
+
+
+    useEffect(() => {
+        const fetchSessions = async () => {
+            try {
+                setLoading(true);
+                const profileData = await getMe();
+                setProfile(profileData);
+
+            } catch(error){
+                if (error instanceof HttpException) {
+                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
+                }
+            } finally{
+                setLoading(false);
+            }
+        }
+
+        fetchSessions();
+    }, [true]);    
+
+    
+    if (loading)
+    return (
+        <div className={"max-w-[800px] m-auto mt-64"}>
+            <Loader/>
+        </div>
+    )
+
+    if (profile == null)
+        throw new Error("No sessions data found.");    
+
     return (
         <div className="min-h-screen flex flex-col items-center p-6 flex-grow">
             {/* Avatar Section */}
@@ -151,16 +188,13 @@ const ProfileSettings = () => {
             {/* Input Fields */}
             <div className="w-full max-w-md mt-6 flex flex-col gap-2 *:mt-4">
                 <label className="text-white">Username</label>
-                <Input placeholder="Enter your username"/>
+                <Input defaultValue={profile.username} placeholder="Enter your username"/>
 
-                <label className="text-white">First Name</label>
-                <Input placeholder="Enter your first name"/>
-
-                <label className="text-white">Last Name</label>
-                <Input placeholder="Enter your last name"/>
+                <label className="text-white">Full Name</label>
+                <Input defaultValue={profile.fullName} placeholder="Enter your full name"/>
 
                 <label className="text-white">Email</label>
-                <Input placeholder="Enter your email"/>
+                <Input defaultValue={profile.email} placeholder="Enter your email"/>
                 <p className="text-sm text-gray-400 !mt-0">
                     Email not verified.{" "}
                     <a href="#" className="text-blue-400">
