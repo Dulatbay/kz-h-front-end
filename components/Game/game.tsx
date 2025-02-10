@@ -44,11 +44,12 @@ export default function Game() {
     return (
         <div className="flex flex-col w-11/12 max-w-[1150px] mx-auto mt-6 gap-4">
             <div className="flex justify-between w-full h-auto text-md flex-wrap gap-4">
-                <a href="/quizzes" className="text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
+                <a href="/quizzes"
+                   className="text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
                     Back</a>
                 {
                     gameData.finished ?
-                        <a className="bg-[#5348F2] px-14 rounded-sm content-center cursor-pointer"
+                        <a className="bg-[#5348F2] px-14 py-2 rounded-md content-center cursor-pointer"
                            href={`/quizzes/${gameData.quizId}`}>
                             Try again
                         </a> :
@@ -59,17 +60,31 @@ export default function Game() {
                     Select other
                 </a> */}
 
-                <a href="/quizzes" className="invisible text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
-                Back</a>
+                <a href="/quizzes"
+                   className="invisible text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
+                    Back</a>
             </div>
-            <div className="flex flex-col gap-6 mt-4    ">
-                <h1 className="">{gameData.quizName}</h1>
-
-                {/* <h2>{resultsData.beats}</h2>
-                <h2>{resultsData.record}</h2> */}
-
+            <div className="flex flex-col gap-6 mt-4">
+                <div>
+                    <span className={'block text-center text-gray-400'}>Результаты квиза:</span>
+                    <h1 className="text-center text-xl">{gameData.quizName}</h1>
+                </div>
+                <div className="flex flex-col items-center">
+                <div className="flex items-center space-x-2 text-xl font-bold">
+                        <span className="text-green-500">{gameData.correctAnswersCount}</span>
+                        <span className="text-gray-400">/</span>
+                        <span className="text-gray-300">{gameData.questionCount}</span>
+                    </div>
+                    <div className="w-full max-w-xs mt-2">
+                        <div className="w-full h-2 bg-red-800 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-green-500"
+                                style={{width: `${(gameData.correctAnswersCount / gameData.questionCount) * 100}%`}}
+                            ></div>
+                        </div>
+                    </div>
+                </div>
                 <div className="flex justify-between gap-4 flex-wrap">
-                    <ResultCard result={`${gameData.beats}%`} title="Beats"/>
                     <ResultCard result={gameData.duration > 60 ? `${formatDuration(intervalToDuration({
                         start: 0,
                         end: gameData.duration * 1000
@@ -78,9 +93,12 @@ export default function Game() {
                         locale: i18n.language == 'en' ? enUS : (i18n.language == 'ru' ? ru : kk)
                     })}` : `${gameData.duration} sec`}
                                 title="Duration"/>
+
                     <ResultCard result={`${gameData.result}%`} title="Result"/>
-                    <ResultCard result={`${gameData.record}%`} title="Record"/>
+                    <ResultCard result={`${gameData.record}%`} title="Record"
+                                additionalText={gameData.currentUserResult ? "Это ваш рекорд!" : undefined}/>
                 </div>
+
 
                 <div className="flex flex-col gap-4 mt-6">
                     {
@@ -94,8 +112,8 @@ export default function Game() {
     )
 }
 
-function Icon({title} : {title: string}){
-    switch (title){
+function Icon({title}: { title: string }) {
+    switch (title) {
         case "Duration":
             return (<ClockSVG/>);
         case "Beats":
@@ -107,14 +125,21 @@ function Icon({title} : {title: string}){
     }
 }
 
-function ResultCard({result, title}: { result: string, title: string }) {
+function ResultCard({result, title, additionalText}: { result: string, title: string, additionalText?: string }) {
     return (
-        <div className="flex border border-gray-400 bg-[#282828] gap-2 py-1 px-2 w-1/5 min-w-40 rounded-md items-center">
-            <Icon title={title}/>
-            <div className="flex flex-col">
-                <h1 className="font-bold text-sm">{result}</h1>
-                <h3 className="text-[#FFFFFF75]">{title}</h3>
+        <div className={"w-1/4 min-w-40"}>
+            <div
+                className="flex border border-gray-400 bg-[#282828] gap-2 py-1 px-2 rounded-md items-center">
+                <Icon title={title}/>
+                <div className="flex flex-col">
+                    <h1 className="font-bold text-sm">{result}</h1>
+                    <h3 className="text-[#FFFFFF75]">{title}</h3>
+                </div>
             </div>
+            {
+            additionalText &&
+                <p className="text-[#FFFFFF75] text-sm mt-1 text-right text-yellow-400">{additionalText}</p>
+            }
         </div>
     )
 }
@@ -122,35 +147,36 @@ function ResultCard({result, title}: { result: string, title: string }) {
 const QuestionItem = ({question}: { question: AnsweredQuestionResponse }) => {
     const isCorrectAnswer = question.variants.some(q => q.chosen && q.correct);
 
-    if (isCorrectAnswer) {
-        return (
-            <div className="border border-green-600 bg-[#282828] p-3 w-full text-center">
-                {question.question}
-            </div>
-        );
-    }
 
     return (
-        <div className="border border-red-500 bg-[#282828] py-3 w-full text-center px-8">
+        <div className={`border border-gray-400 bg-[#282828] pb-4 pt-8 w-full text-center px-8 rounded-md`}>
             <h1>{question.question}</h1>
             <div className="mt-4 flex gap-4 pb-3 justify-evenly flex-wrap flex-col">
                 {question.variants.map((option, index) => {
                     let buttonStyle;
 
-                    if (option.chosen) {
-                        buttonStyle = 'bg-[#372bdb] border-[#5348F2]';
-                    }else if (option.correct) {
-                        buttonStyle = 'bg-green-600 border-green-700';
-                    }else{
-                        buttonStyle = 'bg-rose-900 border-rose-700';
+                    if (option.chosen && !option.correct) {
+                        buttonStyle = 'border-red-700';
+                    } else if (option.correct && option.chosen) {
+                        buttonStyle = 'bg-green-800 border-green-400';
+                    } else if (option.correct) {
+                        buttonStyle = 'border-green-400';
+                    } else {
+                        buttonStyle = 'bg-[#2C2C2C] border-gray-500';
                     }
 
                     return (
-                        <div
-                            key={`option-${index}-${option.text}`}
-                            className={`${buttonStyle} mt-2 text-center py-1 px-6 border-4 flex-col`}
-                        >
-                            {option.text}
+                        <div className={"w-full"}>
+                            <div
+                                key={`option-${index}-${option.text}`}
+                                className={`${buttonStyle} mt-2 text-center py-1 px-6 border flex-col rounded-md`}
+                            >
+                                {option.text}
+                            </div>
+                            {option.chosen && !option.correct && (
+                                <div className={"text-right w-full text-sm text-blue-400"}>Выбранный</div>)}
+                            {option.correct && (
+                                <div className={"text-right w-full text-sm text-green-400"}>Правильный</div>)}
                         </div>
                     );
                 })}

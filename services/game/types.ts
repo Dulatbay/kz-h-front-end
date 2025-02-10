@@ -4,14 +4,15 @@ export interface GameByIdResponse {
     quizName: string;
     duration: number;
     result: number;
-    beats: number;
     record: number;
     currentQuestionIdx: number;
     questionCount: number;
+    correctAnswersCount: number;
     startTime: string;
     endTime: string;
     answeredQuestions: AnsweredQuestionResponse[];
     finished: boolean;
+    currentUserResult: boolean;
 }
 
 

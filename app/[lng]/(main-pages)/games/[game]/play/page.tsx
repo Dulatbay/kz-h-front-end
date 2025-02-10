@@ -63,7 +63,7 @@ const GamePlayPage = () => {
 
     const handleSubmitQuestion = async (selectedOption: string | null) => {
         setSubmitting(true);
-        setSelectedAnswer(selectedOption); // Запоминаем выбранный ответ
+        setSelectedAnswer(selectedOption);
 
         try {
             const fetchedGame = await sendAnswerByGameId(gameId, selectedOption ? [selectedOption] : []);
@@ -72,9 +72,6 @@ const GamePlayPage = () => {
                 setGame(fetchedGame);
                 return;
             }
-            if (!fetchedGame.currentQuestion) {
-                router.push(`/games/${gameId}`);
-            }
 
             const correctVariant = fetchedGame.previousQuestion.variants.find(v => v.correct);
             if (correctVariant) {
@@ -82,15 +79,13 @@ const GamePlayPage = () => {
                 console.log(`Correct answer: ${correctVariant.text}`);
             }
 
-            if (selectedOption === correctVariant?.text) {
-                setShowConfetti(true);
-                setTimeout(() => {
-                    setShowConfetti(false);
-                    updateGame(fetchedGame);
-                }, 2000);
-            } else {
+            setTimeout(() => {
                 updateGame(fetchedGame);
-            }
+                if (!fetchedGame.currentQuestion) {
+                    router.push(`/games/${gameId}`);
+                }
+            }, 500);
+
         } catch (error) {
             if (error instanceof HttpException) {
                 router.push(`/error?status=${error.status}&message=${error.message}`);
@@ -99,6 +94,7 @@ const GamePlayPage = () => {
             setSubmitting(false);
         }
     };
+
 
     const updateGame = (newGame: ProcessGameResponse) => {
         setGame(newGame);
@@ -135,21 +131,20 @@ const GamePlayPage = () => {
                     </h2>
                 )}
             </div>
-            <div className="flex w-full flex-wrap">
+            <div className="flex w-full flex-wrap gap-2">
                 {game.currentQuestion.variants.map((option, index) => {
                     const isSelected = selectedAnswer === option;
                     const isCorrect = showCorrectAnswer === option;
 
 
-                    console.log(`${option} isSelected - ${isSelected}, isCorrect - ${isCorrect}, isShowCorrectAnswer - ${showCorrectAnswer}`);
                     return (
                         <button
                             key={`button-${index}`}
                             disabled={submitting || selectedAnswer !== null}
-                            className={`w-full sm:w-1/2 h-24 text-center content-center 
-                                ${colors[index]} 
-                                ${isSelected && !isCorrect ? "bg-red-600" : ""}
-                                ${isCorrect ? "bg-green-900" : ""}`}
+                            className={`w-full sm:w-[49%] min-h-20 text-center content-center bg-[#282828] 
+                            rounded-xl border border-[#5C5C5C] hover:bg-[#393838] transition-all
+                                ${!submitting && isSelected && !isCorrect ? "!bg-[#FE4346] scale-[102%]" : ""}
+                                ${isCorrect ? "!bg-[#2CBB5D] scale-[102%]" : ""}`}
                             onClick={() => handleSubmitQuestion(option)}
                         >
                             {option}
