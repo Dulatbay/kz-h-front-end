@@ -7,7 +7,8 @@ import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
 import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+import {CheckOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
 
 export default function Quizzes() {
 
@@ -77,8 +78,13 @@ export default function Quizzes() {
                           options={["Древний век", "Тюркский период"]}
                           disabled={loading}
                 />
-                <Dropdown onSelect={(tag) => toggleTag({type: "level", value: tag, query_value: (tag === t('quizzes-page.easy')) ? "EASY" : (tag === t('quizzes-page.medium')) ? "MEDIUM" : "HARD"})}
-                          title={t('quizzes-page.difficulty')} options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
+                <Dropdown onSelect={(tag) => toggleTag({
+                    type: "level",
+                    value: tag,
+                    query_value: (tag === t('quizzes-page.easy')) ? "EASY" : (tag === t('quizzes-page.medium')) ? "MEDIUM" : "HARD"
+                })}
+                          title={t('quizzes-page.difficulty')}
+                          options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
                           disabled={loading}
                 />
                 <Dropdown onSelect={(tag) => toggleTag({
@@ -160,14 +166,7 @@ export default function Quizzes() {
                                     break;
                             }
                             return (
-                                <tr key={"row" + i} className="odd:bg-zinc-800 h-14">
-                                    <td>
-                                        {row.status ? (<SolvedMark/>) : (<></>)}</td>
-                                    <td><a href={`/quizzes/${row.id}`}>{row.title}</a></td>
-                                    <td>{43}%</td>
-                                    <td className={colorClass}>{difficulty}</td>
-                                    <td>{row.questions}</td>
-                                </tr>
+                                <QuizRow row={row} colorClass={colorClass} difficulty={difficulty} index={i} key={i}/>
                             )
                         })
                         :
@@ -236,11 +235,35 @@ function SearchBar({text, onSearch, disabled}: {
     )
 }
 
-function SolvedMark() {
-    return <span className="text-green-500">✔</span>;
-}
+const QuizRow = ({row, colorClass, difficulty, index}: {
+    row: QuizCardResponse;
+    colorClass: string;
+    difficulty: string;
+    index: number
+}) => {
+    return (
+        <tr key={`row-${index}`} className="odd:bg-zinc-800 h-14">
+            <td className="text-center align-middle">
+                <div className="h-full flex items-center justify-center">
+                    {row.inProgress ? (
+                        <Loading3QuartersOutlined style={{color: 'gold', fontSize: '16px'}} spin={false}/>
+                    ) : row.status ? (
+                        <CheckOutlined style={{color: 'green', fontSize: '16px'}}/>
+                    ) : null}
+                </div>
+            </td>
+            <td>
+                <a href={`/quizzes/${row.id}`}>{row.title}</a>
+            </td>
+            <td>{row.average}%</td>
+            <td className={colorClass}>{difficulty}</td>
+            <td>{row.questions}</td>
+        </tr>
+    );
+};
 
-function PickOne({text, disabled}: {text: boolean, disabled: boolean }) {
+
+function PickOne({text, disabled}: { text: boolean, disabled: boolean }) {
     const router = useRouter();
 
     async function pickRandom() {

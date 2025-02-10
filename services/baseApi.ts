@@ -2,7 +2,6 @@ import axios from 'axios';
 import i18n from "@/i18n/i18n";
 import {HttpException} from "@/utills/exceptions";
 import {ACCESS_TOKEN} from "@/utills/constants";
-import {cookies} from "next/headers";
 
 const baseApi = axios.create({
     baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
