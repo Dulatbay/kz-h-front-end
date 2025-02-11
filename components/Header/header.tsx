@@ -11,7 +11,7 @@ import {useEffect, useState} from "react";
 import {setCurrentUser} from "@/app/store/slices/user-slice/slice";
 import Link from "next/link";
 import UserIcon from "@/components/Header/user-icon";
-import FireIcon from "@/components/Header/fire-icon.svg";
+import FireIcon from "@/components/icons/FireSVG2";
 import LogoSVG from "@/components/icons/LogoSVG";
 import {getImageUrl} from "@/utills/getHistoryData";
 import i18n from "@/i18n/i18n";

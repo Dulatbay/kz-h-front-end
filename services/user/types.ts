@@ -6,6 +6,7 @@ export interface LeadersResponse {
 }
 
 export interface LeaderCardResponse {
+    id: string;
     rank: number;
     img?: string;
     username: string;
