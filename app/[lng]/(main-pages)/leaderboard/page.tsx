@@ -54,15 +54,15 @@ export default function Leaderboard() {
             (currentUser && row.username === currentUser.username) || row.id === user?.id;
         if (row.rank === 1) {
             return {
-                background: "#897917",
+                // background: "#897917",
             };
         } else if (row.rank === 2) {
             return {
-                background: "#91898C",
+                // background: "#91898C",
             };
         } else if (row.rank === 3) {
             return {
-                background: "#875626",
+                // background: "#875626",
             };
         } else if (isCurrentUser) {
             return {
@@ -110,7 +110,7 @@ export default function Leaderboard() {
                     {displayLeaders.map((row, i) => {
                         const rowStyle = getRowStyle(row);
                         return (
-                            <tr key={"row" + i} className="cursor-pointer font-bold h-16 odd:bg-zinc-800 hover:opacity-80 transition-all ease-in-out duration-500 hover:bg-zinc-700">
+                            <tr key={"row" + i} className="cursor-pointer font-bold h-16 even:bg-zinc-800 hover:opacity-80 transition-all ease-in-out duration-500 hover:bg-zinc-700">
                                 {/* Первая ячейка — добавляем скругление слева */}
                                 <td
                                     style={{
