@@ -1,17 +1,17 @@
 'use client'
 
-import {TimelineSlider} from "../TimelineSlider/TimelineSlider";
-import {useState, useEffect} from "react";
-import {getMapImageUrl} from "@/utills/getHistoryData";
-import {useTranslation} from "react-i18next";
+import { TimelineSlider } from "../TimelineSlider/TimelineSlider";
+import { useState, useEffect } from "react";
+import { getMapImageUrl } from "@/utills/getHistoryData";
+import { useTranslation } from "react-i18next";
 import Loader from "@/components/Loader/loader";
-import {HistoricalRange} from "@/services/map/types";
-import {fetchRangeByYear} from "@/services/map/mapService";
-import {Carousel} from "antd";
-
+import { HistoricalRange } from "@/services/map/types";
+import { fetchRangeByYear } from "@/services/map/mapService";
+import { Carousel } from "antd";
+import ImageWithSkeleton from "@/components/ImageWithSkeleton/imageWithSkeleton";
 
 function HistoricalTimeline() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [historicalData, setHistoricalData] = useState<HistoricalRange | null>(null);
     const [selectedYear, setSelectedYear] = useState<number>(1212);
     const [loading, setLoading] = useState<boolean>(true);
@@ -19,32 +19,34 @@ function HistoricalTimeline() {
     useEffect(() => {
         if (historicalData && historicalData.min <= selectedYear && historicalData.max >= selectedYear)
             return;
-        setLoading(true)
+        setLoading(true);
         fetchRangeByYear(selectedYear)
             .then((data) => {
                 setHistoricalData(data);
-            }).finally(() => {
-            setLoading(false)
-        })
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, [selectedYear]);
 
     const handleYearChange = (year: number) => {
         setSelectedYear(year);
     };
 
-
     if (loading && !historicalData)
-        return <div className={"mt-32"}><Loader/></div>
+        return <div className="mt-32"><Loader /></div>;
     if (!historicalData)
-        return <div>Not found</div>
+        return <div>Not found</div>;
 
     return (
         <div className="min-h-screen text-white p-4 sm:px-6 lg:px-20">
-            <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">{t('map-page.title')}</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-center mb-2">
+                {t('map-page.title')}
+            </h1>
             <p className="text-center text-gray-400 mb-4 text-xs sm:text-sm">
                 {t('map-page.description')}
             </p>
-            <p className={'text-center'}>{t('map-page.chosenYear')} - {selectedYear}</p>
+            <p className="text-center">{t('map-page.chosenYear')} - {selectedYear}</p>
 
             <div className="flex mx-auto mb-6 sm:mb-8 max-w-6xl">
                 <TimelineSlider
@@ -60,10 +62,10 @@ function HistoricalTimeline() {
                         <Carousel>
                             {historicalData.mapUrls.map((image, index) => (
                                 <div key={index}>
-                                    <img
+                                    <ImageWithSkeleton
                                         src={getMapImageUrl(image)}
                                         alt="map"
-                                        className="lg:h-[400px] object-contain aspect-video object-center m-auto"
+                                        className="lg:h-[400px] aspect-video m-auto"
                                     />
                                 </div>
                             ))}
@@ -86,7 +88,9 @@ function HistoricalTimeline() {
                         </h2>
                         <ul className="space-y-1 text-xs sm:text-sm">
                             {historicalData.keyMoments.map((moment, index) => (
-                                <li key={index} className="text-gray-300">• {moment}</li>
+                                <li key={index} className="text-gray-300">
+                                    • {moment}
+                                </li>
                             ))}
                         </ul>
                     </div>

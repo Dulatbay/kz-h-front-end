@@ -86,7 +86,7 @@ export default function Leaderboard() {
                 <h2 className="text-neutral-500 pb-3">
                     {totalElements} {t("leaderboard-page.users")}
                 </h2>
-                {/* Устанавливаем раздельное отображение ячеек */}
+
                 <table
                     cellPadding={6}
                     className="w-full"
@@ -144,7 +144,6 @@ export default function Leaderboard() {
                                         {row.streak} <FireSVG2/>
                                     </div>
                                 </td>
-                                {/* Последняя ячейка — добавляем скругление справа */}
                                 <td
                                     style={{
                                         ...rowStyle,
