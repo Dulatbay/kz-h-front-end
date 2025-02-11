@@ -32,10 +32,11 @@ function HistoricalTimeline() {
         setSelectedYear(year);
     };
 
-    if (!historicalData)
-        return <div>Not found</div>
+
     if (loading && !historicalData)
         return <div className={"mt-32"}><Loader/></div>
+    if (!historicalData)
+        return <div>Not found</div>
 
     return (
         <div className="min-h-screen text-white p-4 sm:px-6 lg:px-20">
@@ -62,7 +63,7 @@ function HistoricalTimeline() {
                                     <img
                                         src={getMapImageUrl(image)}
                                         alt="map"
-                                        className="lg:h-[400px] h-full object-contain aspect-video object-center m-auto"
+                                        className="lg:h-[400px] object-contain aspect-video object-center m-auto"
                                     />
                                 </div>
                             ))}
