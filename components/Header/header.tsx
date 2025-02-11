@@ -90,7 +90,8 @@ export default function Header() {
                 >
                     <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
                         <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0 max-sm:hidden"><LogoSVG/></h1>
-                        <div className="flex sm:hidden mt-8">
+                        <div className="sm:hidden mt-8">
+                        
                             {
                                 user ? <Link href="/profile"
                                              className={isActive("/profile") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
@@ -102,6 +103,12 @@ export default function Header() {
                                     Login
                                 </Link>
                             }
+
+                            <select className="bg-[#282828] text-white p-2 text-center appearance-none" value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+                                <option value="kk">🇰🇿</option>
+                                <option value="ru">🇷🇺</option>
+                                <option value="en">🇬🇧</option>
+                            </select>
                         </div>
                         <Link href="/"
                               className={isActive("/") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
@@ -128,14 +135,15 @@ export default function Header() {
                               onClick={closeMenu}>
                             {t('header.leaders')}
                         </Link>
-                        <select className="bg-black text-white" onChange={(e) => i18n.changeLanguage(e.target.value)}>
-                            <option>KAZ</option>
-                            <option>RU</option>
-                            <option>EN</option>
-                        </select>
+                        
                     </div>
                     {/* Desktop Version */}
                     <div className="hidden sm:flex gap-3 items-center">
+                        <select className="bg-[#282828] text-white p-2 text-center" value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
+                            <option value="kk">🇰🇿</option>
+                            <option value="ru">🇷🇺</option>
+                            <option value="en">🇬🇧</option>
+                        </select>
                         {user ? (
                             <div id="streak" className="flex gap-1">
                                 <h3 className="text-sm text-[#F66F3E]">{user?.fireDays}</h3>

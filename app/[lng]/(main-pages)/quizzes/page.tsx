@@ -1,22 +1,24 @@
 'use client';
 
 import React, {useEffect, useRef, useState} from "react";
-import {ConfigProvider, Pagination, theme} from "antd";
+import {ConfigProvider, MenuProps, Pagination, Space, theme, Dropdown, Select} from "antd";
 import Loader from "@/components/Loader/loader";
 import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
 import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
 import {useTranslation} from "react-i18next";
-import {CheckOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
+import {CheckOutlined, DownOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
 import { fetchModules } from "@/services/module/modulesService";
 import { ModuleResponse } from "@/services/module/types";
+import { label } from "framer-motion/client";
+import { ItemType, MenuItemGroupType, MenuItemType } from "antd/es/menu/interface";
+const { Option, OptGroup } = Select;
 
 export default function Quizzes() {
 
     const [activeTags, setActiveTags] = useState<{ type: string; value: string; query_value: string }[]>([]);
     const [searchText, setSearchText] = useState("");
-    const [modules, setModules] = useState<Map<string, number>>(new Map());
     const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);
     const [totalElements, setTotalElements] = useState(0);
     const {t} = useTranslation();
@@ -24,11 +26,16 @@ export default function Quizzes() {
     const [loading, setLoading] = useState(true);
     const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const router = useRouter()
+    const [items, setItems] = useState<MenuProps['items']>([]);
+    const [modules, setModules] = useState<ModuleResponse[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
+            
             try {
                 setLoading(true);
+                const newItems: ItemType[] = [];
+                
                 const data = await fetchQuizzes({
                     page: paginationParams.pageNumber,
                     size: paginationParams.pageSize,
@@ -37,13 +44,9 @@ export default function Quizzes() {
                 });
                 setQuizzes(data.content);
                 setTotalElements(data.totalElements);
+                
                 const fetchedModules = await fetchModules();
-                const moduleStrings = new Map();
-
-                for(let fetchedModule of fetchedModules){
-                    moduleStrings.set(fetchedModule.name, fetchedModule.id);
-                }
-                setModules(moduleStrings);
+                setModules(fetchedModules);
 
             } catch (error) {
                 if (error instanceof HttpException) {
@@ -80,20 +83,51 @@ export default function Quizzes() {
         }
     }
 
+    
+
+
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 sm:px-8 px-0">
             <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
             <div className="flex flex-wrap w-full gap-2">
-                <Dropdown onSelect={(tag) => toggleTag({
-                    type: "topics", 
-                    value: tag,
-                    query_value: `${modules.get(tag)}`
-                })}
-                          title={t('quizzes-page.topics')}
-                          options={modules.keys().toArray()}
-                          disabled={loading}
-                />
-                <Dropdown onSelect={(tag) => toggleTag({
+
+                <ConfigProvider theme={{
+                    components: {
+                        Select: {
+                            selectorBg: "#FFFFFF24",
+                            colorText: "white",
+                            colorTextPlaceholder: "white",
+                            optionSelectedColor: "white",
+                            optionActiveBg: "#555555",
+                            optionSelectedBg: "#444444",
+                            colorTextLabel: "white",
+                            colorBorder: "none",
+                            activeBorderColor: "none",
+                            hoverBorderColor: "none",
+                            fontFamily: "",
+                            fontSize: 16,
+                        },
+                    }
+                }}>
+                    <Select value={t('quizzes-page.topics')} style={{width: "300px", height: "44px"}} dropdownStyle={{backgroundColor: "#1a1a1a", color: "white"}} onSelect={(value, option) => toggleTag({type: "topics", value: option.value as string, query_value: option.key as string})}>
+                        {
+                        modules.map((module) => {
+                            return (
+                                <OptGroup className="!text-white !font-bold" key={`${module.id}`} label={module.name}>
+                                    {
+                                        module.topics.map((topic) => {
+                                            return (
+                                                <Option className="!text-sm" key={topic.topicId} value={topic.topicName}>{topic.topicName}</Option>
+                                            )
+                                        })
+                                    }
+                                </OptGroup>
+                            )
+                        })}
+                    </Select>
+                </ConfigProvider>
+
+                <CustomDropdown onSelect={(tag) => toggleTag({
                     type: "level",
                     value: tag,
                     query_value: (tag === t('quizzes-page.easy')) ? "EASY" : (tag === t('quizzes-page.medium')) ? "MEDIUM" : "HARD"
@@ -102,7 +136,7 @@ export default function Quizzes() {
                           options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
                           disabled={loading}
                 />
-                <Dropdown onSelect={(tag) => toggleTag({
+                <CustomDropdown onSelect={(tag) => toggleTag({
                     type: "status",
                     value: tag,
                     query_value: tag == t('quizzes-page.solved') ? "true" : "false"
@@ -209,7 +243,7 @@ export default function Quizzes() {
     )
 }
 
-function Dropdown({title, options, onSelect, disabled}: {
+function CustomDropdown({title, options, onSelect, disabled}: {
     title: string,
     options: string[],
     onSelect: (type: string) => void,
