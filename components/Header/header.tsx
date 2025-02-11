@@ -14,6 +14,7 @@ import UserIcon from "@/components/Header/user-icon";
 import FireIcon from "@/components/Header/fire-icon.svg";
 import LogoSVG from "@/components/icons/LogoSVG";
 import {getImageUrl} from "@/utills/getHistoryData";
+import i18n from "@/i18n/i18n";
 
 const oneDayInMillis = 24 * 60 * 60 * 1000;
 
@@ -71,11 +72,9 @@ export default function Header() {
         if (checkbox) checkbox.checked = false;
     };
 
-
-
     return (
         <>
-            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center">
+            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center w-full sticky top-0">
                 <input type="checkbox" id="check" className="hidden peer/navbar"/>
                 <h1 className="cursor-pointer sm:hidden ml-8"><LogoSVG/></h1>
                 <label htmlFor="check" className="cursor-pointer sm:hidden mr-4 order-1">
@@ -129,6 +128,11 @@ export default function Header() {
                               onClick={closeMenu}>
                             {t('header.leaders')}
                         </Link>
+                        <select className="bg-black text-white" onChange={(e) => i18n.changeLanguage(e.target.value)}>
+                            <option>KAZ</option>
+                            <option>RU</option>
+                            <option>EN</option>
+                        </select>
                     </div>
                     {/* Desktop Version */}
                     <div className="hidden sm:flex gap-3 items-center">
