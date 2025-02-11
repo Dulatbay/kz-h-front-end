@@ -9,14 +9,13 @@ import ru from "./locales/ru/translation.json";
 import kaz from "./locales/kaz/translation.json";
 
 
-
 const languageDetector = new LanguageDetector();
 languageDetector.addDetector(PathLanguageDetector);
 
 const resources: Record<string, { translation: TranslationTypes }> = {
-    en: { translation: en },
-    ru: { translation: ru },
-    kaz: { translation: kaz },
+    en: {translation: en},
+    ru: {translation: ru},
+    kaz: {translation: kaz},
 };
 
 i18n
@@ -24,12 +23,12 @@ i18n
     .use(initReactI18next)
     .init({
         resources,
-        fallbackLng: fallbackLng,
+        fallbackLng,
         supportedLngs: languages,
         detection: {
-            order: ['pathLanguageDetector', 'localStorage', 'navigator'],
-            caches: ['localStorage'],
-            lookupLocalStorage: 'i18nextLng',
+            order: ['path', 'cookie', 'navigator'],
+            caches: ['cookie'],
+            lookupCookie: 'i18nextLng',
         },
         interpolation: {
             escapeValue: false,

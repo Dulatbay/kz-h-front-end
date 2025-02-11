@@ -10,7 +10,8 @@ export function middleware(request) {
     );
 
     if (pathnameIsMissingLocale) {
-        const locale = i18n.language;
+        const cookieLocale = request.cookies.get('i18nextLng')?.value;
+        const locale = cookieLocale || i18n.language;
         return NextResponse.redirect(new URL(`/${locale}${pathname}${search}`, request.url));
     }
 
