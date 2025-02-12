@@ -56,7 +56,7 @@ export default function Settings() {
             },
         }}>
 
-            <div className="w-full p-3 max-w-[800px] flex mx-auto mt-3">
+            <div className="w-full p-3 max-w-[800px] flex flex-wrap mx-auto mt-3">
                 <Sidebar setOpenedTab={(value: string) => {
                     setOpenedTab(value)
                 }}/>
@@ -137,7 +137,7 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
             mode="vertical"
             theme="dark"
             defaultSelectedKeys={["profile"]}
-            className="sm:max-w-60 min-w-60 rounded-lg text-white !border-[#282828] !border-r-[#282828] !border-r-2 border-2 !p-2 h-fit flex-grow"
+            className="sm:max-w-60 min-w-60 rounded-lg text-white !border-[#282828] !border-r-[#282828] !border-r-2 border-2 !p-2 h-fit flex-grow !mb-8"
             items={items}
         />
     );
@@ -193,7 +193,7 @@ const ProfileSettings = () => {
 
     if (loading)
         return (
-            <div className={"max-w-[800px] m-auto mt-64"}>
+            <div className={"min-w-[300px] m-auto mt-64"}>
                 <Loader/>
             </div>
         )
@@ -298,7 +298,7 @@ function SessionsSettings() {
 
     if (loading)
         return (
-            <div className={"max-w-[800px] m-auto mt-64"}>
+            <div className={"min-w-[300px] m-auto mt-64"}>
                 <Loader/>
             </div>
         )

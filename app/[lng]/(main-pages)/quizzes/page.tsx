@@ -125,10 +125,10 @@ export default function Quizzes() {
             </div>
             <div
                 className="w-full overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                <table cellPadding={6} className="gap-3 w-full">
+                <table cellPadding={6} className="gap-3 w-full min-w-[900px] ">
                     <colgroup>
                         <col className="w-20"/>
-                        <col className="w-1/2 min-w-80"/>
+                        <col className="w-1/2"/>
                         <col className="min-w-24"/>
                         <col className="min-w-24"/>
                         <col className="min-w-24"/>

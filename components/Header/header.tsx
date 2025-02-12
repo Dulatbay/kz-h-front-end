@@ -75,7 +75,7 @@ export default function Header() {
 
     return (
         <>
-            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center">
+            <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center z-50">
                 <input type="checkbox" id="check" className="hidden peer/navbar"/>
                 <h1 className="cursor-pointer sm:hidden ml-8"><LogoSVG/></h1>
                 <label htmlFor="check" className="cursor-pointer sm:hidden mr-4 order-1">
