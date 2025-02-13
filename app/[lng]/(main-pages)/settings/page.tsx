@@ -1,9 +1,9 @@
 'use client'
 
-import {Button, Menu, ConfigProvider, Input, MenuProps, Avatar} from "antd"
+import {Button, Menu, ConfigProvider, Input, MenuProps, Avatar, message} from "antd"
 import DesktopSVG from "@/components/icons/DesktopSVG";
 import MobileSVG from "@/components/icons/MobileSVG";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {redirect, useRouter} from "next/navigation";
 import {getMe, getSessions, terminateSession} from "@/services/auth/authService";
 import {Session, SessionsResponse, UserResponse} from "@/services/auth/types";
@@ -12,8 +12,7 @@ import Loader from "@/components/Loader/loader";
 import {editUserImage} from "@/services/user/userService";
 import {getImageUrl} from "@/utills/getHistoryData";
 import UserIcon from "@/components/Header/user-icon";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "@/app/store/store";
+import {useDispatch} from "react-redux";
 import {setCurrentUser} from "@/app/store/slices/user-slice/slice";
 
 
@@ -160,7 +159,7 @@ const ProfileSettings = () => {
                 setAvatarUrl(profileData.imageUrl);
             } catch (error) {
                 if (error instanceof HttpException) {
-                    redirect(`/error?status=${error.status}&message=${error.message}`);
+                    message.error(error.message);
                 } else {
                     redirect('/error?status=500&message=Invalid error`);')
                 }
@@ -183,9 +182,14 @@ const ProfileSettings = () => {
                 const newImageUrl = await editUserImage(file);
                 setAvatarUrl(newImageUrl);
                 dispatch(setCurrentUser({...profile, imageUrl: newImageUrl}));
+                message.success("Profile image loaded successfully");
 
             } catch (error) {
-                console.error("Error uploading avatar:", error);
+                if (error instanceof HttpException) {
+                    message.error("Failed to load profile image");
+                } else {
+                    redirect('/error?status=500&message=Invalid error`);')
+                }
             }
         }
     };
@@ -207,9 +211,9 @@ const ProfileSettings = () => {
             <div className="flex flex-col items-center">
                 {
                     avatarUrl ? (
-                        <img src={getImageUrl(avatarUrl)} alt="avatar" className="w-24 h-24 rounded-full"/>
+                        <img src={getImageUrl(avatarUrl)} alt="avatar" className="w-40 h-40 rounded-full"/>
                     ) : (
-                        <Avatar className="w-24 h-24" icon={<UserIcon/>} size={168}/>)
+                        <Avatar className="w-40 h-40" icon={<UserIcon/>} size={168}/>)
                 }
                 <Button className="mt-3" type="default" onClick={handleEditAvatar}>
                     Edit avatar

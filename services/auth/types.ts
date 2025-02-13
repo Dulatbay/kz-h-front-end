@@ -5,7 +5,8 @@ export interface AuthResponse {
 
 export interface UserResponse {
     id: string;
-    fullName: string | undefined;
+    firstname: string | null;
+    lastname: string | null;
     username: string;
     email: string;
     fireDays: number;
@@ -15,6 +16,7 @@ export interface UserResponse {
     accuracy: number;
     joinDate: string;
     imageUrl: string | null;
+    lastTopicId: string | null;
 }
 
 export interface Session {

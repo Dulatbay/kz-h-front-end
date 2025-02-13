@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { CenteredContainer } from '../types';
 import { getStylesFromBaseNode } from "@/utills/parser/lib";
 import { parser } from "@/utills/parser/parser";
+import {message} from "antd";
 
 interface Props {
     obj: CenteredContainer;
@@ -12,11 +13,12 @@ const CenteredContainerNode = forwardRef<HTMLDivElement, Props>(({ obj }, ref) =
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        cursor: 'pointer',
         ...(getStylesFromBaseNode(obj)),
     };
 
     return (
-        <div ref={ref} style={style}>
+        <div ref={ref} style={style} onClick={() => message.info("Скоро добавим возможность клика...")}>
             {parser(obj.childNode)}
         </div>
     );

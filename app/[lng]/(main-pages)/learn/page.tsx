@@ -9,6 +9,9 @@ import '@/i18n/i18n'
 import {useTranslation} from "react-i18next";
 import Module from "@/components/Module/module";
 import Link from "next/link";
+import FireAnimation from "@/components/icons/FireAnimation";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store/store";
 
 export default function LearnPage() {
 
@@ -63,7 +66,7 @@ const Head = () => {
 
                         </div>
                         <Link href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
-                           className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
+                              className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
                             <img src={getImageUrl(lastTopic.imageUrl)}
                                  className="w-full h-full inset-0 brightness-[40%] absolute aspect-video object-cover object-bottom -z-10"
                                  alt={""}/>

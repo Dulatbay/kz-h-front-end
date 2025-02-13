@@ -15,6 +15,7 @@ import FireIcon from "@/components/icons/FireSVG2";
 import LogoSVG from "@/components/icons/LogoSVG";
 import {getImageUrl} from "@/utills/getHistoryData";
 import i18n from "@/i18n/i18n";
+import LanguageSelector from "@/components/Header/LanguageSelector";
 
 const oneDayInMillis = 24 * 60 * 60 * 1000;
 
@@ -73,7 +74,6 @@ export default function Header() {
     };
 
 
-
     return (
         <>
             <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center z-50">
@@ -106,11 +106,7 @@ export default function Header() {
                                 </Link>
                             }
 
-                            <select className="bg-[#282828] text-white p-2 text-center appearance-none" value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-                                <option value="kk">🇰🇿</option>
-                                <option value="ru">🇷🇺</option>
-                                <option value="en">🇬🇧</option>
-                            </select>
+                            <LanguageSelector />
                         </div>
                         <Link href="/"
                               className={isActive("/") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
@@ -141,11 +137,7 @@ export default function Header() {
                     </div>
                     {/* Desktop Version */}
                     <div className="hidden sm:flex gap-3 items-center">
-                        <select className="bg-[#282828] text-white p-2 text-center" value={i18n.language} onChange={(e) => i18n.changeLanguage(e.target.value)}>
-                            <option value="kk">🇰🇿</option>
-                            <option value="ru">🇷🇺</option>
-                            <option value="en">🇬🇧</option>
-                        </select>
+                        <LanguageSelector />
                         {user ? (
                             <div id="streak" className="flex gap-1">
                                 <h3 className="text-sm text-[#F66F3E]">{user?.fireDays}</h3>

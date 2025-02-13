@@ -36,6 +36,7 @@ export interface ModuleDetailResponse {
     number: number;
     active: boolean;
     firstActive: number;
+    currentActiveTopicNumber?: number
 }
 
 interface TopicLink {
