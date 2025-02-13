@@ -232,8 +232,8 @@ const ProfileSettings = () => {
                 <label className="text-white">Username</label>
                 <Input defaultValue={profile.username} placeholder="Enter your username"/>
 
-                <label className="text-white">Full Name</label>
-                <Input defaultValue={profile.fullName} placeholder="Enter your full name"/>
+                {/*<label className="text-white">Full Name</label>*/}
+                {/*<Input defaultValue={profile} placeholder="Enter your full name"/>*/}
 
                 <label className="text-white">Email</label>
                 <Input defaultValue={profile.email} placeholder="Enter your email"/>
