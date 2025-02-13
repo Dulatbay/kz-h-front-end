@@ -52,10 +52,10 @@ jobs:
             docker-compose stop frontend
             docker-compose rm -f frontend
 
-            echo "Cleaning up unused Docker images..."
-            docker image prune -af  
-
             echo "Starting up containers with Docker Compose..."
             docker-compose up -d frontend
+
+            echo "Cleaning up unused Docker images..."
+            docker image prune -af  
 
             echo "Deployment completed!"
