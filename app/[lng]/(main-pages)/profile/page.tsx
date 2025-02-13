@@ -107,20 +107,7 @@ export default function Profile() {
                         </div>
                     </div>
                 ) : (
-                    <>
-                        {
-                            userData.fullName ? <h1 className="text-4xl mt-4 self-start">
-                                {userData.fullName}
-                            </h1> : <Button
-                                size={'large'}
-                                className={'self-start mt-4'}
-                                type="dashed"
-                                onClick={() => setIsEditing(true)}
-                            >
-                                Edit Full Name
-                            </Button>
-                        }
-                    </>
+                    <></>
                 )}
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
