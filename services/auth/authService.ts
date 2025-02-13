@@ -35,3 +35,10 @@ export async function terminateSession(tokenId: string){
         baseApi.delete<void>(`/auth/devices/${tokenId}`)
     );
 }
+
+export const editPassword = async (oldPassword: string, newPassword: string) => {
+    return handleApiRequest(() => baseApi
+        .patch<UserResponse>("/auth/change-password", {
+            oldPassword, newPassword
+        })).then(res => res.data);
+}
