@@ -5,14 +5,14 @@ import React, {useState} from "react";
 import {terminateSession} from "@/services/auth/authService";
 import {HttpException} from "@/utills/exceptions";
 import {DeviceIcon} from "@/components/icons/DeviceIcon";
-import {format} from "date-fns";
+import {format, parse} from "date-fns";
 
 interface SessionCardProps {
     session: Session;
     onTerminate: (tokenId: string) => void;
 }
 
-export default function SessionCard({ session, onTerminate }: SessionCardProps) {
+export default function SessionCard({session, onTerminate}: SessionCardProps) {
     const [opened, setOpened] = useState(false);
     const [terminating, setTerminating] = useState(false);
 
@@ -43,7 +43,7 @@ export default function SessionCard({ session, onTerminate }: SessionCardProps) 
             <div className="flex items-center justify-between text-white">
                 <div className="flex items-center space-x-3">
           <span className="text-xl">
-            <DeviceIcon device={"desktop"} />
+            <DeviceIcon device={"desktop"}/>
           </span>
                     <div>
                         <p className="font-medium">{session.userAgent}</p>
@@ -66,7 +66,7 @@ export default function SessionCard({ session, onTerminate }: SessionCardProps) 
             <div hidden={!opened} className="flex w-full justify-between items-end">
                 <div className="flex flex-col w-1/2 text-white">
                     <p>Remote address: {session.remoteAddress}</p>
-                    <p>Session expired at: {format(Date.parse(session.expiredAt), "")}</p>
+                    <p>Session expired at: {session.expiredAt}</p>
                 </div>
                 <Button
                     onClick={() =>
