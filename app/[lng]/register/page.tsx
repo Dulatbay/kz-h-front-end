@@ -115,7 +115,7 @@ export default function RegisterPage() {
                         </a>
                     </div>
                 </div>
-                <Link href={'/learn'} className={'block text-gray-500 text-sm text-center mt-2'}>Continue as guest</Link>
+                <a href={'/learn'} className={'block text-gray-500 text-sm text-center mt-2'}>Continue as guest</a>
             </div>
         </div>
     );

@@ -24,6 +24,8 @@ export const userOptions = createSlice({
         resetUser: (state) => {
             state.user = null;
             state.lastFetched = null;
+            localStorage.removeItem("user");
+            localStorage.removeItem("lastFetched");
         },
     },
 });

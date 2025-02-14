@@ -14,7 +14,6 @@ import UserIcon from "@/components/Header/user-icon";
 import FireIcon from "@/components/icons/FireSVG2";
 import LogoSVG from "@/components/icons/LogoSVG";
 import {getImageUrl} from "@/utills/getHistoryData";
-import i18n from "@/i18n/i18n";
 import LanguageSelector from "@/components/Header/LanguageSelector";
 
 const oneDayInMillis = 24 * 60 * 60 * 1000;
@@ -34,7 +33,6 @@ export default function Header() {
             try {
                 const cachedUser = JSON.parse(localStorage.getItem("user") || "null");
                 const cachedLastFetched = Number(localStorage.getItem("lastFetched"));
-
                 if (cachedUser && (cachedLastFetched || lastFetched) && Date.now() - cachedLastFetched < oneDayInMillis) {
                     dispatch(setCurrentUser(cachedUser));
                 } else {

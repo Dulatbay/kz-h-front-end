@@ -80,7 +80,7 @@ export default function LoginPage() {
                         </a>
                     </div>
                 </div>
-                <Link href={'/learn'} className={'text-gray-500 text-sm mt-2'}>Continue as guest</Link>
+                <a href={'/learn'} className={'text-gray-500 text-sm mt-2'}>Continue as guest</a>
             </div>
         </div>
     );

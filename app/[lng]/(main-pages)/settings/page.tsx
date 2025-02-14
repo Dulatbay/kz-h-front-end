@@ -5,16 +5,17 @@ import DesktopSVG from "@/components/icons/DesktopSVG";
 import MobileSVG from "@/components/icons/MobileSVG";
 import React, {useEffect, useRef, useState} from "react";
 import {redirect, useRouter} from "next/navigation";
-import {getMe, getSessions, terminateSession} from "@/services/auth/authService";
+import {getMe, getSessions, logout, terminateSession} from "@/services/auth/authService";
 import {Session, SessionsResponse, UserResponse} from "@/services/auth/types";
 import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
 import {editFullName, editUserImage} from "@/services/user/userService";
-import { editPassword } from "@/services/auth/authService";
+import {editPassword} from "@/services/auth/authService";
 import {getImageUrl} from "@/utills/getHistoryData";
 import UserIcon from "@/components/Header/user-icon";
 import {useDispatch} from "react-redux";
-import {setCurrentUser} from "@/app/store/slices/user-slice/slice";
+import {resetUser, setCurrentUser} from "@/app/store/slices/user-slice/slice";
+import SessionsSettings from "@/app/[lng]/(main-pages)/settings/sessions/sessions-settings";
 
 
 export default function Settings() {
@@ -79,12 +80,15 @@ function Controller({openedTab}: { openedTab: string }) {
 }
 
 const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
-
+    const dispatch = useDispatch();
     const router = useRouter();
 
     function handleLogout() {
-        localStorage.clear();
-        router.push("/login");
+        logout().then(() => {
+            localStorage.clear();
+            dispatch(resetUser());
+            router.push("/login");
+        });
     }
 
     type MenuItem = Required<MenuProps>['items'][number];
@@ -184,7 +188,7 @@ const ProfileSettings = () => {
     };
 
     const handleEditProfile = () => {
-        if(!newProfile || !newProfile.firstName || !newProfile.lastName)return;
+        if (!newProfile || !newProfile.firstName || !newProfile.lastName) return;
         editFullName(newProfile.firstName, newProfile.lastName);
         window.location.reload();
     };
@@ -249,16 +253,28 @@ const ProfileSettings = () => {
             {/* Input Fields */}
             <div className="w-full max-w-md mt-6 flex flex-col gap-1 *:mt-4">
                 <label className="text-white">Username</label>
-                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, username: input.target.value} : null))} defaultValue={profile.username} placeholder="Enter your username"/>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {
+                    ...prev,
+                    username: input.target.value
+                } : null))} defaultValue={profile.username} placeholder="Enter your username"/>
 
                 <label className="text-white">First Name</label>
-                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, firstName: input.target.value} : null))} defaultValue={profile.firstName ? profile.firstName : ""} placeholder="Enter your first name"/>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {
+                    ...prev,
+                    firstName: input.target.value
+                } : null))} defaultValue={profile.firstName ? profile.firstName : ""}
+                       placeholder="Enter your first name"/>
 
                 <label className="text-white">Last Name</label>
-                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, lastName: input.target.value} : null))} defaultValue={profile.lastName ? profile.lastName : ""} placeholder="Enter your last name"/>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {
+                    ...prev,
+                    lastName: input.target.value
+                } : null))} defaultValue={profile.lastName ? profile.lastName : ""} placeholder="Enter your last name"/>
 
                 <label className="text-white">Email</label>
-                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, email: input.target.value} : null))} defaultValue={profile.email} placeholder="Enter your email"/>
+                <Input
+                    onChange={(input) => setNewProfile((prev) => (prev ? {...prev, email: input.target.value} : null))}
+                    defaultValue={profile.email} placeholder="Enter your email"/>
                 <p className="text-sm text-gray-400 !mt-0">
                     Email not verified.{" "}
                     <a href="#" className="text-blue-400">
@@ -266,7 +282,8 @@ const ProfileSettings = () => {
                     </a>
                 </p>
 
-                <Button onClick={handleEditProfile} disabled={JSON.stringify(profile) == JSON.stringify(newProfile)} type="primary" block>
+                <Button onClick={handleEditProfile} disabled={JSON.stringify(profile) == JSON.stringify(newProfile)}
+                        type="primary" block>
                     SAVE CHANGES
                 </Button>
             </div>
@@ -278,17 +295,20 @@ const ProfileSettings = () => {
             <div className="w-full max-w-md">
                 <div className="w-full flex justify-between items-center">
                     <label className="text-white">Password</label>
-                    <Button onClick={() => setShowEditPassword((prev) => !prev)} className="mt-2 !bg-neutral-700 text-white">
+                    <Button onClick={() => setShowEditPassword((prev) => !prev)}
+                            className="mt-2 !bg-neutral-700 text-white">
                         {showEditPassword ? "Hide" : "Change password"}
                     </Button>
                 </div>
 
                 <div className="flex flex-col gap-1 *:mt-4" hidden={!showEditPassword}>
                     <label className="text-white">Old Password</label>
-                    <Input onChange={(input) => setOldPassword(input.target.value)} placeholder="Enter your old password"/>
+                    <Input onChange={(input) => setOldPassword(input.target.value)}
+                           placeholder="Enter your old password"/>
 
                     <label className="text-white">New Password</label>
-                    <Input onChange={(input) => setNewPassword(input.target.value)} placeholder="Enter your new password"/>
+                    <Input onChange={(input) => setNewPassword(input.target.value)}
+                           placeholder="Enter your new password"/>
 
                     <Button type="primary" onClick={handleEditPassword}>Change password</Button>
                 </div>
@@ -308,161 +328,3 @@ const ProfileSettings = () => {
     );
 };
 
-function SessionsSettings() {
-    const [sessions, setSessions] = useState<SessionsResponse | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
-
-
-    useEffect(() => {
-        const fetchSessions = async () => {
-            try {
-                setLoading(true);
-                const activeSessions = await getSessions();
-                setSessions(activeSessions);
-
-            } catch (error) {
-                if (error instanceof HttpException) {
-                    redirect(`/error?status=${error.status}&message=${error.message}`);
-                } else {
-                    redirect('/error?status=500&message=Invalid error`);')
-                }
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchSessions();
-    }, [true]);
-
-
-    if (loading)
-        return (
-            <div className={"min-w-[300px] m-auto mt-64"}>
-                <Loader/>
-            </div>
-        )
-
-    if (sessions == null)
-        throw new Error("No sessions data found.");
-
-    const terminateAllSessions = async () => {
-        sessions.webSessions?.forEach(session => {
-            try {
-                terminateSession(session.tokenId);
-            } catch (error) {
-                if (error instanceof HttpException) {
-                    redirect(`/error?status=${error.status}&message=${error.message}`);
-                } else {
-                    redirect('/error?status=500&message=Invalid error`);')
-                }
-            }
-        });
-
-        sessions.mobileSessions?.forEach(session => {
-            try {
-                terminateSession(session.tokenId);
-            } catch (error) {
-                if (error instanceof HttpException) {
-                    redirect(`/error?status=${error.status}&message=${error.message}`);
-                } else {
-                    redirect('/error?status=500&message=Invalid error`);')
-                }
-            }
-        });
-
-        localStorage.clear();
-        window.location.reload();
-    }
-
-    return (
-        <div className="min-h-screen flex flex-col flex-grow items-center p-6">
-            <div className="w-full max-w-lg">
-                <div className="flex flex-col">
-                    <SessionsBlock deviceType="Web sessions" deviceTypeSessions={sessions.webSessions}/>
-                    <SessionsBlock deviceType="Mobile sessions" deviceTypeSessions={sessions.mobileSessions}/>
-                </div>
-            </div>
-
-            {/* Terminate All Button */}
-            <Button
-                hidden={!((sessions.webSessions && sessions.webSessions.length != 0) || (sessions.mobileSessions && sessions.mobileSessions.length != 0))}
-                onClick={() => terminateAllSessions()}
-                type="default"
-                danger
-                className="border-red-500 text-red-500 w-full max-w-lg mt-6 py-2 text-lg"
-            >
-                TERMINATE ALL
-            </Button>
-        </div>
-    );
-};
-
-function SessionsBlock({deviceType, deviceTypeSessions}: { deviceType: string, deviceTypeSessions: Session[] }) {
-
-    if (!deviceTypeSessions || deviceTypeSessions.length == 0) {
-        return (
-            <>
-            </>
-        )
-    }
-
-    return (
-        <>
-            <h2 className="text-white text-lg font-semibold mb-3">{deviceType}</h2>
-            <div className="flex flex-col gap-4">
-                {
-                    deviceTypeSessions.map((session, index) => (
-                        <SessionCard key={index} session={session}/>
-                    ))
-                }
-            </div>
-        </>
-    )
-}
-
-function SessionCard({session}: { session: Session }) {
-
-    const [opened, setOpened] = useState(false);
-
-    const handleTerminateSession = async (tokenId: string, currentSession: boolean) => {
-        terminateSession(tokenId);
-        if(currentSession){
-            localStorage.clear();
-            window.location.reload();
-        }
-    }
-
-    return (
-        <div className="bg-[#1E1E1E] border border-white px-4 py-3 rounded-xl space-y-3">
-            <div className="flex items-center justify-between text-white">
-                <div className="flex items-center space-x-3">
-                    <span className="text-xl">{<DeviceIcon device={"desktop"}/>}</span>
-                    <div>
-                        <p className="font-medium">{session.userAgent}</p>
-                        {session.currentSession ? (
-                            <p className="text-blue-400 text-sm">Your current session</p>
-                        ) : (
-                            <p className="text-gray-400 text-sm">Last accessed
-                                on {session.createdDate}</p>
-                        )}
-                    </div>
-                </div>
-                <a onClick={() => setOpened(!opened)}
-                   className="text-gray-400 text-sm hover:text-white text-nowrap text-center">{opened ? "Hide info" : "View more"}</a>
-            </div>
-            <div hidden={!opened} className="flex w-full justify-between items-end">
-                <div className="flex flex-col w-1/2">
-                    <p>Remote address: {session.remoteAddress}</p>
-                    <p>Remote host: {session.remoteHost}</p>
-                    <p>Session expired at: {session.expiredAt}</p>
-                </div>
-                <Button onClick={() => handleTerminateSession(session.tokenId, session.currentSession)} danger>Terminate session</Button>
-            </div>
-        </div>
-    )
-}
-
-function DeviceIcon({device}: { device: string }) {
-    if (device === "mobile") return <MobileSVG/>;
-    else return <DesktopSVG/>;
-}

@@ -16,6 +16,12 @@ export async function getMe() {
     );
 }
 
+export async function logout() {
+    return handleApiRequest(() =>
+        baseApi.post<void>(`/auth/logout`)
+    );
+}
+
 export async function register({email, username, password, confirmPassword}: { email: string, username: string, password: string, confirmPassword: string }) {
     return handleApiRequest(() =>
         baseApi.post<void>(`/auth/register`, {
