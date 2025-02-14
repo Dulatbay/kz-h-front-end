@@ -109,15 +109,16 @@ export default function Profile() {
                 ) : (
                     <></>
                 )}
+                <h1 className="text-3xl">{userData.firstName} {userData.lastName}</h1>
                 <div className="flex text-gray-500 w-full gap-1">
                     <h3>@{userData.username}</h3>
                     ·
                     <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
                 </div>
             </div>
-            <div className="flex flex-col gap-4 max-md:w-fit max-md:mx-auto">
+            <div className="flex flex-col gap-4 w-full">
                 <h1 className="text-3xl">{t('profile-page.overview')}</h1>
-                <div className="grid grid-cols-2 md:grid-cols-4 md:w-full mx-auto w-fit gap-6 place-items-center">
+                <div className="grid grid-cols-2 md:grid-cols-4 w-full gap-6 place-items-center">
                     <Stat svg="fire" textColor="text-orange-500" title={t('profile-page.fireDays')}
                           stat={userData.fireDays.toString()}/>
                     <Stat svg="score" textColor="text-green-600" title={t('profile-page.score')}
@@ -196,7 +197,7 @@ function Stat({svg, textColor, stat, title}: {
     title: string
 }) {
     return (
-        <div className="rounded-lg border-white border py-2 px-3 flex w-1/4 min-w-40 gap-2 items-center">
+        <div className="rounded-lg w-full border-white border py-2 px-3 flex min-w-40 gap-2 items-center">
             <SVG svg={svg}/>
             <div className="">
                 <strong className={`${textColor} text-xl`}>{stat}</strong>

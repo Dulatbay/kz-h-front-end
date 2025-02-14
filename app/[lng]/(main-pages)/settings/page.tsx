@@ -9,7 +9,8 @@ import {getMe, getSessions, terminateSession} from "@/services/auth/authService"
 import {Session, SessionsResponse, UserResponse} from "@/services/auth/types";
 import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
-import {editUserImage} from "@/services/user/userService";
+import {editFullName, editUserImage} from "@/services/user/userService";
+import { editPassword } from "@/services/auth/authService";
 import {getImageUrl} from "@/utills/getHistoryData";
 import UserIcon from "@/components/Header/user-icon";
 import {useDispatch} from "react-redux";
@@ -36,7 +37,9 @@ export default function Settings() {
                     defaultHoverBorderColor: 'white',
                     defaultHoverColor: 'none',
                     defaultActiveColor: 'none',
-                    defaultActiveBorderColor: 'none'
+                    defaultActiveBorderColor: 'none',
+                    colorBgContainerDisabled: '#3d3d3d',
+                    colorTextDisabled: '#cbcbcb'
                 },
                 Menu: {
                     darkItemBg: '#1A1A1A',
@@ -145,9 +148,13 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
 const ProfileSettings = () => {
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [profile, setProfile] = useState<UserResponse | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
+    const [profile, setProfile] = useState<UserResponse | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const dispatch = useDispatch();
+    const [newProfile, setNewProfile] = useState<UserResponse | null>(null);
+    const [showEditPassword, setShowEditPassword] = useState(false);
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
 
 
     useEffect(() => {
@@ -157,6 +164,7 @@ const ProfileSettings = () => {
                 const profileData = await getMe();
                 setProfile(profileData);
                 setAvatarUrl(profileData.imageUrl);
+                setNewProfile(profileData);
             } catch (error) {
                 if (error instanceof HttpException) {
                     message.error(error.message);
@@ -173,6 +181,17 @@ const ProfileSettings = () => {
 
     const handleEditAvatar = () => {
         fileInputRef.current?.click();
+    };
+
+    const handleEditProfile = () => {
+        if(!newProfile || !newProfile.firstName || !newProfile.lastName)return;
+        editFullName(newProfile.firstName, newProfile.lastName);
+        window.location.reload();
+    };
+
+    const handleEditPassword = () => {
+        editPassword(oldPassword, newPassword);
+        window.location.reload();
     };
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,7 +221,7 @@ const ProfileSettings = () => {
             </div>
         )
 
-    if (profile == null)
+    if (profile == null || !newProfile)
         throw new Error("No sessions data found.");
 
     return (
@@ -228,15 +247,18 @@ const ProfileSettings = () => {
             </div>
 
             {/* Input Fields */}
-            <div className="w-full max-w-md mt-6 flex flex-col gap-2 *:mt-4">
+            <div className="w-full max-w-md mt-6 flex flex-col gap-1 *:mt-4">
                 <label className="text-white">Username</label>
-                <Input defaultValue={profile.username} placeholder="Enter your username"/>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, username: input.target.value} : null))} defaultValue={profile.username} placeholder="Enter your username"/>
 
-                {/*<label className="text-white">Full Name</label>*/}
-                {/*<Input defaultValue={profile} placeholder="Enter your full name"/>*/}
+                <label className="text-white">First Name</label>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, firstName: input.target.value} : null))} defaultValue={profile.firstName ? profile.firstName : ""} placeholder="Enter your first name"/>
+
+                <label className="text-white">Last Name</label>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, lastName: input.target.value} : null))} defaultValue={profile.lastName ? profile.lastName : ""} placeholder="Enter your last name"/>
 
                 <label className="text-white">Email</label>
-                <Input defaultValue={profile.email} placeholder="Enter your email"/>
+                <Input onChange={(input) => setNewProfile((prev) => (prev ? {...prev, email: input.target.value} : null))} defaultValue={profile.email} placeholder="Enter your email"/>
                 <p className="text-sm text-gray-400 !mt-0">
                     Email not verified.{" "}
                     <a href="#" className="text-blue-400">
@@ -244,7 +266,7 @@ const ProfileSettings = () => {
                     </a>
                 </p>
 
-                <Button type="primary" block>
+                <Button onClick={handleEditProfile} disabled={JSON.stringify(profile) == JSON.stringify(newProfile)} type="primary" block>
                     SAVE CHANGES
                 </Button>
             </div>
@@ -253,11 +275,24 @@ const ProfileSettings = () => {
             <div className="w-full my-4 h-[1px] bg-neutral-500"/>
 
             {/* Password Section */}
-            <div className="w-full flex justify-between items-center max-w-md">
-                <label className="text-white">Password</label>
-                <Button className="mt-2 !bg-neutral-700 text-white">
-                    Change password
-                </Button>
+            <div className="w-full max-w-md">
+                <div className="w-full flex justify-between items-center">
+                    <label className="text-white">Password</label>
+                    <Button onClick={() => setShowEditPassword((prev) => !prev)} className="mt-2 !bg-neutral-700 text-white">
+                        {showEditPassword ? "Hide" : "Change password"}
+                    </Button>
+                </div>
+
+                <div className="flex flex-col gap-1 *:mt-4" hidden={!showEditPassword}>
+                    <label className="text-white">Old Password</label>
+                    <Input onChange={(input) => setOldPassword(input.target.value)} placeholder="Enter your old password"/>
+
+                    <label className="text-white">New Password</label>
+                    <Input onChange={(input) => setNewPassword(input.target.value)} placeholder="Enter your new password"/>
+
+                    <Button type="primary" onClick={handleEditPassword}>Change password</Button>
+                </div>
+
             </div>
 
             <div className="w-full my-4 h-[1px] bg-neutral-500"/>
@@ -334,6 +369,9 @@ function SessionsSettings() {
                 }
             }
         });
+
+        localStorage.clear();
+        window.location.reload();
     }
 
     return (
@@ -386,8 +424,12 @@ function SessionCard({session}: { session: Session }) {
 
     const [opened, setOpened] = useState(false);
 
-    const handleTerminateSession = async (tokenId: string) => {
+    const handleTerminateSession = async (tokenId: string, currentSession: boolean) => {
         terminateSession(tokenId);
+        if(currentSession){
+            localStorage.clear();
+            window.location.reload();
+        }
     }
 
     return (
@@ -414,7 +456,7 @@ function SessionCard({session}: { session: Session }) {
                     <p>Remote host: {session.remoteHost}</p>
                     <p>Session expired at: {session.expiredAt}</p>
                 </div>
-                <Button onClick={() => handleTerminateSession(session.tokenId)} danger>Terminate session</Button>
+                <Button onClick={() => handleTerminateSession(session.tokenId, session.currentSession)} danger>Terminate session</Button>
             </div>
         </div>
     )

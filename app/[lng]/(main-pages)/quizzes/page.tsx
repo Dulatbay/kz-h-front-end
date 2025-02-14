@@ -87,7 +87,7 @@ export default function Quizzes() {
 
 
     return (
-        <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 sm:px-8 px-0">
+        <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 px-6">
             <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
             <div className="flex flex-wrap w-full gap-2">
 
