@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import './style.css'
 
 export default function Loader() {
     const { t } = useTranslation();

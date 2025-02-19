@@ -127,12 +127,12 @@ function Icon({title}: { title: string }) {
 
 function ResultCard({result, title, additionalText}: { result: string, title: string, additionalText?: string }) {
     return (
-        <div className={"w-1/4 min-w-40"}>
+        <div className={"w-1/4 min-w-40 flex-1"}>
             <div
                 className="flex border border-gray-400 bg-[#282828] gap-2 py-1 px-2 rounded-md items-center">
                 <Icon title={title}/>
                 <div className="flex flex-col">
-                    <h1 className="font-bold text-sm">{result}</h1>
+                    <h1 className="font-bold text-sm line-clamp-1">{result}</h1>
                     <h3 className="text-[#FFFFFF75]">{title}</h3>
                 </div>
             </div>
@@ -145,9 +145,6 @@ function ResultCard({result, title, additionalText}: { result: string, title: st
 }
 
 const QuestionItem = ({question}: { question: AnsweredQuestionResponse }) => {
-    const isCorrectAnswer = question.variants.some(q => q.chosen && q.correct);
-
-
     return (
         <div className={`border border-gray-400 bg-[#282828] pb-4 pt-8 w-full text-center px-8 rounded-md`}>
             <h1>{question.question}</h1>

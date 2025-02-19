@@ -7,6 +7,7 @@ import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
 import {useEffect, useRef, useState} from 'react';
 import Confetti from "react-confetti";
+import SecondaryLoader from "@/components/SecondaryLoader/secondary-loader";
 
 const GamePlayPage = () => {
     const [game, setGame] = useState<ProcessGameResponse | null>(null);
@@ -17,7 +18,6 @@ const GamePlayPage = () => {
     const [timeLeft, setTimeLeft] = useState<number | null>(null);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [showCorrectAnswer, setShowCorrectAnswer] = useState<string | null>(null);
-    const [showConfetti, setShowConfetti] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
@@ -117,9 +117,6 @@ const GamePlayPage = () => {
 
     return (
         <div className="flex flex-col w-11/12 max-w-[800px] mx-auto items-center mt-16 gap-10">
-            {showConfetti && (
-                <Confetti width={window.innerWidth} height={window.innerHeight} numberOfPieces={500} recycle={false}/>
-            )}
             <div className="flex flex-col gap-2 items-center">
                 <h3 className="text-sm text-[#91898C]">
                     {game.currentQuestionIndex + 1}/{game.totalQuestions} Вопрос
@@ -152,6 +149,9 @@ const GamePlayPage = () => {
                     );
                 })}
             </div>
+            {
+                submitting && (<><SecondaryLoader/></>)
+            }
         </div>
     );
 };
