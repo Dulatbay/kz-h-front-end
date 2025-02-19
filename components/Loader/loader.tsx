@@ -4,7 +4,7 @@ import './style.css'
 
 export default function Loader() {
     const { t } = useTranslation();
-    const facts = t('facts', { returnObjects: true });
+    const facts = t('facts', { returnObjects: true }) as string[];
 
     const [fact, setFact] = useState(facts[Math.floor(Math.random() * facts.length)]);
 
