@@ -11,6 +11,7 @@ export interface UserResponse {
     email: string;
     fireDays: number;
     wasPlayedYesterday: boolean;
+    wasPlayedToday: boolean;
     answeredQuestionsCount: number;
     score: number;
     accuracy: number;

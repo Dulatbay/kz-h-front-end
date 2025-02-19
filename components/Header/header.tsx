@@ -104,7 +104,7 @@ export default function Header() {
                                 </Link>
                             }
 
-                            <LanguageSelector />
+                            <LanguageSelector/>
                         </div>
                         <Link href="/learn"
                               className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
@@ -129,28 +129,32 @@ export default function Header() {
 
                     </div>
                     {/* Desktop Version */}
-                    <div className="hidden sm:flex gap-3 items-center">
-                        <LanguageSelector />
-                        {user ? (
-                            <div id="streak" className="flex gap-1">
-                                <h3 className="text-sm text-[#F66F3E]">{user?.fireDays}</h3>
-                                <FireIcon/>
-                            </div>
-                        ) : (
-                            <></>
-                        )}
-                        {loading ? (
-                            <Link href="/profile">
-                                <Avatar shape="circle" icon={<UserIcon/>} alt="pic"/>
-                            </Link>
-                        ) : user ? (
-                            <Link href="/profile">
-                                {user?.imageUrl ? <Avatar src={getImageUrl(user.imageUrl)} alt=""/> :
-                                    <Avatar icon={<UserIcon/>} alt="pic"/>}
-                            </Link>
-                        ) : (
-                            <Button href={'/login'}>Login</Button>
-                        )}
+                    <div className="hidden sm:flex gap-8 items-center">
+                        <LanguageSelector/>
+                        <div className={"flex justify-center items-center gap-2"}>
+                            {user ? (
+                                <div id="streak" className="flex gap-2">
+                                    <h3 className={`text-sm ${!user?.wasPlayedYesterday || !user?.wasPlayedToday ? "text-gray-400" : "text-[#F66F3E]"} `}>{user?.fireDays}</h3>
+                                    <FireIcon
+                                        variant={!user?.wasPlayedYesterday || !user?.wasPlayedToday ? "gray" : "default"}/>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                            {loading ? (
+                                <Link href="/profile">
+                                    <Avatar shape="circle" icon={<UserIcon/>} alt="pic"/>
+                                </Link>
+                            ) : user ? (
+                                <Link href="/profile">
+                                    {user?.imageUrl ? <Avatar src={getImageUrl(user.imageUrl)} alt=""/> :
+                                        <Avatar icon={<UserIcon/>} alt="pic"/>}
+                                </Link>
+                            ) : (
+                                <Button href={'/login'}>Login</Button>
+                            )}
+                        </div>
+
                     </div>
                 </div>
             </div>
