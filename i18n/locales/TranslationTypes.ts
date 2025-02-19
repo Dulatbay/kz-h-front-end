@@ -62,5 +62,6 @@ export interface TranslationTypes {
         questions: string,
         streak: string,
         score: string
-    }
+    },
+    "facts": string[],
 }

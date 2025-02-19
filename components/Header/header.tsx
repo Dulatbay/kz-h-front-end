@@ -106,11 +106,6 @@ export default function Header() {
 
                             <LanguageSelector />
                         </div>
-                        <Link href="/"
-                              className={isActive("/") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
-                              onClick={closeMenu}>
-                            Home
-                        </Link>
                         <Link href="/learn"
                               className={isActive("/learn") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                               onClick={closeMenu}>

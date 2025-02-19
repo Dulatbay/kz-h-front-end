@@ -4,40 +4,35 @@ import {useEffect, useState} from "react";
 import {fetchLastTopic, fetchModules} from "@/services/module/modulesService";
 import {getImageUrl} from "@/utills/getHistoryData";
 import {LastTopicResponse, ModuleResponse} from "@/services/module/types";
-import Loader from "@/components/Loader/loader";
-import '@/i18n/i18n'
+import '@/i18n/i18n';
 import {useTranslation} from "react-i18next";
 import Module from "@/components/Module/module";
 import Link from "next/link";
-import FireAnimation from "@/components/icons/FireAnimation";
-import {useSelector} from "react-redux";
-import {RootState} from "@/app/store/store";
 
 export default function LearnPage() {
-
     return (
         <>
             <Head/>
             <Modules/>
         </>
-    )
+    );
 }
 
 const Head = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [lastTopic, setLastTopic] = useState<LastTopicResponse | null>(null);
     const {t} = useTranslation();
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             const lastTopic = await fetchLastTopic();
             setLastTopic(lastTopic);
             setLoading(false);
-        }
+        };
 
         fetchData();
     }, []);
-
 
     return (
         <>
@@ -59,31 +54,47 @@ const Head = () => {
                 </div>
             </div>
             {
-                (loading || !lastTopic) ?
-                    <Loader/> :
-                    <div className="h-80 w-full flex justify-center items-center relative px-4 z-10">
-                        <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10">
-
-                        </div>
-                        <Link href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
-                              className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
-                            <img src={getImageUrl(lastTopic.imageUrl)}
-                                 className="w-full h-full inset-0 brightness-[40%] absolute aspect-video object-cover object-bottom -z-10"
-                                 alt={""}/>
-                            <h3 className="text-yellow-200 text-2xl ml-auto">
-                                {lastTopic.percent}%
-                            </h3>
-                            <div className="flex flex-col">
-                                <h2 className="text-xl font-semibold">{lastTopic.topicName}</h2>
-                                <h3 className="text-sm text-gray-400">{lastTopic.moduleName}</h3>
-                            </div>
-                        </Link>
-                    </div>
-
+                (loading || !lastTopic) ? <SkeletonTopic/> :
+                    <LastTopicCard lastTopic={lastTopic}/>
             }
         </>
-    )
-}
+    );
+};
+
+const SkeletonTopic = () => {
+    return (
+        <div className="h-80 w-full flex justify-center items-center relative px-4 z-10">
+            <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10"></div>
+            <div
+                className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden animate-pulse bg-[#282828]">
+                <div className="h-full w-full bg-gray-600 rounded-lg"></div>
+                <div className="flex flex-col gap-2 mt-4">
+                    <div className="w-3/4 h-6 bg-gray-600 rounded"></div>
+                    <div className="w-1/2 h-5 bg-gray-600 rounded"></div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const LastTopicCard = ({lastTopic}: { lastTopic: LastTopicResponse }) => (
+    <div className="h-80 w-full flex justify-center items-center relative px-4 z-10">
+        <div className="h-20 w-full bg-[#252b32] absolute top-0 -z-10"></div>
+        <Link href={`/modules?module=${lastTopic.moduleNumber - 1}&topic=${lastTopic.topicNumber - 1}`}
+              className="w-[480px] aspect-video relative flex flex-col justify-between p-6 cursor-pointer border-2 rounded-3xl border-gray-500 overflow-hidden">
+            <img src={getImageUrl(lastTopic.imageUrl)}
+                 className="w-full h-full inset-0 brightness-[40%] absolute aspect-video object-cover object-bottom -z-10"
+                 alt={""}/>
+            <h3 className="text-yellow-200 text-2xl ml-auto">
+                {lastTopic.percent}%
+            </h3>
+            <div className="flex flex-col">
+                <h2 className="text-xl font-semibold">{lastTopic.topicName}</h2>
+                <h3 className="text-sm text-gray-400">{lastTopic.moduleName}</h3>
+            </div>
+        </Link>
+    </div>
+);
 
 function Modules() {
     const [modules, setModules] = useState<ModuleResponse[]>([]);
@@ -105,25 +116,27 @@ function Modules() {
         loadModules();
     }, []);
 
-    if (loading || !modules) return <div className={"max-w-[900px] mx-auto flex justify-center mt-16"}><Loader/></div>
+    if (loading || !modules) return <SkeletonModules/>;
     if (error) return <div>{error}</div>;
 
     return (
         <div className="flex flex-col w-full max-w-[900px] mx-auto gap-4 px-4 py-16">
             <h2 className="text-xl md:text-2xl">{t('learn-page.modules')}</h2>
             <div className="flex flex-col gap-10">
-                {modules.map((module, i) =>
-                    <Module module={module} key={i}/>
-                )}
+                {modules.map((module, i) => <Module module={module} key={i}/>)}
             </div>
         </div>
-
     );
 }
 
+const SkeletonModules = () => {
+    const {t} = useTranslation();
 
+    return <div className="max-w-[900px] mx-auto flex flex-col justify-center mt-16 gap-6">
+        <h2 className="text-xl md:text-2xl">{t('learn-page.modules')}</h2>
 
-
-
-
-
+        {[...Array(3)].map((_, i) => (
+            <div key={i} className="w-full h-96 bg-[#282828] animate-pulse rounded-lg"></div>
+        ))}
+    </div>
+};

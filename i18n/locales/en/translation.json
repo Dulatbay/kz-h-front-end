@@ -11,7 +11,7 @@
   "learn-page": {
     "learning": "learning",
     "description": "Learn the history Module By Module and Topic By Topic.",
-    "modules": "modules"
+    "modules": "Modules"
   },
   "module": {
     "questions": "questions",
@@ -45,16 +45,16 @@
     "logout": "Logout"
   },
   "map-page": {
-      "title": "KZH Map",
-      "description": "Explore the history of Kazakhstan using the interactive KZH map.",
-      "chosenYear": "Chosen year",
-      "shortDescription": "Short description",
-      "keyMoments": "Key moments"
+    "title": "KZH Map",
+    "description": "Explore the history of Kazakhstan using the interactive KZH map.",
+    "chosenYear": "Chosen year",
+    "shortDescription": "Short description",
+    "keyMoments": "Key moments"
   },
   "module-page": {
-      "module": "Module",
-      "notFinishedAlert": "You need to close this module to move to the next module",
-      "goToNextModule": "Go to the next module"
+    "module": "Module",
+    "notFinishedAlert": "You need to close this module to move to the next module",
+    "goToNextModule": "Go to the next module"
   },
   "leaderboard-page": {
     "leaderboard": "Leaderboard",
@@ -65,5 +65,17 @@
     "questions": "Questions",
     "streak": "Streak",
     "score": "Score"
-}
+  },
+  "facts": [
+    "Ancient cities of **Taraz** and **Otrar** in Kazakhstan were important trade centers on the Great Silk Road.",
+    "Some of the oldest **chariots** in the world, over 4000 years old, were discovered in Kazakhstan.",
+    "The **Golden Man**, found in the Issyk burial mound, is a symbol of Kazakhstan's independence.",
+    "In the 13th century, the territory of Kazakhstan was part of the **Mongol Empire** under Genghis Khan.",
+    "Kazakhstan is the birthplace of the first **domesticated horses**, dating back around 5500 years.",
+    "The **Mausoleum of Khoja Ahmed Yasawi** is one of the greatest architectural monuments of the Timurid era.",
+    "The famous **Baikonur Cosmodrome** in Kazakhstan launched the first human into space – **Yuri Gagarin**.",
+    "In the 19th century, Kazakhstan actively resisted the **Russian Empire** under the leadership of **Kenessary Kassymov**.",
+    "The **Golden Man** (Altyn Adam), discovered in 1969, is one of Kazakhstan's most significant **archaeological finds**.",
+    "The **Saka warriors**, who lived in the Kazakh steppes, were known for their mobility and guerrilla warfare tactics."
+  ]
 }
