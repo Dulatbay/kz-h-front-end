@@ -13,6 +13,7 @@ import { fetchModules } from "@/services/module/modulesService";
 import { ModuleResponse } from "@/services/module/types";
 import { label } from "framer-motion/client";
 import { ItemType, MenuItemGroupType, MenuItemType } from "antd/es/menu/interface";
+import CustomPagination from "@/components/CustomPagination/CustomPagination";
 const { Option, OptGroup } = Select;
 
 export default function Quizzes() {
@@ -230,14 +231,8 @@ export default function Quizzes() {
                 </table>
             </div>
             {
-                !loading ? <ConfigProvider theme={{algorithm: theme.darkAlgorithm,}}>
-                    <Pagination onChange={(page, pageSize) => {
-                        setPaginationParams({'pageNumber': page - 1, 'pageSize': pageSize})
-                    }} total={totalElements} defaultPageSize={paginationParams.pageSize} showSizeChanger
-                                pageSizeOptions={[5, 10, 20, 50]} current={paginationParams.pageNumber + 1}
-                                disabled={loading}
-                    />
-                </ConfigProvider> : <></>
+                !loading ? 
+                <CustomPagination totalElements={totalElements} loading={loading} paginationParams={paginationParams} setPaginationParams={setPaginationParams}/> : <></>
             }
         </div>
     )

@@ -36,13 +36,15 @@
     "notSolved": "Непройденный"
   },
   "profile-page": {
+    "setNameNow": "Настроить имя сейчас!",
     "joined": "Зарегистрирован",
     "overview": "Статистика",
     "fireDays": "Дней подряд",
     "score": "Счёт",
     "questions": "Вопросы",
     "accuracy": "Точность",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "lastGames": "Последние игры"
   },
   "map-page": {
     "title": "Карта KZH",
