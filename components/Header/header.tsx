@@ -25,6 +25,7 @@ export default function Header() {
     const lastFetched = useSelector((state: RootState) => state.userOptions.lastFetched);
     const pathname = usePathname();
     const [loading, setLoading] = useState<boolean>(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
 
 
@@ -58,6 +59,13 @@ export default function Header() {
         fetchUser();
     }, []);
 
+    useEffect(() => {
+        document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, [isMenuOpen]);
+
     const isActive = (path: string) => {
         const arr = pathname.split("/").filter(i => i);
 
@@ -66,16 +74,23 @@ export default function Header() {
         return '/' + arr[1] === path;
     };
 
+
     const closeMenu = () => {
-        const checkbox = document.getElementById('check') as HTMLInputElement;
-        if (checkbox) checkbox.checked = false;
+        const checkbox = document.getElementById("check") as HTMLInputElement;
+        if (checkbox) {
+            checkbox.checked = false;
+            setIsMenuOpen(false);
+        }
     };
 
+    const handleMenuToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsMenuOpen(e.target.checked);
+    };
 
     return (
         <>
             <div className="h-20 bg-[#282828] max-sm:flex max-sm:justify-between max-sm:items-center z-50">
-                <input type="checkbox" id="check" className="hidden peer/navbar"/>
+                <input type="checkbox" id="check" className="hidden peer/navbar" onChange={handleMenuToggle}/>
                 <h1 className="cursor-pointer sm:hidden ml-8"><LogoSVG/></h1>
                 <label htmlFor="check" className="cursor-pointer sm:hidden mr-4 order-1">
                     <svg xmlns="http://www.w3.org/2000/svg" height="36px" viewBox="0 -960 960 960" width="36px"
@@ -86,7 +101,7 @@ export default function Header() {
                 <div
                     className="px-8 sm:h-full flex sm:flex-row sm:items-center sm:justify-between max-sm:invisible max-sm:opacity-0 sm:static
         peer-checked/navbar:visible peer-checked/navbar:opacity-100 max-sm:transition-all max-sm:duration-150 peer-checked/navbar:max-sm:top-16 top-14
-        flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto fixed items-start max-sm:px-8 z-50"
+        flex-col h-screen bg-[#282828] w-full max-w-[1200px] mx-auto absolute items-start max-sm:px-8 z-50"
                 >
                     <div className="text-[#FFFFFF99] flex gap-6 max-sm:flex-col items-center max-sm:items-start">
                         <h1 className="text-[#5348F2] font-bold mr-8 max-sm:mr-0 max-sm:hidden"><LogoSVG/></h1>

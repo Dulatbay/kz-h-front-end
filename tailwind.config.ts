@@ -10,7 +10,7 @@ const config: Config = {
         extend: {
             screens: {
                 'xs': '475px',
-                'sm': '810px',
+                'sm': '640px',
             },
             colors: {
                 background: "var(--background)",

@@ -10,7 +10,6 @@ interface ImageWithSkeletonProps {
 const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, className = '' }) => {
     const [loaded, setLoaded] = useState(false);
 
-    // При изменении src сбрасываем loaded в false
     useEffect(() => {
         setLoaded(false);
     }, [src]);
@@ -32,7 +31,6 @@ const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, classNa
             <img
                 src={src}
                 alt={alt}
-                // Если изображение ещё не загружено, делаем его невидимым
                 className={`w-full h-full object-contain object-center ${!loaded ? 'invisible' : ''}`}
                 onLoad={() => setLoaded(true)}
             />
