@@ -1,12 +1,13 @@
-export default function Collapse({className, name, children, id}: {
+export default function Collapse({className, name, children, id, defaultOpen}: {
     className?: string,
     name: string,
     children: React.ReactNode,
-    id: string
+    id: string,
+    defaultOpen?: boolean
 }) {
     return (
-        <div className={`bg-[#282828] flex flex-col gap-4 p-3 h-fit ${className}`}>
-            <input type="checkbox" id={id} className={`peer hidden`} defaultChecked/>
+        <div className={`bg-[#282828] flex flex-col gap-4 p-3 h-fit ${className} rounded-md`}>
+            <input type="checkbox" id={id} className={`peer hidden`} defaultChecked={defaultOpen}/>
             <label htmlFor={id} className={`peer-checked:hidden cursor-pointer flex gap-2 items-center`}>
                 <svg className="rotate-180" width="12" height="9" viewBox="0 0 10 7" fill="none"
                      xmlns="http://www.w3.org/2000/svg">

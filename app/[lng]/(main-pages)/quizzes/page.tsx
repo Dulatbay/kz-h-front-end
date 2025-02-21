@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useRef, useState} from "react";
-import {ConfigProvider, MenuProps, Pagination, Space, theme, Dropdown, Select} from "antd";
+import {ConfigProvider, MenuProps, Pagination, Space, theme, Dropdown, Select, Button} from "antd";
 import Loader from "@/components/Loader/loader";
 import {fetchQuizzes} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
@@ -9,11 +9,13 @@ import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
 import {useTranslation} from "react-i18next";
 import {CheckOutlined, DownOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
-import { fetchModules } from "@/services/module/modulesService";
-import { ModuleResponse } from "@/services/module/types";
-import { label } from "framer-motion/client";
-import { ItemType, MenuItemGroupType, MenuItemType } from "antd/es/menu/interface";
-const { Option, OptGroup } = Select;
+import {fetchModules} from "@/services/module/modulesService";
+import {ModuleResponse} from "@/services/module/types";
+import {label} from "framer-motion/client";
+import {ItemType, MenuItemGroupType, MenuItemType} from "antd/es/menu/interface";
+import Link from "next/link";
+
+const {Option, OptGroup} = Select;
 
 export default function Quizzes() {
 
@@ -31,11 +33,11 @@ export default function Quizzes() {
 
     useEffect(() => {
         const fetchData = async () => {
-            
+
             try {
                 setLoading(true);
                 const newItems: ItemType[] = [];
-                
+
                 const data = await fetchQuizzes({
                     page: paginationParams.pageNumber,
                     size: paginationParams.pageSize,
@@ -44,7 +46,7 @@ export default function Quizzes() {
                 });
                 setQuizzes(data.content);
                 setTotalElements(data.totalElements);
-                
+
                 const fetchedModules = await fetchModules();
                 setModules(fetchedModules);
 
@@ -83,12 +85,21 @@ export default function Quizzes() {
         }
     }
 
-    
-
 
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 px-6">
-            <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
+            <div className={"flex justify-start items-center gap-8"}>
+                <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
+                <Link href={"/quizzes/create"}
+                      className={`text-sm text-yellow-400 border 
+                      border-yellow-400 w-fit p-2 rounded-md
+                      hover:bg-yellow-400 hover:text-black hover:border-black
+                      
+                      transition-all duration-500
+                      `}>
+                    Создать свой квиз!
+                </Link>
+            </div>
             <div className="flex flex-wrap w-full gap-2">
 
                 <ConfigProvider theme={{
@@ -109,21 +120,29 @@ export default function Quizzes() {
                         },
                     }
                 }}>
-                    <Select value={t('quizzes-page.topics')} style={{width: "300px", height: "44px"}} dropdownStyle={{backgroundColor: "#1a1a1a", color: "white"}} onSelect={(value, option) => toggleTag({type: "topics", value: option.value as string, query_value: option.key as string})}>
+                    <Select value={t('quizzes-page.topics')} style={{width: "300px", height: "44px"}}
+                            dropdownStyle={{backgroundColor: "#1a1a1a", color: "white"}}
+                            onSelect={(value, option) => toggleTag({
+                                type: "topics",
+                                value: option.value as string,
+                                query_value: option.key as string
+                            })}>
                         {
-                        modules.map((module) => {
-                            return (
-                                <OptGroup className="!text-white !font-bold" key={`${module.id}`} label={module.name}>
-                                    {
-                                        module.topics.map((topic) => {
-                                            return (
-                                                <Option className="!text-sm" key={topic.topicId} value={topic.topicName}>{topic.topicName}</Option>
-                                            )
-                                        })
-                                    }
-                                </OptGroup>
-                            )
-                        })}
+                            modules.map((module) => {
+                                return (
+                                    <OptGroup className="!text-white !font-bold" key={`${module.id}`}
+                                              label={module.name}>
+                                        {
+                                            module.topics.map((topic) => {
+                                                return (
+                                                    <Option className="!text-sm" key={topic.topicId}
+                                                            value={topic.topicName}>{topic.topicName}</Option>
+                                                )
+                                            })
+                                        }
+                                    </OptGroup>
+                                )
+                            })}
                     </Select>
                 </ConfigProvider>
 
@@ -132,16 +151,16 @@ export default function Quizzes() {
                     value: tag,
                     query_value: (tag === t('quizzes-page.easy')) ? "EASY" : (tag === t('quizzes-page.medium')) ? "MEDIUM" : "HARD"
                 })}
-                          title={t('quizzes-page.difficulty')}
-                          options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
-                          disabled={loading}
+                                title={t('quizzes-page.difficulty')}
+                                options={[t('quizzes-page.easy'), t('quizzes-page.medium'), t('quizzes-page.hard')]}
+                                disabled={loading}
                 />
                 <CustomDropdown onSelect={(tag) => toggleTag({
                     type: "status",
                     value: tag,
                     query_value: tag == t('quizzes-page.solved') ? "true" : "false"
                 })} title={t('quizzes-page.status')} options={[t('quizzes-page.solved'), t('quizzes-page.notSolved')]}
-                          disabled={loading}
+                                disabled={loading}
                 />
 
                 <div className="flex flex-1">

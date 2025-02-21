@@ -8,7 +8,8 @@ export const quizOptions = createSlice({
         description: '',
         questions: [] as Question[],
         showQuestions: false,
-        language: 'KAZ',
+        language: 'KAZ' as ('KAZ' | 'RUS' | 'ENG'),
+        selectedTopics: [] as string[],
     },
     reducers: {
         addQuestion: (state, action) => {
@@ -28,6 +29,9 @@ export const quizOptions = createSlice({
         },
         setLanguage: (state, action) => {
             state.language = action.payload;
+        },
+        setSelectedTopics: (state, action) => {
+            state.selectedTopics = action.payload;
         }
     }
 })
@@ -38,6 +42,7 @@ export const {
     setTitle,
     setDescription,
     setShowQuestions,
-    setLanguage
+    setLanguage,
+    setSelectedTopics
 } = quizOptions.actions
 export default quizOptions.reducer

@@ -62,7 +62,8 @@ export default function PreviewQuiz() {
             </div>
 
             <div className="flex-1">
-                <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)] rounded" id="openAnswers">
+                <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)] rounded" id="openAnswers"
+                          defaultOpen>
                     {quizData && quizData.questions && quizData.questions.length &&
                         quizData.questions.map((question: string, index: number) => {
                             return (
