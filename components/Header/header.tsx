@@ -149,9 +149,9 @@ export default function Header() {
                         <div className={"flex justify-center items-center gap-2"}>
                             {user ? (
                                 <div id="streak" className="flex gap-2">
-                                    <h3 className={`text-sm ${!user?.wasPlayedYesterday || !user?.wasPlayedToday ? "text-gray-400" : "text-[#F66F3E]"} `}>{user?.fireDays}</h3>
+                                    <h3 className={`text-sm ${!user?.wasPlayedYesterday && !user?.wasPlayedToday ? "text-gray-400" : "text-[#F66F3E]"} `}>{user?.fireDays}</h3>
                                     <FireIcon
-                                        variant={!user?.wasPlayedYesterday || !user?.wasPlayedToday ? "gray" : "default"}/>
+                                        variant={!user?.wasPlayedYesterday && !user?.wasPlayedToday ? "gray" : "default"}/>
                                 </div>
                             ) : (
                                 <></>
