@@ -2,7 +2,7 @@
 
 import { TimelineSlider } from "../TimelineSlider/TimelineSlider";
 import { useState, useEffect } from "react";
-import { getMapImageUrl } from "@/utills/getHistoryData";
+import {getImageUrl, getMapImageUrl} from "@/utills/getHistoryData";
 import { useTranslation } from "react-i18next";
 import Loader from "@/components/Loader/loader";
 import { HistoricalRange } from "@/services/map/types";
@@ -63,7 +63,7 @@ function HistoricalTimeline() {
                             {historicalData.mapUrls.map((image, index) => (
                                 <div key={index}>
                                     <ImageWithSkeleton
-                                        src={getMapImageUrl(image)}
+                                        src={getImageUrl(image)}
                                         alt="map"
                                         className="lg:h-[400px] aspect-video m-auto"
                                     />
