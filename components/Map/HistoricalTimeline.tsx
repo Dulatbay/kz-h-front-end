@@ -50,8 +50,8 @@ function HistoricalTimeline() {
 
             <div className="flex mx-auto mb-6 sm:mb-8 max-w-6xl">
                 <TimelineSlider
-                    minYear={550}
-                    maxYear={1212}
+                    minYear={0}
+                    maxYear={2024}
                     onChange={handleYearChange}
                 />
             </div>
