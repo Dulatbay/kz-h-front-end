@@ -8,7 +8,7 @@ export const quizOptions = createSlice({
         description: '',
         questions: [] as Question[],
         showQuestions: false,
-        language: 'KAZ' as ('KAZ' | 'RUS' | 'ENG'),
+        language: 'kaz' as ('kaz' | 'ru' | 'en'),
         selectedTopics: [] as string[],
     },
     reducers: {
