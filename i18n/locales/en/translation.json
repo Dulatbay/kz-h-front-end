@@ -36,13 +36,15 @@
     "notSolved": "Not solved"
   },
   "profile-page": {
+    "setNameNow": "Set name now!",
     "joined": "Joined",
     "overview": "Overview",
     "fireDays": "Fire days",
     "score": "Score",
     "questions": "Questions",
     "accuracy": "Accuracy",
-    "logout": "Logout"
+    "logout": "Logout",
+    "lastGames": "Last games"
   },
   "map-page": {
     "title": "KZH Map",

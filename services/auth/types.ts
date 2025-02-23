@@ -15,7 +15,7 @@ export interface UserResponse {
     answeredQuestionsCount: number;
     score: number;
     accuracy: number;
-    joinDate: string;
+    joinedDate: string;
     imageUrl: string | null;
     lastTopicId: string | null;
 }

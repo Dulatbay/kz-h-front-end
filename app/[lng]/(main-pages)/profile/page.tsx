@@ -6,20 +6,28 @@ import Loader from "@/components/Loader/loader";
 import {getMe} from "@/services/auth/authService";
 import {HttpException} from "@/utills/exceptions";
 import {getImageUrl} from "@/utills/getHistoryData";
-import {Button, Input, message} from "antd";
+import {Button, ConfigProvider, Input, message, Pagination, theme} from "antd";
 import {editFullName} from "@/services/user/userService";
 import {ACCESS_TOKEN} from "@/utills/constants";
 import {useTranslation} from "react-i18next";
 import {redirect, useRouter} from 'next/navigation';
+import ImageWithSkeleton from "@/components/ImageWithSkeleton/imageWithSkeleton";
+import { format } from "date-fns";
+import CustomPagination from "@/components/CustomPagination/CustomPagination";
+
+import {CheckOutlined, DownOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(true);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [firstName, setFirstName] = useState<string>('');
     const {t} = useTranslation();
     const [lastName, setLastName] = useState<string>('');
     const router = useRouter();
+    const [totalElements, setTotalElements] = useState(0);
+    
+
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
@@ -31,8 +39,9 @@ export default function Profile() {
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                const user = await getMe()
-                setUserData(user)
+                const user = await getMe();
+                setUserData(user);
+                console.log(user);
             } catch (error) {
                 if (error instanceof HttpException) {
                     redirect(`/error?status=${error.status}&message=${error.message}`);
@@ -72,20 +81,15 @@ export default function Profile() {
         throw new Error("No user data found.");
 
     return (
-        <div className="w-full p-3 max-w-[800px] flex flex-col mx-auto gap-8 mt-3">
-            <div className="flex flex-col ">
-                <div className="w-full h-[400px] relative">
-                    <img src={getImageUrl("other/profile-header.png")}
-                         className="w-full h-full object-cover brightness-50 rounded-xl "
+        <div className="w-full p-3 max-w-[800px] flex flex-col mx-auto gap-12 mt-6 relative">
+            <div className="flex gap-10 flex-wrap">
+                <div className="rounded-full aspect-square border-2 border-neutral-500 overflow-hidden">
+                    {/* <img src={getImageUrl("other/profile-header.png")}
+                         className="w-56 aspect-square object-cover rounded-full"
                          alt={""}
-                    />
-                    <a href="/settings" className="right-2 top-2 absolute">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17.6407 10.98C17.6818 10.66 17.7127 10.34 17.7127 10C17.7127 9.66 17.6818 9.34 17.6407 9.02L19.8099 7.37C20.0052 7.22 20.0566 6.95 19.9333 6.73L17.8772 3.27C17.7538 3.05 17.4762 2.97 17.25 3.05L14.6902 4.05C14.1556 3.65 13.5799 3.32 12.9528 3.07L12.5621 0.42C12.5313 0.18 12.3154 0 12.0584 0H7.94616C7.68915 0 7.47326 0.18 7.44242 0.42L7.05176 3.07C6.42464 3.32 5.84894 3.66 5.31435 4.05L2.7545 3.05C2.51804 2.96 2.25075 3.05 2.12738 3.27L0.0712765 6.73C-0.0623704 6.95 -0.00068705 7.22 0.194643 7.37L2.36384 9.02C2.32271 9.34 2.29187 9.67 2.29187 10C2.29187 10.33 2.32271 10.66 2.36384 10.98L0.194643 12.63C-0.00068705 12.78 -0.0520898 13.05 0.0712765 13.27L2.12738 16.73C2.25075 16.95 2.52832 17.03 2.7545 16.95L5.31435 15.95C5.84894 16.35 6.42464 16.68 7.05176 16.93L7.44242 19.58C7.47326 19.82 7.68915 20 7.94616 20H12.0584C12.3154 20 12.5313 19.82 12.5621 19.58L12.9528 16.93C13.5799 16.68 14.1556 16.34 14.6902 15.95L17.25 16.95C17.4865 17.04 17.7538 16.95 17.8772 16.73L19.9333 13.27C20.0566 13.05 20.0052 12.78 19.8099 12.63L17.6407 10.98ZM10.0023 13.5C8.01813 13.5 6.40408 11.93 6.40408 10C6.40408 8.07 8.01813 6.5 10.0023 6.5C11.9864 6.5 13.6005 8.07 13.6005 10C13.6005 11.93 11.9864 13.5 10.0023 13.5Z"
-                                fill="#91898C"/>
-                        </svg>
-                    </a>
+                    /> */}
+
+                    <ImageWithSkeleton className="w-56 rounded-full aspect-square object-cover" src={userData.imageUrl ? getImageUrl(userData.imageUrl) : ""} alt=""/>
                 </div>
                 {isEditing ? (
                     <div className="flex flex-col gap-4 mt-4">
@@ -109,12 +113,22 @@ export default function Profile() {
                 ) : (
                     <></>
                 )}
-                <h1 className="text-3xl">{userData.firstName} {userData.lastName}</h1>
-                <div className="flex text-gray-500 w-full gap-1">
-                    <h3>@{userData.username}</h3>
-                    ·
-                    <h3>{t('profile-page.joined')} {userData.joinDate ? userData.joinDate : "September 2024"}</h3>
+                <div className="flex-1 my-auto space-y-1">
+                    <h1 className={`text-4xl ${!userData.firstName ? 'text-[#5348F2]' : ''}`}>{userData.firstName ? `${userData.firstName} ${userData.lastName}` : t('profile-page.setNameNow')}</h1>
+                    <div className="flex text-neutral-500 w-full gap-1">
+                        <h3>@{userData.username}</h3>
+                        ·
+                        <h3>{t('profile-page.joined')} { userData.joinedDate ? format(userData.joinedDate, 'MMMM yyyy') : "September 2024"}</h3>
+                    </div>
                 </div>
+
+                <a href="/settings" className="right-2 top-2 absolute">
+                    <svg width="26" height="26" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17.6407 10.98C17.6818 10.66 17.7127 10.34 17.7127 10C17.7127 9.66 17.6818 9.34 17.6407 9.02L19.8099 7.37C20.0052 7.22 20.0566 6.95 19.9333 6.73L17.8772 3.27C17.7538 3.05 17.4762 2.97 17.25 3.05L14.6902 4.05C14.1556 3.65 13.5799 3.32 12.9528 3.07L12.5621 0.42C12.5313 0.18 12.3154 0 12.0584 0H7.94616C7.68915 0 7.47326 0.18 7.44242 0.42L7.05176 3.07C6.42464 3.32 5.84894 3.66 5.31435 4.05L2.7545 3.05C2.51804 2.96 2.25075 3.05 2.12738 3.27L0.0712765 6.73C-0.0623704 6.95 -0.00068705 7.22 0.194643 7.37L2.36384 9.02C2.32271 9.34 2.29187 9.67 2.29187 10C2.29187 10.33 2.32271 10.66 2.36384 10.98L0.194643 12.63C-0.00068705 12.78 -0.0520898 13.05 0.0712765 13.27L2.12738 16.73C2.25075 16.95 2.52832 17.03 2.7545 16.95L5.31435 15.95C5.84894 16.35 6.42464 16.68 7.05176 16.93L7.44242 19.58C7.47326 19.82 7.68915 20 7.94616 20H12.0584C12.3154 20 12.5313 19.82 12.5621 19.58L12.9528 16.93C13.5799 16.68 14.1556 16.34 14.6902 15.95L17.25 16.95C17.4865 17.04 17.7538 16.95 17.8772 16.73L19.9333 13.27C20.0566 13.05 20.0052 12.78 19.8099 12.63L17.6407 10.98ZM10.0023 13.5C8.01813 13.5 6.40408 11.93 6.40408 10C6.40408 8.07 8.01813 6.5 10.0023 6.5C11.9864 6.5 13.6005 8.07 13.6005 10C13.6005 11.93 11.9864 13.5 10.0023 13.5Z"
+                            fill="#91898C"/>
+                    </svg>
+                </a>
             </div>
             <div className="flex flex-col gap-4 w-full">
                 <h1 className="text-3xl">{t('profile-page.overview')}</h1>
@@ -129,7 +143,9 @@ export default function Profile() {
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
-            <Button type={"primary"} danger onClick={handleLogout}>{t('profile-page.logout')}</Button>
+            {/* <Button type={"primary"} danger onClick={handleLogout}>{t('profile-page.logout')}</Button> */}
+
+            <LastGames/>
         </div>
     )
 }
@@ -206,3 +222,142 @@ function Stat({svg, textColor, stat, title}: {
         </div>
     )
 }
+
+function LastGames(){
+    const {t} = useTranslation();
+    const [paginationParams, setPaginationParams] = useState({pageNumber: 0, pageSize: 20});
+    const [loading, setLoading] = useState(false);
+    // const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);  
+    // const router = useRouter();
+    const [totalElements, setTotalElements] = useState(0);  
+
+    // useEffect(() => {
+    //         const fetchData = async () => {
+                
+    //             try {
+    //                 setLoading(true);
+    //                 const data = await fetchLastGames({
+    //                     page: paginationParams.pageNumber,
+    //                     size: paginationParams.pageSize,
+    //                 });
+    //                 setQuizzes(data.content);
+    //                 setTotalElements(data.totalElements);
+    
+    //             } catch (error) {
+    //                 if (error instanceof HttpException) {
+    //                     router.push(`/error?status=${error.status}&message=${error.message}`);
+    //                 }
+    //             } finally {
+    //                 setLoading(false);
+    //             }
+    //         };
+    
+    //         fetchData();
+    //     }, [paginationParams]);
+
+    const lastGames = [
+        {    "id": 5,
+            "title" : "Вопросы по истории Казахстана",
+            "difficulty" : "HARD",
+            "correctAnswers" : 12,
+            "totalQuestions" : 29
+        },
+        {    "id": 5,
+            "title" : "Вопросы по истории Казахстана",
+            "difficulty" : "HARD",
+            "correctAnswers" : 17,
+            "totalQuestions" : 29
+        },
+        {    "id": 5,
+            "title" : "Вопросы по истории Казахстана",
+            "difficulty" : "EASY",
+            "correctAnswers" : 27,
+            "totalQuestions" : 29
+        },
+        {    "id": 5,
+            "title" : "Вопросы по истории Казахстана",
+            "difficulty" : "MEDIUM",
+            "correctAnswers" : 17,
+            "totalQuestions" : 29
+        },
+        {    "id": 5,
+            "title" : "Вопросы по истории Казахстана",
+            "difficulty" : "HARD",
+            "correctAnswers" : 17,
+            "totalQuestions" : 29
+        },
+    ]
+    return (
+        <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full gap-6 overflow-x-scroll">
+                <h1 className="text-3xl">{t('profile-page.lastGames')}</h1>
+                <table cellPadding={16} className="gap-3 w-full min-w-[800px]">
+                    <colgroup>
+                        <col className="w-24"/>
+                        <col className="flex-1"/>
+                        <col className="w-24"/>
+                    </colgroup>
+                    <tbody>
+                    {   
+                        lastGames.map((game, index) => {
+                            return (
+                                <GameRow index={index} row={game}/>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
+                {
+                    !loading ? <CustomPagination totalElements={totalElements} setPaginationParams={setPaginationParams} loading={loading} paginationParams={setPaginationParams}/> : <></>
+                }
+            </div>
+        </div>
+    )
+}
+
+const GameRow = ({row, index}: {
+    row: any;
+    index: number;
+}) => {
+    const {t} = useTranslation();
+    let dificultyColor: string;
+    let difficulty: string;
+    switch (row.difficulty) {
+        case "EASY":
+            dificultyColor = 'text-[#00B8A3]';
+            difficulty = t('quizzes-page.easy');
+            break;
+        case "MEDIUM":
+            dificultyColor = 'text-yellow-500';
+            difficulty = t('quizzes-page.medium');
+            break;
+        case "HARD":
+            dificultyColor = 'text-red-500';
+            difficulty = t('quizzes-page.hard');
+            break;
+        default:
+            dificultyColor = 'text-white';
+            difficulty = 'Undef';
+            break;
+    }
+    
+
+    let percentage = row.correctAnswers /row.totalQuestions * 100;
+    let percentageColor: string;
+
+    if(percentage < 50){
+        percentageColor = 'text-red-500';
+    }else if(percentage < 80){
+        percentageColor = 'text-yellow-500';
+    }else{
+        percentageColor = 'text-[#00B8A3]';
+    }
+
+    return (
+        <tr key={`row-${index}`} className="odd:bg-zinc-800 h-14">  
+            <td className={`${percentageColor} text-center`}>{row.correctAnswers} / {row.totalQuestions}</td>
+            <td><a href={`/quizzes/${row.id}`}>{row.title}</a></td>
+            <td className={`${dificultyColor} text-center`}>{difficulty}</td>
+        </tr>
+    );
+};

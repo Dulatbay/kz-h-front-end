@@ -7,7 +7,7 @@ interface ImageWithSkeletonProps {
     className?: string;
 }
 
-const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, className = '' }) => {
+const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, className}) => {
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, classNa
     }, [src]);
 
     return (
-        <div className={`relative ${className}`}>
+        <div className={`relative ${className} `}>
             {!loaded && (
                 <Skeleton.Image
                     active
@@ -31,7 +31,7 @@ const ImageWithSkeleton: React.FC<ImageWithSkeletonProps> = ({ src, alt, classNa
             <img
                 src={src}
                 alt={alt}
-                className={`w-full h-full object-contain object-center ${!loaded ? 'invisible' : ''}`}
+                className={`w-full h-full object-cover object-center ${!loaded ? 'invisible' : ''}`}
                 onLoad={() => setLoaded(true)}
             />
         </div>
