@@ -15,6 +15,13 @@ export interface GameByIdResponse {
     currentUserResult: boolean;
 }
 
+export interface LastGame {
+    gameId: number;
+    quizTitle: string;
+    level: "EASY" | "MEDIUM" | "HARD";
+    correctAnswersCount: number;
+    questionsCount: number;
+}
 
 export interface AnsweredQuestionResponse {
     question: string;

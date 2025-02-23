@@ -1,5 +1,8 @@
 import baseApi, {handleApiRequest} from "@/services/baseApi";
-import {GameByIdResponse, ProcessGameResponse} from "@/services/game/types";
+import {GameByIdResponse, LastGame, ProcessGameResponse} from "@/services/game/types";
+import {PaginatedResponse} from "@/services/baseTypes";
+
+
 
 export const sendAnswerByGameId = async (gameId: string, answers: string[]): Promise<ProcessGameResponse> => {
     return handleApiRequest(() =>
@@ -14,6 +17,15 @@ export const sendAnswerByGameId = async (gameId: string, answers: string[]): Pro
     );
 };
 
+export const fetchLastGames = async (page: number, size: number): Promise<PaginatedResponse<LastGame>> => {
+    return handleApiRequest(() =>
+        baseApi
+            .get<PaginatedResponse<LastGame>>("/solo-game/last-games", {
+                params: { page, size },
+            })
+            .then((res) => res.data)
+    );
+};
 
 export const startGame = async (quizId: string): Promise<ProcessGameResponse> => {
     return handleApiRequest(() => baseApi.post<ProcessGameResponse>(

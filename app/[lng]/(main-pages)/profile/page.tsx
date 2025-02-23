@@ -16,18 +16,12 @@ import { format } from "date-fns";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 
 import {CheckOutlined, DownOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
+import LastGames from "@/app/[lng]/(main-pages)/profile/last-games";
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
     const [loading, setLoading] = useState<boolean>(true);
-    const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [firstName, setFirstName] = useState<string>('');
     const {t} = useTranslation();
-    const [lastName, setLastName] = useState<string>('');
-    const router = useRouter();
-    const [totalElements, setTotalElements] = useState(0);
-    
-
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
@@ -57,19 +51,6 @@ export default function Profile() {
         fetchUserData();
     }, [])
 
-    function handleLogout() {
-        localStorage.clear();
-        router.push("/login");
-    }
-
-    const handleSave = () => {
-        editFullName(firstName, lastName)
-            .then((data) => {
-                setUserData(data);
-                setIsEditing(false);
-            });
-    }
-
     if (loading)
         return (
             <div className={"max-w-[800px] m-auto mt-64"}>
@@ -84,35 +65,8 @@ export default function Profile() {
         <div className="w-full p-3 max-w-[800px] flex flex-col mx-auto gap-12 mt-6 relative">
             <div className="flex gap-10 flex-wrap">
                 <div className="rounded-full aspect-square border-2 border-neutral-500 overflow-hidden">
-                    {/* <img src={getImageUrl("other/profile-header.png")}
-                         className="w-56 aspect-square object-cover rounded-full"
-                         alt={""}
-                    /> */}
-
                     <ImageWithSkeleton className="w-56 rounded-full aspect-square object-cover" src={userData.imageUrl ? getImageUrl(userData.imageUrl) : ""} alt=""/>
                 </div>
-                {isEditing ? (
-                    <div className="flex flex-col gap-4 mt-4">
-                        <Input
-                            placeholder="First Name"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                        <Input
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                        <div className="flex gap-4">
-                            <Button type="primary" onClick={handleSave}>
-                                Save
-                            </Button>
-                            <Button onClick={() => setIsEditing(false)}>Cancel</Button>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
                 <div className="flex-1 my-auto space-y-1">
                     <h1 className={`text-4xl ${!userData.firstName ? 'text-[#5348F2]' : ''}`}>{userData.firstName ? `${userData.firstName} ${userData.lastName}` : t('profile-page.setNameNow')}</h1>
                     <div className="flex text-neutral-500 w-full gap-1">
@@ -143,9 +97,7 @@ export default function Profile() {
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
-            {/* <Button type={"primary"} danger onClick={handleLogout}>{t('profile-page.logout')}</Button> */}
-
-            <LastGames/>
+            <LastGames />
         </div>
     )
 }
@@ -222,142 +174,3 @@ function Stat({svg, textColor, stat, title}: {
         </div>
     )
 }
-
-function LastGames(){
-    const {t} = useTranslation();
-    const [paginationParams, setPaginationParams] = useState({pageNumber: 0, pageSize: 20});
-    const [loading, setLoading] = useState(false);
-    // const [quizzes, setQuizzes] = useState<QuizCardResponse[]>([]);  
-    // const router = useRouter();
-    const [totalElements, setTotalElements] = useState(0);  
-
-    // useEffect(() => {
-    //         const fetchData = async () => {
-                
-    //             try {
-    //                 setLoading(true);
-    //                 const data = await fetchLastGames({
-    //                     page: paginationParams.pageNumber,
-    //                     size: paginationParams.pageSize,
-    //                 });
-    //                 setQuizzes(data.content);
-    //                 setTotalElements(data.totalElements);
-    
-    //             } catch (error) {
-    //                 if (error instanceof HttpException) {
-    //                     router.push(`/error?status=${error.status}&message=${error.message}`);
-    //                 }
-    //             } finally {
-    //                 setLoading(false);
-    //             }
-    //         };
-    
-    //         fetchData();
-    //     }, [paginationParams]);
-
-    const lastGames = [
-        {    "id": 5,
-            "title" : "Вопросы по истории Казахстана",
-            "difficulty" : "HARD",
-            "correctAnswers" : 12,
-            "totalQuestions" : 29
-        },
-        {    "id": 5,
-            "title" : "Вопросы по истории Казахстана",
-            "difficulty" : "HARD",
-            "correctAnswers" : 17,
-            "totalQuestions" : 29
-        },
-        {    "id": 5,
-            "title" : "Вопросы по истории Казахстана",
-            "difficulty" : "EASY",
-            "correctAnswers" : 27,
-            "totalQuestions" : 29
-        },
-        {    "id": 5,
-            "title" : "Вопросы по истории Казахстана",
-            "difficulty" : "MEDIUM",
-            "correctAnswers" : 17,
-            "totalQuestions" : 29
-        },
-        {    "id": 5,
-            "title" : "Вопросы по истории Казахстана",
-            "difficulty" : "HARD",
-            "correctAnswers" : 17,
-            "totalQuestions" : 29
-        },
-    ]
-    return (
-        <div className="flex flex-col w-full">
-            <div className="flex flex-col w-full gap-6 overflow-x-scroll">
-                <h1 className="text-3xl">{t('profile-page.lastGames')}</h1>
-                <table cellPadding={16} className="gap-3 w-full min-w-[800px]">
-                    <colgroup>
-                        <col className="w-24"/>
-                        <col className="flex-1"/>
-                        <col className="w-24"/>
-                    </colgroup>
-                    <tbody>
-                    {   
-                        lastGames.map((game, index) => {
-                            return (
-                                <GameRow index={index} row={game}/>
-                            )
-                        })
-                    }
-                    </tbody>
-                </table>
-                {
-                    !loading ? <CustomPagination totalElements={totalElements} setPaginationParams={setPaginationParams} loading={loading} paginationParams={setPaginationParams}/> : <></>
-                }
-            </div>
-        </div>
-    )
-}
-
-const GameRow = ({row, index}: {
-    row: any;
-    index: number;
-}) => {
-    const {t} = useTranslation();
-    let dificultyColor: string;
-    let difficulty: string;
-    switch (row.difficulty) {
-        case "EASY":
-            dificultyColor = 'text-[#00B8A3]';
-            difficulty = t('quizzes-page.easy');
-            break;
-        case "MEDIUM":
-            dificultyColor = 'text-yellow-500';
-            difficulty = t('quizzes-page.medium');
-            break;
-        case "HARD":
-            dificultyColor = 'text-red-500';
-            difficulty = t('quizzes-page.hard');
-            break;
-        default:
-            dificultyColor = 'text-white';
-            difficulty = 'Undef';
-            break;
-    }
-    
-
-    let percentage = row.correctAnswers /row.totalQuestions * 100;
-    let percentageColor: string;
-
-    if(percentage < 50){
-        percentageColor = 'text-red-500';
-    }else if(percentage < 80){
-        percentageColor = 'text-yellow-500';
-    }else{
-        percentageColor = 'text-[#00B8A3]';
-    }
-
-    return (
-        <tr key={`row-${index}`} className="odd:bg-zinc-800 h-14">  
-            <td className={`${percentageColor} text-center`}>{row.correctAnswers} / {row.totalQuestions}</td>
-            <td><a href={`/quizzes/${row.id}`}>{row.title}</a></td>
-            <td className={`${dificultyColor} text-center`}>{difficulty}</td>
-        </tr>
-    );
-};
