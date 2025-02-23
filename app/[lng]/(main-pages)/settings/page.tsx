@@ -320,7 +320,7 @@ const ProfileSettings = () => {
             {/* Delete Account */}
             <div className="w-full max-w-md flex items-center justify-between">
                 <label className="text-white">Delete my account</label>
-                <Button danger className="!px-10">
+                <Button danger className="!px-10 !cursor-not-allowed opacity-40">
                     DELETE
                 </Button>
             </div>

@@ -104,7 +104,7 @@ function SessionsSettings() {
     return (
         <div className="min-h-screen flex flex-col flex-grow items-center p-6">
             <div className="w-full max-w-lg">
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-16 mb-8">
                     <SessionsBlock
                         deviceType="Web sessions"
                         deviceTypeSessions={sessions.webSessions || []}

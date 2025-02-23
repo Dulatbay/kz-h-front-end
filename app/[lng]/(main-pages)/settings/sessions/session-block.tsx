@@ -14,13 +14,13 @@ export default function SessionsBlock({ deviceType, deviceTypeSessions, onTermin
     }
 
     return (
-        <>
+        <div>
             <h2 className="text-white text-lg font-semibold mb-3">{deviceType}</h2>
             <div className="flex flex-col gap-4">
                 {deviceTypeSessions.map((session, index) => (
                     <SessionCard key={index} session={session} onTerminate={onTerminate} />
                 ))}
             </div>
-        </>
+        </div>
     );
 }
