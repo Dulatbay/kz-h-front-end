@@ -45,6 +45,8 @@ export default function GenerateQuestionBlock() {
                         </Select>
                     </div>
                 </div>
+                <TopicDropdown modules={moduleResponse}/>
+                <ShowSelectedTopics/>
                 <ShowQuestions handleCreateQuestion={handleCreateQuestion}/>
             </div>
         </>
