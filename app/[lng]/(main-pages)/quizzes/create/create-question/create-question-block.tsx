@@ -5,10 +5,9 @@ import {
     addQuestion,
     setSelectedTopics,
 } from "@/app/store/slices/quiz-slice/slice";
-import TopicDropdown from "@/app/[lng]/(main-pages)/quizzes/create/topic-dropdown";
-import {ModuleResponse} from "@/services/module/types";
-import {fetchModules} from "@/services/module/modulesService";
+import TopicDropdown from "@/app/[lng]/(main-pages)/quizzes/create/topic/topic-dropdown";
 import {RootState} from "@/app/store/store";
+import ShowSelectedTopics from "@/app/[lng]/(main-pages)/quizzes/create/topic/show-selected-topics";
 
 type OptionInput = {
     id: number;
@@ -23,15 +22,7 @@ export default function CreateQuestionBlock() {
     const [optionInputs, setOptionInputs] = useState([] as OptionInput[]);
     const [selectedDifficulty, setSelectedDifficulty] = useState("EASY");
     const [selectedDuration, setSelectedDuration] = useState(15);
-    const [modules, setModules] = useState<ModuleResponse[]>([]);
-    const {selectedTopics} = useSelector((state: RootState) => state.quizOptions);
-
-    useEffect(() => {
-        fetchModules()
-            .then((data) => setModules(data))
-            .catch((error) => console.error("Error fetching modules:", error))
-    }, []);
-
+    const {selectedTopics, moduleResponse} = useSelector((state: RootState) => state.quizOptions);
 
     function addQuestionHandler() {
         if (optionInputs.length < 2) {
@@ -60,7 +51,7 @@ export default function CreateQuestionBlock() {
                 type: "CREATE",
                 question: questionText.trim(),
                 durationInSeconds: selectedDuration,
-                topicId: selectedTopics,
+                topicIds: selectedTopics,
                 level: selectedDifficulty as "EASY" | "MEDIUM" | "HARD",
                 variants: optionInputs.map((opt) => ({
                     text: opt.value,
@@ -118,32 +109,11 @@ export default function CreateQuestionBlock() {
                     </div>
 
                     <div className="w-full">
-                        <label className="text-sm text-gray-300 block">Select Topics</label>
-                        <TopicDropdown modules={modules}/>
+                        <TopicDropdown modules={moduleResponse}/>
                     </div>
                 </div>
                 <div>
-                    <div className={"flex flex-row gap-4 flex-wrap"}>
-                        {selectedTopics.map((topicId) => {
-                            let topicName = "";
-                            console.log(topicId);
-                            modules.forEach((module) => {
-                                const found = module.topics.find((t) => t.topicId === topicId);
-                                if (found) topicName = found.topicName;
-                            });
-                            return (
-                                <div
-                                    key={topicId}
-                                    className={"bg-zinc-700 p-2 rounded cursor-pointer"}
-                                    onClick={() => {
-                                        dispatch(setSelectedTopics(selectedTopics.filter((id) => id !== topicId)));
-                                    }}
-                                >
-              {topicName} ×
-            </div>
-                            );
-                        })}
-                    </div>
+                    <ShowSelectedTopics/>
 
                 </div>
                 <input

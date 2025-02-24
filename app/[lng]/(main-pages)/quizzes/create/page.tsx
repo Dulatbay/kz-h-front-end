@@ -1,15 +1,13 @@
 'use client'
 
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from "react";
 import {
-    addQuestion,
     setTitle,
     setDescription,
     setShowQuestions,
-    setLanguage,
+    setModuleResponse,
 } from "@/app/store/slices/quiz-slice/slice";
-import {Button, Checkbox, Dropdown, MenuProps, message, Select, Space} from "antd";
+import {Button, Checkbox, message} from "antd";
 import {RootState} from "@/app/store/store";
 import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
@@ -17,6 +15,10 @@ import {createQuiz} from "@/services/quiz/quizService";
 import {Variant} from "@/services/game/types";
 import AddedQuestions from "@/app/[lng]/(main-pages)/quizzes/create/added-questions";
 import Switch from "@/app/[lng]/(main-pages)/quizzes/create/switch";
+import {fetchModules} from "@/services/module/modulesService";
+import {useEffect} from "react";
+import LanguageSelector from "@/components/Header/LanguageSelector";
+import i18n from "@/i18n/i18n";
 
 
 export type CreateQuestion = {
@@ -30,6 +32,11 @@ export type CreateQuestion = {
 
 export type GenerateQuestion = {
     type: "GENERATE";
+    question: string;
+    questionId: string;
+    level: "EASY" | "MEDIUM" | "HARD";
+    durationInSeconds: number;
+    variants: Variant[];
 };
 
 export type Question = CreateQuestion | GenerateQuestion;
@@ -41,9 +48,13 @@ export default function CreateQuiz() {
     const title = useSelector((state: RootState) => state.quizOptions.title);
     const description = useSelector((state: RootState) => state.quizOptions.description);
     const showQuestions = useSelector((state: RootState) => state.quizOptions.showQuestions);
-    const language = useSelector((state: RootState) => state.quizOptions.language);
 
 
+    useEffect(() => {
+        fetchModules()
+            .then((data) => dispatch(setModuleResponse(data)))
+            .catch((error) => console.error("Error fetching modules:", error))
+    }, []);
 
     function createQuizButtonHandle() {
         if (title.trim().length === 0 || description.trim().length === 0) {
@@ -55,7 +66,7 @@ export default function CreateQuiz() {
             return;
         }
 
-        createQuiz(title, description, showQuestions, language, questions)
+        createQuiz(title, description, showQuestions, i18n.language.toUpperCase(), questions)
             .then(() => {
                 message.info("Quiz created successfully");
                 router.push("/quizzes");
@@ -71,17 +82,7 @@ export default function CreateQuiz() {
         <div className="w-full max-w-[1200px] mx-auto flex flex-col px-8 items-center">
             <div className="flex items-center gap-2">
                 <h1 className="text-xl my-6">Quiz creating</h1>
-                <select
-                    className="bg-[#282828] rounded text-white p-2 text-center h-fit"
-                    value={language}
-                    onChange={(e) => {
-                        dispatch(setLanguage(e.target.value))
-                    }}
-                >
-                    <option value="kaz">🇰🇿</option>
-                    <option value="ru">🇷🇺</option>
-                    <option value="en">🇺🇸</option>
-                </select>
+                <LanguageSelector/>
             </div>
             <div className="w-full flex gap-8 flex-wrap">
                 <div className="flex flex-col gap-4 flex-1 min-w-80">

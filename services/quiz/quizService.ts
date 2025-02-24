@@ -21,11 +21,12 @@ export const createQuiz = async (
     questions: Question[]
 ) => {
     const questionCreateRequests = questions.map((q) => {
+        console.log(q)
         if (q.type === "CREATE") {
             return {
                 questionCreate: {
                     question: q.question,
-                    topicId: q.topicIds,
+                    topicIds: q.topicIds,
                     level: q.level,
                     durationInSeconds: q.durationInSeconds,
                     variants: q.variants,
@@ -34,7 +35,8 @@ export const createQuiz = async (
         } else {
             return {
                 questionGenerate: {
-                    questionId: "",
+                    questionId: q.questionId,
+                    durationInSeconds: q.durationInSeconds,
                 },
             };
         }

@@ -50,7 +50,10 @@ export default function PreviewQuiz() {
                             </button>
                         </> :
                         <button type="button" onClick={() => router.push(`/quizzes/${quizId}/start`)}
-                                className="uppercase bg-[#5348F2] w-full h-12 my-6 text-center content-center">Start
+                                className="uppercase bg-[#5348F2] w-full h-12 my-6 text-center content-center disabled:opacity-50 rounded disabled:cursor-not-allowed"
+                                disabled={!(quizData?.questions?.length)}
+                        >
+                            Start
                         </button>
                 }
 
@@ -64,7 +67,7 @@ export default function PreviewQuiz() {
             <div className="flex-1">
                 <Collapse name="Вопросы" className="w-full max-h-[calc(100vh-180px)] rounded" id="openAnswers"
                           defaultOpen>
-                    {quizData && quizData.questions && quizData.questions.length &&
+                    {(quizData && quizData.questions && quizData.questions.length) ?
                         quizData.questions.map((question: string, index: number) => {
                             return (
                                 <div key={`question${index}`}
@@ -73,6 +76,7 @@ export default function PreviewQuiz() {
                                 </div>
                             )
                         })
+                        : <></>
                     }
                 </Collapse>
             </div>

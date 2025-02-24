@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Question} from "@/app/[lng]/(main-pages)/quizzes/create/page";
+import {ModuleResponse} from "@/services/module/types";
 
 export const quizOptions = createSlice({
     name: 'quizOptions',
@@ -8,8 +9,9 @@ export const quizOptions = createSlice({
         description: '',
         questions: [] as Question[],
         showQuestions: false,
-        language: 'kaz' as ('kaz' | 'ru' | 'en'),
         selectedTopics: [] as string[],
+        moduleResponse: [] as ModuleResponse[],
+        currentType: "CREATE" as "CREATE" | "GENERATE"
     },
     reducers: {
         addQuestion: (state, action) => {
@@ -27,11 +29,14 @@ export const quizOptions = createSlice({
         setShowQuestions: (state, action) => {
             state.showQuestions = action.payload;
         },
-        setLanguage: (state, action) => {
-            state.language = action.payload;
-        },
         setSelectedTopics: (state, action) => {
             state.selectedTopics = action.payload;
+        },
+        setModuleResponse: (state, action) => {
+            state.moduleResponse = action.payload;
+        },
+        setCurrentType: (state, action) => {
+            state.currentType = action.payload;
         }
     }
 })
@@ -42,7 +47,8 @@ export const {
     setTitle,
     setDescription,
     setShowQuestions,
-    setLanguage,
-    setSelectedTopics
+    setSelectedTopics,
+    setModuleResponse,
+    setCurrentType
 } = quizOptions.actions
 export default quizOptions.reducer
