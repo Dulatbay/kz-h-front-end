@@ -12,11 +12,12 @@ import {ACCESS_TOKEN} from "@/utills/constants";
 import {useTranslation} from "react-i18next";
 import {redirect, useRouter} from 'next/navigation';
 import ImageWithSkeleton from "@/components/ImageWithSkeleton/imageWithSkeleton";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 
 import {CheckOutlined, DownOutlined, Loading3QuartersOutlined, LoadingOutlined} from "@ant-design/icons";
 import LastGames from "@/app/[lng]/(main-pages)/profile/last-games";
+import Link from "next/link";
 
 export default function Profile() {
     const [userData, setUserData] = useState<UserResponse | null>(null)
@@ -65,14 +66,16 @@ export default function Profile() {
         <div className="w-full p-3 max-w-[800px] flex flex-col mx-auto gap-12 mt-6 relative">
             <div className="flex gap-10 flex-wrap">
                 <div className="rounded-full aspect-square border-2 border-neutral-500 overflow-hidden">
-                    <ImageWithSkeleton className="w-56 rounded-full aspect-square object-cover" src={userData.imageUrl ? getImageUrl(userData.imageUrl) : ""} alt=""/>
+                    <ImageWithSkeleton className="w-56 rounded-full aspect-square object-cover"
+                                       src={userData.imageUrl ? getImageUrl(userData.imageUrl) : ""} alt=""/>
                 </div>
                 <div className="flex-1 my-auto space-y-1">
-                    <h1 className={`text-4xl ${!userData.firstName ? 'text-[#5348F2]' : ''}`}>{userData.firstName ? `${userData.firstName} ${userData.lastName}` : t('profile-page.setNameNow')}</h1>
+                    <h1 className={`text-4xl ${!userData.firstName ? 'text-[#5348F2] cursor-pointer' : ''}`}>{userData.firstName ? `${userData.firstName} ${userData.lastName}` :
+                        <Link href={'/settings'}>{t('profile-page.setNameNow')}</Link>}</h1>
                     <div className="flex text-neutral-500 w-full gap-1">
                         <h3>@{userData.username}</h3>
                         ·
-                        <h3>{t('profile-page.joined')} { userData.joinedDate ? format(userData.joinedDate, 'MMMM yyyy') : "September 2024"}</h3>
+                        <h3>{t('profile-page.joined')} {userData.joinedDate ? format(userData.joinedDate, 'MMMM yyyy') : "September 2024"}</h3>
                     </div>
                 </div>
 
@@ -97,7 +100,7 @@ export default function Profile() {
                           stat={userData.accuracy.toString() + "%"}/>
                 </div>
             </div>
-            <LastGames />
+            <LastGames/>
         </div>
     )
 }
