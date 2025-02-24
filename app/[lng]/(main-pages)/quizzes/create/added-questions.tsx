@@ -20,11 +20,13 @@ export default function AddedQuestions() {
                             <h2>{question.question}</h2>
                             <p className="text-xs text-gray-400">
                                 {
-                                    question.type == "CREATE" && `Difficulty: ${question.level && `Duration: ${question.level}`}`
+                                    question.type == "CREATE" && question.level && `Difficulty: ${question.level}`
                                 }
-                                {question.durationInSeconds === -1
-                                    ? "NONE"
-                                    : question.durationInSeconds + " sec"}
+                                {
+                                    ` | Duration: ${question.durationInSeconds === -1
+                                        ? "NONE"
+                                        : question.durationInSeconds + " sec"}`
+                                }
                             </p>
 
                             {question.variants.map((variant, ind) => {
