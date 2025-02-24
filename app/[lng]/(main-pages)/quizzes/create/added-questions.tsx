@@ -19,7 +19,9 @@ export default function AddedQuestions() {
                         >
                             <h2>{question.question}</h2>
                             <p className="text-xs text-gray-400">
-                                Difficulty: {question.level} | Duration:{" "}
+                                {
+                                    question.type == "CREATE" && `Difficulty: ${question.level && `Duration: ${question.level}`}`
+                                }
                                 {question.durationInSeconds === -1
                                     ? "NONE"
                                     : question.durationInSeconds + " sec"}
