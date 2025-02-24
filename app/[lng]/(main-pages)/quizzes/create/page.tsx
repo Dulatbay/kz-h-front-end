@@ -34,7 +34,6 @@ export type GenerateQuestion = {
     type: "GENERATE";
     question: string;
     questionId: string;
-    level: "EASY" | "MEDIUM" | "HARD";
     durationInSeconds: number;
     variants: Variant[];
 };

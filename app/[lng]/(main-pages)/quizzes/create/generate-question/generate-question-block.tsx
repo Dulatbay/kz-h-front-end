@@ -10,7 +10,6 @@ import {addQuestion} from "@/app/store/slices/quiz-slice/slice";
 export default function GenerateQuestionBlock() {
     const dispatch = useDispatch();
     const {moduleResponse} = useSelector((state: RootState) => state.quizOptions);
-    const [selectedDifficulty, setSelectedDifficulty] = useState("EASY");
     const [selectedDuration, setSelectedDuration] = useState(15);
 
     const handleCreateQuestion = (questionId: string, question: string) => {
@@ -18,7 +17,6 @@ export default function GenerateQuestionBlock() {
             type: "GENERATE",
             question,
             questionId,
-            level: selectedDifficulty,
             durationInSeconds: selectedDuration,
             variants: []
         }));
