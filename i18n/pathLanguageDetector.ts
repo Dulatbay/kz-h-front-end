@@ -5,9 +5,18 @@ const PathLanguageDetector = {
     lookup() {
         if (typeof window !== 'undefined') {
             const pathSegments = window.location.pathname.split('/');
-            const languageCode = pathSegments[1];
-            if (languages.includes(languageCode)) {
-                return languageCode;
+
+            if (pathSegments.length >= 2) {
+                const languageCode = pathSegments[1];
+                if (languages.includes(languageCode)) {
+                    return languageCode;
+                }
+            }
+
+            console.log(navigator)
+            const systemLanguage = navigator.language.split('-')[0];
+            if (languages.includes(systemLanguage)) {
+                return systemLanguage;
             }
         }
         return fallbackLng;

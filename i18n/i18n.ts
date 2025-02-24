@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import PathLanguageDetector from './pathLanguageDetector'; // Импортируйте ваш собственный детектор
+import PathLanguageDetector from './pathLanguageDetector';
 import {fallbackLng, languages} from '@/i18n/setting';
 import {TranslationTypes} from "@/i18n/locales/TranslationTypes";
 import en from "./locales/en/translation.json";
