@@ -8,6 +8,7 @@ import Loader from "@/components/Loader/loader";
 import {useEffect, useRef, useState} from 'react';
 import Confetti from "react-confetti";
 import SecondaryLoader from "@/components/SecondaryLoader/secondary-loader";
+import { useTranslation } from "react-i18next";
 
 const GamePlayPage = () => {
     const [game, setGame] = useState<ProcessGameResponse | null>(null);
@@ -19,7 +20,7 @@ const GamePlayPage = () => {
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [showCorrectAnswer, setShowCorrectAnswer] = useState<string | null>(null);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-
+    const {t} = useTranslation();
     useEffect(() => {
         const fetchGame = async () => {
             setIsLoading(true);
@@ -76,7 +77,7 @@ const GamePlayPage = () => {
             const correctVariant = fetchedGame.previousQuestion.variants.find(v => v.correct);
             if (correctVariant) {
                 setShowCorrectAnswer(correctVariant.text);
-                console.log(`Correct answer: ${correctVariant.text}`);
+                // console.log(`Correct answer: ${correctVariant.text}`);
             }
 
             setTimeout(() => {
@@ -110,7 +111,7 @@ const GamePlayPage = () => {
     }
 
     if (game === null) {
-        return <div>Cannot access the game</div>;
+        return <div>{t('play-page.cannotAccessGame')}</div>;
     }
 
     const colors = ['bg-red-500', 'bg-indigo-500', 'bg-green-500', 'bg-pink-500'];
@@ -119,12 +120,12 @@ const GamePlayPage = () => {
         <div className="flex flex-col w-11/12 max-w-[800px] mx-auto items-center mt-16 gap-10">
             <div className="flex flex-col gap-2 items-center">
                 <h3 className="text-sm text-[#91898C]">
-                    {game.currentQuestionIndex + 1}/{game.totalQuestions} Вопрос
+                    {game.currentQuestionIndex + 1}/{game.totalQuestions} {t('play-page.question')}
                 </h3>
                 <h1 className="text-base text-center">{game.currentQuestion.question}</h1>
                 {timeLeft !== null && (
                     <h2 className="text-lg font-bold text-red-500">
-                        Осталось времени: {timeLeft} сек
+                        {t('play-page.timeLeft')}: {timeLeft} {t('play-page.seconds')}
                     </h2>
                 )}
             </div>

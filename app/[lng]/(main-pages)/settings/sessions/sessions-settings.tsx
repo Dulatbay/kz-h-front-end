@@ -5,6 +5,7 @@ import SessionsBlock from "@/app/[lng]/(main-pages)/settings/sessions/session-bl
 import {getSessions, terminateSession} from "@/services/auth/authService";
 import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader"; // Импортируйте класс исключения, если он у вас есть
+import { useTranslation } from "react-i18next";
 
 interface Session {
     tokenId: string;
@@ -24,6 +25,7 @@ interface SessionsResponse {
 function SessionsSettings() {
     const [sessions, setSessions] = useState<SessionsResponse | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const {t} = useTranslation();
 
     useEffect(() => {
         const fetchSessions = async () => {
@@ -131,7 +133,7 @@ function SessionsSettings() {
                 danger
                 className="border-red-500 text-red-500 w-full max-w-lg mt-6 py-2 text-lg"
             >
-                TERMINATE ALL
+                {t('sessions-settings.terminateAll')}
             </Button>
         </div>
     );
