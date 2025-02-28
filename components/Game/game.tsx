@@ -13,11 +13,13 @@ import {fetchGameById} from "@/services/game/gameService";
 import ClockSVG from "../icons/ClockSVG";
 import TargetSVG from "../icons/TargetSVG";
 import TrophySVG from "../icons/TrophySVG";
+import { useTranslation } from "react-i18next";
 
 
 export default function Game() {
     const router = useRouter();
     const gameId = useParams().game as string;
+    const {t} = useTranslation();
 
     const [gameData, setGameData] = useState<GameByIdResponse | null>(null);
     const [loading, setLoading] = useState(true);
@@ -46,15 +48,15 @@ export default function Game() {
             <div className="flex justify-between w-full h-auto text-md flex-wrap gap-4">
                 <a href="/quizzes"
                    className="text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
-                    Back</a>
+                    {t('game.back')}</a>
                 {
                     gameData.finished ?
                         <a className="bg-[#5348F2] px-14 py-2 rounded-md content-center cursor-pointer"
                            href={`/quizzes/${gameData.quizId}`}>
-                            Try again
+                            {t('game.tryAgain')}
                         </a> :
                         <a className="bg-[#3DBA60] px-14 rounded-sm content-center cursor-pointer"
-                           href={`/games/${gameId}/play`}>Continue</a>
+                           href={`/games/${gameId}/play`}>{t('game.continue')}</a>
                 }
                 {/* <a className="bg-[#5348F2] px-6 rounded-sm content-center cursor-pointer" href={'/quizzes'}>
                     Select other
@@ -62,11 +64,11 @@ export default function Game() {
 
                 <a href="/quizzes"
                    className="invisible text-center border-gray-400 text-gray-400 border py-1 px-6 rounded-md self-center">←
-                    Back</a>
+                    {t('game.back')}</a>
             </div>
             <div className="flex flex-col gap-6 mt-4">
                 <div>
-                    <span className={'block text-center text-gray-400'}>Результаты квиза:</span>
+                    <span className={'block text-center text-gray-400'}>{t('game.quizResults')}</span>
                     <h1 className="text-center text-xl">{gameData.quizName}</h1>
                 </div>
                 <div className="flex flex-col items-center">
@@ -96,7 +98,7 @@ export default function Game() {
 
                     <ResultCard result={`${gameData.result}%`} title="Result"/>
                     <ResultCard result={`${gameData.record}%`} title="Record"
-                                additionalText={gameData.currentUserResult ? "Это ваш рекорд!" : undefined}/>
+                                additionalText={gameData.currentUserResult ? t('game.newRecord') : undefined}/>
                 </div>
 
 
@@ -145,6 +147,9 @@ function ResultCard({result, title, additionalText}: { result: string, title: st
 }
 
 const QuestionItem = ({question}: { question: AnsweredQuestionResponse }) => {
+
+    const {t} = useTranslation();
+
     return (
         <div className={`border border-gray-400 bg-[#282828] pb-4 pt-8 w-full text-center px-8 rounded-md`}>
             <h1>{question.question}</h1>
@@ -171,9 +176,9 @@ const QuestionItem = ({question}: { question: AnsweredQuestionResponse }) => {
                                 {option.text}
                             </div>
                             {option.chosen && !option.correct && (
-                                <div className={"text-right w-full text-sm text-blue-400"}>Выбранный</div>)}
+                                <div className={"text-right w-full text-sm text-blue-400"}>{t('game.chosen')}</div>)}
                             {option.correct && (
-                                <div className={"text-right w-full text-sm text-green-400"}>Правильный</div>)}
+                                <div className={"text-right w-full text-sm text-green-400"}>{t('game.correct')}</div>)}
                         </div>
                     );
                 })}

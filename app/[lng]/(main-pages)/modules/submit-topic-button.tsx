@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { postPassedTopic } from "@/services/module/modulesService";
 import { message } from "antd";
 import Confetti from "react-confetti";
+import { useTranslation } from "react-i18next";
 
 interface SubmitTopicButtonProps {
     moduleNumber: number;
@@ -15,6 +16,7 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
     const [submitted, setSubmitted] = useState(false);
     const [showConfetti, setShowConfetti] = useState(false);
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+    const {t} = useTranslation();
 
     useEffect(() => {
         const updateSize = () => {
@@ -36,7 +38,7 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
         try {
             await postPassedTopic(moduleNumber.toString(), topicNumber.toString());
             setSubmitted(true);
-            message.success("🎉 Тема успешно сдана!");
+            message.success(t('modules.submit-topic-button.message.topicPassed'));
             setShowConfetti(true);
 
             setTimeout(() => {
@@ -44,7 +46,7 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
                 onSubmitSuccess?.();
             }, 3000);
         } catch (error) {
-            message.error("Ошибка при сдаче темы. Попробуйте снова.");
+            message.error(t('modules.submit-topic-button.message.error'));
         } finally {
             setLoading(false);
         }
@@ -78,7 +80,7 @@ const SubmitTopicButton: React.FC<SubmitTopicButtonProps> = ({ moduleNumber, top
                         ${submitted ? "bg-green-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
                     `}
                 >
-                    {loading ? "Отправка..." : submitted ? "Тема сдана! ✅" : "СДАТЬ ТЕКУЩУЮ ТЕМУ"}
+                    {loading ? t('modules.submit-topic-button.submitting') : submitted ? t('modules.submit-topic-button.topicPassed') : t('modules.submit-topic-button.passCurrentTopic')}
                 </button>
             </div>
         </div>

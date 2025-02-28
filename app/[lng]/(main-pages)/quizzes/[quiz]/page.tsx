@@ -8,12 +8,14 @@ import {fetchQuizById} from "@/services/quiz/quizService";
 import {QuizByIdResponse} from "@/services/quiz/types";
 import {HttpException} from "@/utills/exceptions";
 import Loader from "@/components/Loader/loader";
+import { useTranslation } from 'react-i18next';
 
 export default function PreviewQuiz() {
     const router = useRouter();
     const quizId = useParams().quiz as string;
     const [quizData, setQuizData] = useState<QuizByIdResponse | undefined>();
     const [loading, setLoading] = useState<boolean>(true);
+    const {t} = useTranslation();
     useEffect(() => {
         const fetchQuestion = async () => {
             try {
@@ -46,14 +48,14 @@ export default function PreviewQuiz() {
                         <>
                             <button type="button" onClick={() => router.push(`/games/${quizData?.gameId}`)}
                                     className="uppercase bg-yellow-600 w-full h-12 my-6 text-center content-center rounded">
-                                View game
+                                {t('quiz-page.viewGame')}
                             </button>
                         </> :
                         <button type="button" onClick={() => router.push(`/quizzes/${quizId}/start`)}
                                 className="uppercase bg-[#5348F2] w-full h-12 my-6 text-center content-center disabled:opacity-50 rounded disabled:cursor-not-allowed"
                                 disabled={!(quizData?.questions?.length)}
                         >
-                            Start
+                            {t('quiz-page.start')}
                         </button>
                 }
 

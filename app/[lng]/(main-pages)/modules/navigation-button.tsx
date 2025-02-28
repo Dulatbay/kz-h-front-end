@@ -1,5 +1,6 @@
 import {ArrowLeftOutlined, ArrowRightOutlined} from "@ant-design/icons";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 const NavigationButton = ({
                               direction,
@@ -20,6 +21,9 @@ const NavigationButton = ({
     nextAvailable?: boolean;
     nextPassed?: boolean;
 }) => {
+
+    const {t} = useTranslation();
+
     return (
         <div className={'flex flex-col'}>
             <button
@@ -38,11 +42,11 @@ const NavigationButton = ({
                     <span className="text-2xl"><ArrowLeftOutlined/></span>
                 )}
                 <div className="flex flex-col text-left">
-                    <h4 className={`text-xl font-bold line-clamp-1 ${direction == 'prev' ? 'text-opacity-80' : ''}`}>{title || 'No topic'}</h4>
+                    <h4 className={`text-xl font-bold line-clamp-1 ${direction == 'prev' ? 'text-opacity-80' : ''}`}>{title || t('modules.navigation-button.noTopic')}</h4>
                     <p className={`text-sm text-gray-400 line-clamp-1 ${direction == 'prev' ? 'text-opacity-80' : ''}`}>
                         {subtitle}
                     </p>
-                    {passed && <span className="text-green-400">(Passed)</span>}
+                    {passed && <span className="text-green-400">({t('modules.navigation-button.passed')})</span>}
                 </div>
                 {direction === 'next' && (
                     <span className="text-2xl"><ArrowRightOutlined/></span>
@@ -50,18 +54,17 @@ const NavigationButton = ({
             </button>
             {
                 !nextAvailable ?
-                    <span className="text-red-400">Не прошедшая тема. {}
+                    <span className="text-red-400">{t('modules.navigation-button.notPassedTopic')} {}
                         {
                             ('No next topic' !== title && 'No previous topic' !== title) ?
                                 <Link onClick={(e) => {
                                     e.preventDefault()
                                     onClick()
-                                }} href={'#'} className={'text-blue-400'}>Просто
-                                    посмотреть</Link> : ''
+                                }} href={'#'} className={'text-blue-400'}>{t('modules.navigation-button.takeLook')}</Link> : ''
                         }
                     </span> :
                     (
-                        nextPassed ? <></> : <span className={'text-yellow-400 text-right'}>Новая тема</span>
+                        nextPassed ? <></> : <span className={'text-yellow-400 text-right'}>{t('modules.navigation-button.newTopic')}</span>
                     )
 
             }

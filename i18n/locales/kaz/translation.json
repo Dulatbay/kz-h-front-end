@@ -8,6 +8,11 @@
     "leaders": "Көшбасшылар",
     "archive": "Мұрағат"
   },
+  "home-page": {
+    "recommendations": "Ұсыныстар",
+    "tournaments": "Турнирлер",
+    "seeMore": "Көбірек..."
+  },
   "learn-page": {
     "learning": "арқылы оқу",
     "description": "Тарихты модульден модульге, тақырыптан тақырыпқа дейін рет-ретімен оқыңыз.",
@@ -19,6 +24,24 @@
     "users": "қолданушы",
     "start": "Бастау"
   },
+  "modules":{
+    "navigation-button": {
+      "noTopic": "Модуль табылмады",
+      "passed": "өтті",
+      "notPassedTopic": "Өтпеген тақырып",
+      "takeLook": "Тек қараңызшы",
+      "newTopic": "Жаңа тақырып"
+    },
+    "submit-topic-button": {
+      "message": {
+        "topicPassed": "🎉 Тақырып сәтті жіберілді!",
+        "error": "Тақырып жіберу қатесі. Қайталап көріңіз."
+      },
+      "submitting": "Жіберілуде...",
+      "topicPassed": "Тақырып өтті! ✅",
+      "passCurrentTopic": "АҚТЫ ТАҚЫРЫПТЫ ӨТУ"
+    }
+ },
   "quizzes-page": {
     "quizzes": "Сауалнамалар",
     "topics": "Тақырыптар",
@@ -33,7 +56,8 @@
     "medium": "Орташа",
     "hard": "Қиын",
     "solved": "Өтті",
-    "notSolved": "Өтпеген"
+    "notSolved": "Өтпеген",
+    "createQuiz": "Өз квизiңiздi жасаңыз!"
   },
   "profile-page": {
     "setNameNow": "Қазір атауды орнатыңыз!",
@@ -66,7 +90,71 @@
     "name": "Аты",
     "questions": "Сұрақтар",
     "streak": "Өрт күндері",
-    "score": "Тексеру"
+    "score": "Тексеру",
+    "itsYou": "Бұл сенсің!"
+  },
+  "login-page":{
+    "signIn": "КІРУ",
+    "login": "КІРУ",
+    "signUp": "Тіркелу",
+    "continueAsGuest": "Қонақ ретінде жалғастырыңыз",
+    "forgotPassword": "Құпия сөзді ұмыттыңыз ба?",
+    "placeholder": {
+      "emailOrUsername": "Электрондық пошта немесе пайдаланушы аты",
+      "password": "Құпия сөз"
+    },
+    "message": {
+      "success": "Сәттілік!",
+      "error": "Қате:",
+      "fillAllFields": "Барлық өрістерді толтырыңыз.",
+      "enterYourUsername": "Пайдаланушы атыңызды енгізіңіз!",
+      "enterYourPassword": "Құпия сөзіңізді енгізіңіз!"
+    }
+  },
+  "game": {
+    "back": "Артқа",
+    "tryAgain": "Қайталап көру үшін",
+    "continue": "Жалғастыру",
+    "quizResults": "Квиз нәтижелері:",
+    "newRecord": "Бұл сіздің жаңа рекордыңыз!",
+    "chosen": "Таңдалған",
+    "correct": "Дұрыс"
+  },
+  "play-page": {
+    "cannotAccessGame": "Ойынға кіру мүмкін емес",
+    "question": "Сұрақ",
+    "timeLeft": "Қалған уақыт:",
+    "seconds": "сек"
+  },
+  "last-games": {
+    "lastGames": "Соңғы ойындар",
+    "quizWasDeleted": "Квиз жойылды",
+    "message": {
+      "error": "Қате:",
+      "unexpectedError": "Күтпеген қате орын алды"
+    },
+    "difficulty": {
+      "easy": "Оңай",
+      "medium": "Орташа",
+      "hard": "Қиын"
+    }
+  },
+  "quiz-start-page": {
+    "loginToContinue": "Жалғастыру үшін жүйеге кіріңіз"
+  },
+  "quiz-page": {
+    "viewGame": "Ойын көру",
+    "start": "Бастау"
+  },
+  "session-card": {
+    "yourCurrentSession": "Сіздің ағымдағы сеансыңыз",
+    "lastAccessedOn": "Соңғы рұқсат күні",
+    "remoteAddress": "Қашықтағы мекенжай:",
+    "sessionExpiredAt": "Сессияның мерзімі аяқталды:",
+    "terminateSession": "Сеансты тоқтату"
+  },
+  "session-settings": {
+    "terminateAll": "БАРЛЫҒЫН ТОҚТАТУ"
   },
   "facts": [
     "Қазақстанның **Тараз** және **Отырар** ежелгі қалалары Ұлы Жібек жолындағы маңызды сауда орталықтары болған.",

@@ -5,13 +5,14 @@ import { HttpException } from "@/utills/exceptions";
 import CustomPagination from "@/components/CustomPagination/CustomPagination";
 import Loader from "@/components/Loader/loader";
 import {LastGame} from "@/services/game/types";
+import { useTranslation } from "react-i18next";
 
 export default function LastGames() {
     const [games, setGames] = useState<LastGame[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [paginationParams, setPaginationParams] = useState({ pageNumber: 0, pageSize: 5 });
     const [totalElements, setTotalElements] = useState(0);
-
+    const {t} = useTranslation();
     // Запрашиваем данные при первом рендере и при изменении пагинации
     useEffect(() => {
         const fetchData = async () => {
@@ -23,9 +24,9 @@ export default function LastGames() {
             } catch (error) {
                 if (error instanceof HttpException) {
                     // В случае ошибки — можно перенаправить или показать сообщение
-                    message.error(`Ошибка: ${error.message}`);
+                    message.error(`${t('last-games.message.error')} ${error.message}`);
                 } else {
-                    message.error("Произошла непредвиденная ошибка");
+                    message.error(t('last-games.message.unexpectedError'));
                 }
             } finally {
                 setLoading(false);
@@ -45,7 +46,7 @@ export default function LastGames() {
 
     return (
         <div className="flex flex-col w-full gap-6">
-            <h1 className="text-3xl">Последние игры</h1>
+            <h1 className="text-3xl">{t('last-games.lastGames')}</h1>
 
             {/* Таблица игр */}
             <table cellPadding={16} className="gap-3 w-full">
@@ -74,19 +75,22 @@ export default function LastGames() {
 
 // Компонент для строки игры
 function GameRow({ row }: { row: LastGame }) {
+
+    const {t} = useTranslation();
+
     let difficultyLabel = "";
     let difficultyColor = "";
     switch (row.level) {
         case "EASY":
-            difficultyLabel = "Легко";
+            difficultyLabel = t('last-games.difficulty.easy');
             difficultyColor = "text-[#00B8A3]";
             break;
         case "MEDIUM":
-            difficultyLabel = "Средне";
+            difficultyLabel = t('last-games.difficulty.easy');
             difficultyColor = "text-yellow-500";
             break;
         case "HARD":
-            difficultyLabel = "Сложно";
+            difficultyLabel = t('last-games.difficulty.easy');
             difficultyColor = "text-red-500";
             break;
         default:
@@ -110,7 +114,7 @@ function GameRow({ row }: { row: LastGame }) {
                 {row.correctAnswersCount} / {row.questionsCount}
             </td>
             <td>
-                <a href={`/games/${row.gameId}`}>{row.quizTitle || <span className={"text-gray-400"}>Квиз был удален</span>}</a>
+                <a href={`/games/${row.gameId}`}>{row.quizTitle || <span className={"text-gray-400"}>{t('last-games.quizWasDeleted')}</span>}</a>
             </td>
             <td className={`${difficultyColor} text-center`}>{difficultyLabel}</td>
         </tr>

@@ -134,7 +134,7 @@ export default function Leaderboard() {
                                     <span >{row.name && row.name.length ? row.name : row.username}</span>
                                     {row.username === user?.username && (
                                         <span className="ml-4 text-sm font-light text-gray-400">
-                                            It's you!
+                                            {t('leaderboard-page.itsYou')}
                                         </span>
                                     )}
                                 </td>

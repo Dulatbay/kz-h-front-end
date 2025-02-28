@@ -8,6 +8,11 @@
     "leaders": "Лидеры",
     "archive": "Архив"
   },
+  "home-page": {
+    "recommendations": "Рекомендации",
+    "tournaments": "Турниры",
+    "seeMore": "Ещё..."
+  },
   "learn-page": {
     "learning": "обучение",
     "description": "Изучайте историю по модулям и темам.",
@@ -18,6 +23,24 @@
     "minutes": "минуты",
     "users": "пользователи",
     "start": "Начать"
+  },
+  "modules":{
+    "navigation-button": {
+      "noTopic": "Модуль не найден",
+      "passed": "Пройден",
+      "notPassedTopic": "Непройденная тема",
+      "takeLook": "Просто посмотреть",
+      "newTopic": "Новая тема"
+    },
+    "submit-topic-button": {
+      "message": {
+        "topicPassed": "🎉 Тема успешно сдана!",
+        "error": "Ошибка при сдаче темы. Попробуйте снова."
+      },
+      "submitting": "Отправка...",
+      "topicPassed": "Тема пройдена! ✅",
+      "passCurrentTopic": "СДАТЬ ТЕКУЩУЮ ТЕМУ"
+    }
   },
   "quizzes-page": {
     "quizzes": "Тесты",
@@ -33,7 +56,8 @@
     "medium": "Средний",
     "hard": "Сложный",
     "solved": "Пройденный",
-    "notSolved": "Непройденный"
+    "notSolved": "Непройденный",
+    "createQuiz": "Создать свой квиз!"
   },
   "profile-page": {
     "setNameNow": "Настроить имя сейчас!",
@@ -66,7 +90,71 @@
     "name": "Имя",
     "questions": "Вопросы",
     "streak": "Дней подряд",
-    "score": "Счёт"
+    "score": "Счёт",
+    "itsYou": "Это же ты!"
+  },
+  "login-page":{
+    "signIn": "ВХОД В АККАУНТ",
+    "login": "ВОЙТИ",
+    "signUp": "Зарегистрироваться",
+    "continueAsGuest": "Продолжить как гость",
+    "forgotPassword": "Забыли пароль?",
+    "placeholder": {
+      "emailOrUsername": "Почта или имя пользователя",
+      "password": "Пароль"
+    },
+    "message": {
+      "success": "Успешный вход!",
+      "error": "Ошибка:",
+      "fillAllFields": "Пожалуйста, заполните все поля.",
+      "enterYourUsername": "Пожалуйста, введите логин!",
+      "enterYourPassword": "Пожалуйста, введите пароль!"
+    }
+  },
+  "game": {
+    "back": "Назад",
+    "tryAgain": "Пройти заново",
+    "continue": "Продолжить",
+    "quizResults": "Результаты квиза:",
+    "newRecord": "Это ваш новый рекорд!",
+    "chosen": "Выбранный",
+    "correct": "Правильный"
+  },
+  "play-page": {
+    "cannotAccessGame": "Не получается начать игру",
+    "question": "Вопрос",
+    "timeLeft": "Осталось времени:",
+    "seconds": "сек"
+  },
+  "last-games": {
+    "lastGames": "Последние игры",
+    "quizWasDeleted": "Квиз был удалён",
+    "message": {
+      "error": "Ошибка:",
+      "unexpectedError": "Произошла непредвиденная ошибка"
+    },
+    "difficulty": {
+      "easy": "Легко",
+      "medium": "Средне",
+      "hard": "Сложно"
+    }
+  },
+  "quiz-start-page": {
+    "loginToContinue": "Войдите в систему чтобы продолжить"
+  },
+  "quiz-page": {
+    "viewGame": "Посмотреть игру",
+    "start": "Начать"
+  },
+  "session-card": {
+    "yourCurrentSession": "Ваша активная сессия",
+    "lastAccessedOn": "Последний раз активен ",
+    "remoteAddress": "Удалённый адрес:",
+    "sessionExpiredAt": "Сессия истекла:",
+    "terminateSession": "Прервать сессию"
+  },
+  "session-settings": {
+    "terminateAll": "ПРЕРВАТЬ ВСЕ"
   },
   "facts": [
     "Древние города Казахстана, такие как **Тараз** и **Отрар**, были важными торговыми центрами на Великом Шелковом пути.",

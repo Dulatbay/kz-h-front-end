@@ -8,17 +8,19 @@ import {startGame} from "@/services/game/gameService";
 import {HttpException} from "@/utills/exceptions";
 import {ACCESS_TOKEN} from "@/utills/constants";
 import {message} from "antd";
+import { useTranslation } from "react-i18next";
 
 
 export default function Start() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter();
     const quizId = useParams().quiz as string;
+    const {t} = useTranslation();
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem(ACCESS_TOKEN);
         if (!isAuthenticated) {
-            message.error("Войдите в систему чтобы продолжить")
+            message.error(t('quiz-start-page.loginToContinue'))
             redirect("/login")
         }
     }, [])
