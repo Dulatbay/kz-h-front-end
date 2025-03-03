@@ -42,9 +42,9 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
         <div className="bg-[#1E1E1E] border border-white px-4 py-3 rounded-xl space-y-3">
             <div className="flex items-center justify-between text-white">
                 <div className="flex items-center space-x-3">
-          <span className="text-xl">
-            <DeviceIcon device={"desktop"}/>
-          </span>
+                    <span className="text-xl">
+                         <DeviceIcon device={"desktop"}/>
+                    </span>
                     <div>
                         <p className="font-medium">{session.userAgent}</p>
                         {session.currentSession ? (
@@ -63,8 +63,8 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
                     {opened ? "Hide info" : "View more"}
                 </button>
             </div>
-            <div hidden={!opened} className="flex w-full justify-between items-end">
-                <div className="flex flex-col w-1/2 text-white">
+            <div hidden={!opened} className="flex justify-between items-end pt-4">
+                <div className="flex flex-col text-sm text-gray-400">
                     <p>Remote address: {session.remoteAddress}</p>
                     <p>Session expired at: {session.expiredAt}</p>
                 </div>

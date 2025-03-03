@@ -26,19 +26,19 @@ export default function Module({module}: { module: ModuleResponse }) {
             <p className="text-sm sm:text-base md:text-lg text-wrap line-clamp-3">
                 {module.topics.map(topic => topic.topicName).join(', ')}
             </p>
-            <div className="flex flex-wrap gap-3 text-xs sm:text-sm md:text-base">
-                <div className="flex gap-2 items-center">
-                    <QuestionsSVG/> {module.questionNumbers} {t('module.questions')}
-                </div>
-                <div className="flex gap-2 items-center">
-                    <ClockSVG/> {module.duration} {t('module.minutes')}
-                </div>
-                <div className="flex gap-2 items-center">
-                    <UserSVG/> {module.passedUsersCount} {t('module.users')}
-                </div>
-            </div>
+            {/*<div className="flex flex-wrap gap-3 text-xs sm:text-sm md:text-base">*/}
+            {/*    <div className="flex gap-2 items-center">*/}
+            {/*        <QuestionsSVG/> {module.questionNumbers} {t('module.questions')}*/}
+            {/*    </div>*/}
+            {/*    <div className="flex gap-2 items-center">*/}
+            {/*        <ClockSVG/> {module.duration} {t('module.minutes')}*/}
+            {/*    </div>*/}
+            {/*    <div className="flex gap-2 items-center">*/}
+            {/*        <UserSVG/> {module.passedUsersCount} {t('module.users')}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className="flex justify-between">
-                <div className="flex gap-2 items-center text-xs sm:text-sm md:text-base">
+                <div className="flex gap-2 items-center text-xs sm:text-sm md:text-base text-gray-400">
                     Сложность:{' '}
                     {difficultyArray.map((_, index) => (
                         <LightningSVG key={index}/>

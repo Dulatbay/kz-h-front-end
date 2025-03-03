@@ -88,7 +88,7 @@ export default function Quizzes() {
 
     return (
         <div className="mt-10 w-full max-w-[1200px] min-w-40 mx-auto flex flex-col gap-6 px-6">
-            <div className={"flex justify-start items-center gap-8"}>
+            <div className={"flex justify-start items-center gap-8 flex-wrap"}>
                 <h1 className="text-4xl">{t('quizzes-page.quizzes')}</h1>
                 <Link href={"/quizzes/create"}
                       className={`text-sm text-yellow-400 border 
