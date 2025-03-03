@@ -6,6 +6,7 @@ import {terminateSession} from "@/services/auth/authService";
 import {HttpException} from "@/utills/exceptions";
 import {DeviceIcon} from "@/components/icons/DeviceIcon";
 import {format, parse} from "date-fns";
+import { useTranslation } from "react-i18next";
 
 interface SessionCardProps {
     session: Session;
@@ -15,6 +16,7 @@ interface SessionCardProps {
 export default function SessionCard({session, onTerminate}: SessionCardProps) {
     const [opened, setOpened] = useState(false);
     const [terminating, setTerminating] = useState(false);
+    const {t} = useTranslation();
 
     const handleTerminateSession = async (tokenId: string, currentSession: boolean) => {
         setTerminating(true);
@@ -48,10 +50,10 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
                     <div>
                         <p className="font-medium">{session.userAgent}</p>
                         {session.currentSession ? (
-                            <p className="text-blue-400 text-sm">Your current session</p>
+                            <p className="text-blue-400 text-sm">{t('session-card.yourCurrentSession')}</p>
                         ) : (
                             <p className="text-gray-400 text-sm">
-                                Last accessed on {session.createdDate}
+                                {t('session-card.lassAccessedOn')} {session.createdDate}
                             </p>
                         )}
                     </div>
@@ -63,10 +65,10 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
                     {opened ? "Hide info" : "View more"}
                 </button>
             </div>
-            <div hidden={!opened} className="flex justify-between items-end pt-4">
+            <div hidden={!opened} className="flex justify-between items-end">
                 <div className="flex flex-col text-sm text-gray-400">
-                    <p>Remote address: {session.remoteAddress}</p>
-                    <p>Session expired at: {session.expiredAt}</p>
+                    <p>{t('session-card.remoteAddress')} {session.remoteAddress}</p>
+                    <p>{t('session-card.sessionExpiredAt')} {session.expiredAt}</p>
                 </div>
                 <Button
                     onClick={() =>
@@ -75,7 +77,7 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
                     danger
                     loading={terminating}
                 >
-                    Terminate session
+                    {t('session-card.terminateSession')}
                 </Button>
             </div>
         </div>

@@ -97,7 +97,7 @@ export default function Quizzes() {
                       
                       transition-all duration-500
                       `}>
-                    Создать свой квиз!
+                    {t('quizzes-page.createQuiz')}
                 </Link>
             </div>
             <div className="flex flex-wrap w-full gap-2">

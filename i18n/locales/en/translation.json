@@ -8,6 +8,11 @@
     "leaders": "Leaders",
     "archive": "Archive"
   },
+  "home-page": {
+    "recommendations": "Recommendations",
+    "tournaments": "Tournaments",
+    "seeMore": "See more..."
+  },
   "learn-page": {
     "learning": "learning",
     "description": "Learn the history Module By Module and Topic By Topic.",
@@ -18,6 +23,24 @@
     "minutes": "minutes",
     "users": "users",
     "start": "Start"
+  },
+  "modules":{
+    "navigation-button": {
+      "noTopic": "No topic",
+      "passed": "Passed",
+      "notPassedTopic": "Not passed topic",
+      "takeLook": "Take a look",
+      "newTopic": "New topic"
+    },
+    "submit-topic-button": {
+      "message": {
+        "topicPassed": "🎉 Topic passed successfully!",
+        "error": "Error occured. Try again."
+      },
+      "submitting": "Submitting...",
+      "topicPassed": "Topic passed! ✅",
+      "passCurrentTopic": "PASS CURRENT TOPIC"
+    }
   },
   "quizzes-page": {
     "quizzes": "Quizzes",
@@ -33,7 +56,8 @@
     "medium": "Medium",
     "hard": "Hard",
     "solved": "Solved",
-    "notSolved": "Not solved"
+    "notSolved": "Not solved",
+    "createQuiz": "Create your quiz!"
   },
   "profile-page": {
     "setNameNow": "Set name now!",
@@ -66,7 +90,71 @@
     "name": "Name",
     "questions": "Questions",
     "streak": "Streak",
-    "score": "Score"
+    "score": "Score",
+    "itsYou": "It's you!"
+  },
+  "login-page":{
+    "signIn": "SIGN IN",
+    "login": "LOGIN",
+    "signUp": "Sign up",
+    "continueAsGuest": "Continue as guest",
+    "forgotPassword": "Forgot password?",
+    "placeholder": {
+      "emailOrUsername": "Email or username",
+      "password": "Password"
+    },
+    "message": {
+      "success": "Success!",
+      "error": "Error:",
+      "fillAllFields": "Please, fill all fields.",
+      "enterYourUsername": "Please enter your username!",
+      "enterYourPassword": "Please input your password!"
+    }
+  },
+  "game": {
+    "back": "Back",
+    "tryAgain": "Try again",
+    "continue": "Continue",
+    "quizResults": "Quiz results:",
+    "newRecord": "This is your new record!",
+    "chosen": "Chosen",
+    "correct": "Correct"
+  },
+  "play-page": {
+    "cannotAccessGame": "Cannot access the game",
+    "question": "Question",
+    "timeLeft": "Time left:",
+    "seconds": "sec"
+  },
+  "last-games": {
+    "lastGames": "Last games",
+    "quizWasDeleted": "Quiz was deleted",
+    "message": {
+      "error": "Error:",
+      "unexpectedError": "Unexpected error occurred"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "quiz-start-page": {
+    "loginToContinue": "Login in system to continue"
+  },
+  "quiz-page": {
+    "viewGame": "View game",
+    "start": "Start"
+  },
+  "session-card": {
+    "yourCurrentSession": "Your current session",
+    "lastAccessedOn": "Last accessed on",
+    "remoteAddress": "Remote address:",
+    "sessionExpiredAt": "Session expired at:",
+    "terminateSession": "Terminate session"
+  },
+  "session-settings": {
+    "terminateAll": "TERMINATE ALL"
   },
   "facts": [
     "Ancient cities of **Taraz** and **Otrar** in Kazakhstan were important trade centers on the Great Silk Road.",
