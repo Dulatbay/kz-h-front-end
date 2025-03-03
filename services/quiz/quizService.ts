@@ -13,6 +13,10 @@ export const fetchQuizById = async (quizId: string): Promise<QuizByIdResponse> =
     return handleApiRequest(() => baseApi.get<QuizByIdResponse>(`/quizzes/${quizId}`).then((res) => res.data));
 };
 
+export const fetchRandomQuiz = async (): Promise<QuizByIdResponse> => {
+    return handleApiRequest(() => baseApi.get<QuizByIdResponse>(`/quizzes/random`).then((res) => res.data));
+}
+
 export const createQuiz = async (
     title: string,
     description: string,

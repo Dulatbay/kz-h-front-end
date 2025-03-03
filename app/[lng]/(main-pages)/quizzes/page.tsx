@@ -3,7 +3,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {ConfigProvider, MenuProps, Pagination, Space, theme, Dropdown, Select, Button} from "antd";
 import Loader from "@/components/Loader/loader";
-import {fetchQuizzes} from "@/services/quiz/quizService";
+import {fetchQuizzes, fetchRandomQuiz} from "@/services/quiz/quizService";
 import {QuizCardResponse} from "@/services/quiz/types";
 import {HttpException} from "@/utills/exceptions";
 import {useRouter} from "next/navigation";
@@ -335,9 +335,10 @@ function PickOne({text, disabled}: { text: boolean, disabled: boolean }) {
     const router = useRouter();
 
     async function pickRandom() {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/quizzes/random`).then((response) => response.json()).then((data) => {
-            router.push(`/quizzes/${data.id}`);
-        });
+        fetchRandomQuiz()
+            .then((data) => {
+                router.push(`/quizzes/${data.id}`);
+            });
     }
 
     return (
