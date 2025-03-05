@@ -6,7 +6,8 @@
     "quizzes": "Квизы",
     "map": "Карта",
     "leaders": "Лидеры",
-    "archive": "Архив"
+    "archive": "Архив",
+    "questions": "Вопросы"
   },
   "home-page": {
     "recommendations": "Рекомендации",
@@ -118,7 +119,11 @@
     "quizResults": "Результаты квиза:",
     "newRecord": "Это ваш новый рекорд!",
     "chosen": "Выбранный",
-    "correct": "Правильный"
+    "correct": "Правильный",
+    "duration": "Длительность",
+    "result": "Результат",
+    "record": "Рекорд",
+    "sec": "сек"
   },
   "play-page": {
     "cannotAccessGame": "Не получается начать игру",
@@ -146,15 +151,58 @@
     "viewGame": "Посмотреть игру",
     "start": "Начать"
   },
+  "questions-page": {
+    "recommendations":"Рекомендации",
+    "mistakes":"Ошибки"
+  },
+  "settings-page": {
+    "settings": "Настройки",
+    "profile": "Профиль",
+    "preferences": "Предпочтения",
+    "sessions": "Сессии",
+    "support": "Помощь",
+    "helpCenter": "Центр помощи",
+    "aboutUs": "О нас",
+    "logout": "Выйти",
+
+    "editAvatar": "Изменить фото",
+
+    "username": "Имя пользователя",
+    "enterYourUsername": "Введите имя пользователя",
+    "firstName": "Имя",
+    "enterYourFirstName": "Введите своё имя", 
+    "lastName": "Фамилия",
+    "enterYourLastName": "Введите свою фамилию",
+    "email": "Электронная почта",
+    "enterYourEmail": "Введите свою почту",
+    "emailNotVerified": "Почта не подтверждена.",
+    "verifyNow": "Подтвердить сейчас",
+    "saveChanges": "СОХРАНИТЬ ИЗМЕНЕНИЯ",
+    
+    "password": "Пароль",
+    "changePassword": "Изменить пароль",
+    "hide": "Скрыть",
+    "oldPassword": "Старый пароль",
+    "enterYourOldPassword": "Введите старый пароль",
+    "newPassword": "Новый пароль",
+    "enterYourNewPassword": "Введите новый пароль",
+
+    "deleteMyAccount": "Удалить аккаунт",
+    "delete": "УДАЛИТЬ"
+  },
   "session-card": {
     "yourCurrentSession": "Ваша активная сессия",
     "lastAccessedOn": "Последний раз активен ",
     "remoteAddress": "Удалённый адрес:",
     "sessionExpiredAt": "Сессия истекла:",
-    "terminateSession": "Прервать сессию"
+    "terminateSession": "Прервать сессию",
+    "viewMore": "Подробнее",
+    "hideInfo": "Скрыть"
   },
-  "session-settings": {
-    "terminateAll": "ПРЕРВАТЬ ВСЕ"
+  "sessions-settings": {
+    "terminateAll": "ПРЕРВАТЬ ВСЕ",
+    "webSessions": "Веб сессии",
+    "mobileSessions": "Мобильные сессии"
   },
   "facts": [
     "Древние города Казахстана, такие как **Тараз** и **Отрар**, были важными торговыми центрами на Великом Шелковом пути.",

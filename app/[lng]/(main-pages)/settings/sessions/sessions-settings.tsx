@@ -108,12 +108,12 @@ function SessionsSettings() {
             <div className="w-full max-w-lg">
                 <div className="flex flex-col gap-16 mb-8">
                     <SessionsBlock
-                        deviceType="Web sessions"
+                        deviceType={t('sessions-settings.webSessions')}
                         deviceTypeSessions={sessions.webSessions || []}
                         onTerminate={removeSessionFromState}
                     />
                     <SessionsBlock
-                        deviceType="Mobile sessions"
+                        deviceType={t('sessions-settings.mobileSessions')}
                         deviceTypeSessions={sessions.mobileSessions || []}
                         onTerminate={removeSessionFromState}
                     />

@@ -16,10 +16,13 @@ import UserIcon from "@/components/Header/user-icon";
 import {useDispatch} from "react-redux";
 import {resetUser, setCurrentUser} from "@/app/store/slices/user-slice/slice";
 import SessionsSettings from "@/app/[lng]/(main-pages)/settings/sessions/sessions-settings";
+import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 
 export default function Settings() {
     const [openedTab, setOpenedTab] = useState('profile');
+    const {t} = useTranslation();
 
     return (
         <ConfigProvider theme={{
@@ -59,7 +62,7 @@ export default function Settings() {
             },
         }}>
 
-            <div className="w-full p-3 max-w-[800px] flex flex-wrap mx-auto mt-3">
+            <div className="w-full p-3 max-w-[800px] flex flex-wrap sm:flex-nowrap mx-auto mt-3">
                 <Sidebar setOpenedTab={(value: string) => {
                     setOpenedTab(value)
                 }}/>
@@ -95,35 +98,35 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
     const items: MenuItem[] = [
         {
             type: 'group',
-            label: 'Settings',
+            label: t('settings-page.settings'),
             children: [
                 {
                     key: 'profile',
-                    label: 'Profile',
+                    label: t('settings-page.profile'),
                 },
                 {
                     key: 'preferences',
-                    label: 'Preferences',
+                    label: t('settings-page.preferences'),
                     disabled: true
                 },
                 {
                     key: 'sessions',
-                    label: 'Sessions',
+                    label: t('settings-page.sessions'),
                 },
             ],
         },
         {
             type: 'group',
-            label: 'Support',
+            label: t('settings-page.support'),
             children: [
                 {
                     key: 'help-center',
-                    label: 'Help Center',
+                    label: t('settings-page.helpCenter'),
                     disabled: true
                 },
                 {
                     key: 'about',
-                    label: 'About us',
+                    label: t('settings-page.aboutUs'),
                     disabled: true
                 },
             ],
@@ -131,7 +134,7 @@ const Sidebar = ({setOpenedTab}: { setOpenedTab: any }) => {
         {
             onClick: handleLogout,
             key: 'logout',
-            label: 'LOGOUT',
+            label: t('settings-page.logout'),
             danger: true,
             className: 'mt-auto border border-red-500 text-center',
         },
@@ -159,6 +162,7 @@ const ProfileSettings = () => {
     const [showEditPassword, setShowEditPassword] = useState(false);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
+    const {t} = useTranslation();
 
 
     useEffect(() => {
@@ -239,7 +243,7 @@ const ProfileSettings = () => {
                         <Avatar className="w-40 h-40" icon={<UserIcon/>} size={168}/>)
                 }
                 <Button className="mt-3" type="default" onClick={handleEditAvatar}>
-                    Edit avatar
+                    {t('settings-page.editAvatar')}
                 </Button>
                 <input
                     type="file"
@@ -252,39 +256,39 @@ const ProfileSettings = () => {
 
             {/* Input Fields */}
             <div className="w-full max-w-md mt-6 flex flex-col gap-1 *:mt-4">
-                <label className="text-white">Username</label>
+                <label className="text-white">{t('settings-page.username')}</label>
                 <Input onChange={(input) => setNewProfile((prev) => (prev ? {
                     ...prev,
                     username: input.target.value
-                } : null))} defaultValue={profile.username} placeholder="Enter your username"/>
+                } : null))} defaultValue={profile.username} placeholder={t('settings-page.enterYourUsername')}/>
 
-                <label className="text-white">First Name</label>
+                <label className="text-white">{t('settings-page.firstName')}</label>
                 <Input onChange={(input) => setNewProfile((prev) => (prev ? {
                     ...prev,
                     firstName: input.target.value
                 } : null))} defaultValue={profile.firstName ? profile.firstName : ""}
-                       placeholder="Enter your first name"/>
+                       placeholder={t('settings-page.enterYourFirstName')}/>
 
-                <label className="text-white">Last Name</label>
+                <label className="text-white">{t('settings-page.lastName')}</label>
                 <Input onChange={(input) => setNewProfile((prev) => (prev ? {
                     ...prev,
                     lastName: input.target.value
-                } : null))} defaultValue={profile.lastName ? profile.lastName : ""} placeholder="Enter your last name"/>
+                } : null))} defaultValue={profile.lastName ? profile.lastName : ""} placeholder={t('settings-page.enterYourLastName')}/>
 
-                <label className="text-white">Email</label>
+                <label className="text-white">{t('settings-page.email')}</label>
                 <Input
                     onChange={(input) => setNewProfile((prev) => (prev ? {...prev, email: input.target.value} : null))}
-                    defaultValue={profile.email} placeholder="Enter your email"/>
+                    defaultValue={profile.email} placeholder={t('settings-page.enterYourEmail')}/>
                 <p className="text-sm text-gray-400 !mt-0">
-                    Email not verified.{" "}
+                {t('settings-page.emailNotVerified')}{" "}
                     <a href="#" className="text-blue-400">
-                        Verify now
+                    {t('settings-page.verifyNow')}
                     </a>
                 </p>
 
                 <Button onClick={handleEditProfile} disabled={JSON.stringify(profile) == JSON.stringify(newProfile)}
                         type="primary" block>
-                    SAVE CHANGES
+                    {t('settings-page.saveChanges')}
                 </Button>
             </div>
 
@@ -294,23 +298,23 @@ const ProfileSettings = () => {
             {/* Password Section */}
             <div className="w-full max-w-md">
                 <div className="w-full flex justify-between items-center">
-                    <label className="text-white">Password</label>
+                    <label className="text-white">{t('settings-page.password')}</label>
                     <Button onClick={() => setShowEditPassword((prev) => !prev)}
                             className="mt-2 !bg-neutral-700 text-white">
-                        {showEditPassword ? "Hide" : "Change password"}
+                        {showEditPassword ? t('settings-page.hide') : t('settings-page.changePassword')}
                     </Button>
                 </div>
 
                 <div className="flex flex-col gap-1 *:mt-4" hidden={!showEditPassword}>
-                    <label className="text-white">Old Password</label>
+                    <label className="text-white">{t('settings-page.oldPassword')}</label>
                     <Input onChange={(input) => setOldPassword(input.target.value)}
-                           placeholder="Enter your old password"/>
+                           placeholder={t('settings-page.enterYourOldPassword')}/>
 
-                    <label className="text-white">New Password</label>
+                    <label className="text-white">{t('settings-page.newPassword')}</label>
                     <Input onChange={(input) => setNewPassword(input.target.value)}
-                           placeholder="Enter your new password"/>
+                           placeholder={t('settings-page.enterYourNewPassword')}/>
 
-                    <Button type="primary" onClick={handleEditPassword}>Change password</Button>
+                    <Button type="primary" onClick={handleEditPassword}>{t('settings-page.changePassword')}</Button>
                 </div>
 
             </div>
@@ -319,9 +323,9 @@ const ProfileSettings = () => {
 
             {/* Delete Account */}
             <div className="w-full max-w-md flex items-center justify-between">
-                <label className="text-white">Delete my account</label>
+                <label className="text-white">{t('settings-page.deleteMyAccount')}</label>
                 <Button danger className="!px-10 !cursor-not-allowed opacity-40">
-                    DELETE
+                {t('settings-page.delete')}
                 </Button>
             </div>
         </div>

@@ -53,16 +53,16 @@ export default function SessionCard({session, onTerminate}: SessionCardProps) {
                             <p className="text-blue-400 text-sm">{t('session-card.yourCurrentSession')}</p>
                         ) : (
                             <p className="text-gray-400 text-sm">
-                                {t('session-card.lassAccessedOn')} {session.createdDate}
+                                {t('session-card.lastAccessedOn')} {session.createdDate}
                             </p>
                         )}
                     </div>
                 </div>
                 <button
                     onClick={() => setOpened(!opened)}
-                    className="text-gray-400 text-sm hover:text-white text-center whitespace-nowrap"
+                    className="text-gray-400 text-sm hover:text-white text-center whitespace-nowrap w-14"
                 >
-                    {opened ? "Hide info" : "View more"}
+                    {opened ? t('session-card.hideInfo') : t('session-card.viewMore')}
                 </button>
             </div>
             <div hidden={!opened} className="flex justify-between items-end">

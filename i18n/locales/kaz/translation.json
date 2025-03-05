@@ -6,7 +6,8 @@
     "quizzes": "Сауалнамалар",
     "map": "Карта",
     "leaders": "Көшбасшылар",
-    "archive": "Мұрағат"
+    "archive": "Мұрағат",
+    "questions": "Сұрақтар"
   },
   "home-page": {
     "recommendations": "Ұсыныстар",
@@ -118,7 +119,11 @@
     "quizResults": "Квиз нәтижелері:",
     "newRecord": "Бұл сіздің жаңа рекордыңыз!",
     "chosen": "Таңдалған",
-    "correct": "Дұрыс"
+    "correct": "Дұрыс",
+    "duration": "Ұзақтығы",
+    "result": "Нәтиже",
+    "record": "Жазба",
+    "sec": "сек"
   },
   "play-page": {
     "cannotAccessGame": "Ойынға кіру мүмкін емес",
@@ -146,15 +151,58 @@
     "viewGame": "Ойын көру",
     "start": "Бастау"
   },
+  "questions-page": {
+    "recommendations":"Ұсыныстар",
+    "mistakes":"Қателер"
+  },
+  "settings-page": {
+    "settings": "Параметрлер",
+    "profile": "Профиль",
+    "preferences": "Параметрлер",
+    "sessions": "Сессиялар",
+    "support": "Көмек",
+    "helpCenter": "Анықтама орталығы",
+    "aboutUs": "Біз туралы",
+    "logout": "Шығу",
+   
+    "editAvatar": "Фотосуретті өңдеу",
+   
+    "username": "Пайдаланушы аты",
+    "enterYourUsername": "Пайдаланушы атыңызды енгізіңіз",
+    "firstName": "Аты",
+    "enterYourFirstName": "Атыңызды енгізіңіз",
+    "lastName": "Тегі",
+    "enterYourLastName": "Фамилияңызды енгізіңіз",
+    "email": "Электрондық пошта",
+    "enterYourEmail": "Электрондық поштаңызды енгізіңіз",
+    "emailNotVerified": "Электрондық пошта расталмады.",
+    "verifyNow": "Қазір растау",
+    "saveChanges": "САҚТАУ ӨЗГЕРІСТЕР",
+   
+    "password": "Құпия сөз",
+    "changePassword": "Құпия сөзді өзгерту",
+    "hide": "Жасыру",
+    "oldPassword": "Ескі құпия сөз",
+    "enterYourOldPassword": "Ескі құпия сөзіңізді енгізіңіз",
+    "newPassword": "Жаңа құпия сөз",
+    "enterYourNewPassword": "Жаңа құпия сөзіңізді енгізіңіз",
+
+    "deleteMyAccount": "Есептік жазбаны жою",
+    "delete": "ЖОЮ"
+  },
   "session-card": {
     "yourCurrentSession": "Сіздің ағымдағы сеансыңыз",
     "lastAccessedOn": "Соңғы рұқсат күні",
     "remoteAddress": "Қашықтағы мекенжай:",
     "sessionExpiredAt": "Сессияның мерзімі аяқталды:",
-    "terminateSession": "Сеансты тоқтату"
+    "terminateSession": "Сеансты тоқтату",
+    "viewMore": "Көбірек",
+    "hideInfo": "Жасыру"
   },
-  "session-settings": {
-    "terminateAll": "БАРЛЫҒЫН ТОҚТАТУ"
+  "sessions-settings": {
+    "terminateAll": "БАРЛЫҒЫН ТОҚТАТУ",
+    "webSessions": "Веб сеанстар",
+    "mobileSessions": "Мобильді сеанстар"
   },
   "facts": [
     "Қазақстанның **Тараз** және **Отырар** ежелгі қалалары Ұлы Жібек жолындағы маңызды сауда орталықтары болған.",
