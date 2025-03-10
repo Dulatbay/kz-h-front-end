@@ -2,10 +2,9 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {QuestionCard} from "@/services/question/types";
-import {fetchQuestions, fetchQuestionsPaginated} from "@/services/question/questionService";
+import {fetchQuestionsPaginated} from "@/services/question/questionService";
 import {HttpException} from "@/utills/exceptions";
 import {ConfigProvider, message, Pagination, Skeleton, theme} from "antd";
-import {addQuestion} from "@/app/store/slices/quiz-slice/slice";
 
 export default function ShowQuestions({handleCreateQuestion}: {
     handleCreateQuestion: (questionId: string, question: string) => void

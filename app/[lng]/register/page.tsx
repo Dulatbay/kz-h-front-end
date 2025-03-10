@@ -40,6 +40,11 @@ export default function RegisterPage() {
         message.error('Пожалуйста, заполните все поля.');
     };
 
+    // todo: remove this
+    if(true) {
+        router.push("/login")
+    }
+
     return (
         <div className="min-h-screen flex justify-center items-center">
             <div >
