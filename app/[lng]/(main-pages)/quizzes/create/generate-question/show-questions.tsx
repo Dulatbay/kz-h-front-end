@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "@/app/store/store";
 import {QuestionCard} from "@/services/question/types";
-import {fetchQuestions} from "@/services/question/questionService";
+import {fetchQuestions, fetchQuestionsPaginated} from "@/services/question/questionService";
 import {HttpException} from "@/utills/exceptions";
 import {ConfigProvider, message, Pagination, Skeleton, theme} from "antd";
 import {addQuestion} from "@/app/store/slices/quiz-slice/slice";
@@ -19,7 +19,7 @@ export default function ShowQuestions({handleCreateQuestion}: {
 
     const loadQuestions = (page: number, size: number) => {
         setLoading(true);
-        fetchQuestions(page - 1, size, {topicIds: selectedTopics})
+        fetchQuestionsPaginated(page - 1, size, {topicIds: selectedTopics})
             .then((data) => {
                 setQuestions(data.content);
                 setTotalElements(data.totalElements);
