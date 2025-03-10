@@ -55,6 +55,7 @@ export default function Header() {
         router.prefetch("/quizzes");
         router.prefetch("/map");
         router.prefetch("/leaderboard");
+        router.prefetch("/questions");
 
         fetchUser();
     }, []);
@@ -140,6 +141,11 @@ export default function Header() {
                               className={isActive("/leaderboard") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
                               onClick={closeMenu}>
                             {t('header.leaders')}
+                        </Link>
+                        <Link href="/questions"
+                              className={isActive("/questions") ? "text-[#fff] underline underline-offset-8" : "text-[#A9A9A9]"}
+                              onClick={closeMenu}>
+                            {t('header.questions')}
                         </Link>
 
                     </div>

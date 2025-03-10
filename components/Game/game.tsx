@@ -93,11 +93,11 @@ export default function Game() {
                     }), {
                         format: ["hours", "minutes", "seconds",],
                         locale: i18n.language == 'en' ? enUS : (i18n.language == 'ru' ? ru : kk)
-                    })}` : `${gameData.duration} sec`}
-                                title="Duration"/>
+                    })}` : `${gameData.duration} ${t('game.sec')}`}
+                                key="Duration" title={t('game.duration')}/>
 
-                    <ResultCard result={`${gameData.result}%`} title="Result"/>
-                    <ResultCard result={`${gameData.record}%`} title="Record"
+                    <ResultCard result={`${gameData.result}%`} key="Result" title={t('game.result')}/>
+                    <ResultCard result={`${gameData.record}%`} key="Record" title={t('game.record')}
                                 additionalText={gameData.currentUserResult ? t('game.newRecord') : undefined}/>
                 </div>
 
@@ -115,6 +115,7 @@ export default function Game() {
 }
 
 function Icon({title}: { title: string }) {
+
     switch (title) {
         case "Duration":
             return (<ClockSVG/>);
@@ -127,12 +128,12 @@ function Icon({title}: { title: string }) {
     }
 }
 
-function ResultCard({result, title, additionalText}: { result: string, title: string, additionalText?: string }) {
+function ResultCard({result, title, key, additionalText}: { result: string, title: string, key: string, additionalText?: string }) {
     return (
         <div className={"w-1/4 min-w-40 flex-1"}>
             <div
                 className="flex border border-gray-400 bg-[#282828] gap-2 py-1 px-2 rounded-md items-center">
-                <Icon title={title}/>
+                <Icon title={key}/>
                 <div className="flex flex-col">
                     <h1 className="font-bold text-sm line-clamp-1">{result}</h1>
                     <h3 className="text-[#FFFFFF75]">{title}</h3>

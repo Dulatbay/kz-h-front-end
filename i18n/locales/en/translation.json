@@ -6,7 +6,8 @@
     "quizzes": "Quizzes",
     "map": "Map",
     "leaders": "Leaders",
-    "archive": "Archive"
+    "archive": "Archive",
+    "questions": "Questions"
   },
   "home-page": {
     "recommendations": "Recommendations",
@@ -118,7 +119,11 @@
     "quizResults": "Quiz results:",
     "newRecord": "This is your new record!",
     "chosen": "Chosen",
-    "correct": "Correct"
+    "correct": "Correct",
+    "duration": "Duration",
+    "result": "Result",
+    "record": "Record",
+    "sec": "sec"
   },
   "play-page": {
     "cannotAccessGame": "Cannot access the game",
@@ -146,15 +151,58 @@
     "viewGame": "View game",
     "start": "Start"
   },
+  "questions-page": {
+    "recommendations":"Recommendations",
+    "mistakes":"Mistakes"
+  },
+  "settings-page": {
+    "settings": "Settings",
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "sessions": "Sessions",
+    "support": "Support",
+    "helpCenter": "Help Center",
+    "aboutUs": "About us",
+    "logout": "Logout",
+
+    "editAvatar": "Edit avatar",
+
+    "username": "Username",
+    "enterYourUsername": "Enter your username",
+    "firstName": "First Name",
+    "enterYourFirstName": "Enter your first name", 
+    "lastName": "Last Name",
+    "enterYourLastName": "Enter your last name",
+    "email": "Email",
+    "enterYourEmail": "Enter your email",
+    "emailNotVerified": "Email not verified.",
+    "verifyNow": "Verify now",
+    "saveChanges": "SAVE CHANGES",
+    
+    "password": "Password",
+    "changePassword": "Change password",
+    "hide": "Hide",
+    "oldPassword": "Old password",
+    "enterYourOldPassword": "Enter your old password",
+    "newPassword": "New password",
+    "enterYourNewPassword": "Enter your new password",
+
+    "deleteMyAccount": "Delete my account",
+    "delete": "DELETE"
+  },
   "session-card": {
     "yourCurrentSession": "Your current session",
     "lastAccessedOn": "Last accessed on",
     "remoteAddress": "Remote address:",
     "sessionExpiredAt": "Session expired at:",
-    "terminateSession": "Terminate session"
+    "terminateSession": "Terminate session",
+    "viewMore": "View more",
+    "hideInfo": "Hide info"
   },
-  "session-settings": {
-    "terminateAll": "TERMINATE ALL"
+  "sessions-settings": {
+    "terminateAll": "TERMINATE ALL",
+    "webSessions": "Web sessions",
+    "mobileSessions": "Mobile sessions"
   },
   "facts": [
     "Ancient cities of **Taraz** and **Otrar** in Kazakhstan were important trade centers on the Great Silk Road.",

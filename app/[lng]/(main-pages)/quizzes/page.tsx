@@ -269,18 +269,38 @@ function CustomDropdown({title, options, onSelect, disabled}: {
     disabled: boolean
 }) {
     return (
-        <select className="bg-[#FFFFFF24] flex-1 md:max-w-36 p-3 overflow-visible rounded-md cursor-pointer h-11"
-                value={title} onChange={(e) => onSelect(e.target.value)} disabled={disabled}>
+        <ConfigProvider theme={{
+            components: {
+                Select: {
+                    selectorBg: "#FFFFFF24",
+                    colorText: "white",
+                    colorTextPlaceholder: "white",
+                    optionSelectedColor: "white",
+                    optionActiveBg: "#555555",
+                    optionSelectedBg: "#444444",
+                    colorTextLabel: "white",
+                    colorBorder: "none",
+                    activeBorderColor: "none",
+                    hoverBorderColor: "none",
+                    fontFamily: "",
+                    fontSize: 16,
+                },
+            }
+        }}>
+        <Select className="!flex-1 md:!max-w-36 !h-11"
+                dropdownStyle={{backgroundColor: "#1a1a1a", color: "white"}}
+                value={title} onSelect={(e) => onSelect(e)} disabled={disabled}>
             <option className="bg-zinc-800" disabled>{title}</option>
             {
                 options.map((name, i) => {
                     return (
                         <option className="bg-zinc-800 hover:bg-slate-300 cursor-pointer"
-                                key={title + i}>{name}</option>
+                                key={name}>{name}</option>
                     )
                 })
             }
-        </select>
+        </Select>
+        </ConfigProvider>
     )
 }
 
