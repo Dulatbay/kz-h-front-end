@@ -4,6 +4,9 @@ import {languages} from "./i18n/setting";
 
 
 export function middleware(request) {
+    console.log(request.nextUrl.pathname);
+    if (request.nextUrl.pathname.startsWith("/mailru-verification")) return NextResponse.next();
+
     const {pathname, search} = request.nextUrl;
     const pathnameIsMissingLocale = languages.every(
         (locale) => !pathname.startsWith(`/${locale}`)
