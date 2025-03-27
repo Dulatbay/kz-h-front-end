@@ -140,7 +140,7 @@ function QuestionZone({ question, onAnswerSubmitted }: { question: Question | Mi
                                 const answerRequest: AnswerRequest = { selectedOptions: [option] };
                                 const data = await sendAnswer(question.questionId, answerRequest);
                                 setResult(data);
-                                setTimeout(onAnswerSubmitted, 2000);
+                                setTimeout(onAnswerSubmitted, 1000);
                             }}
                             className={`border-[#5C5C5C] border rounded-md text-center content-center h-16 p-1 transition-all duration-200 ${hoverClass} ${cursorClass} ${bgColor}`}
                         >
