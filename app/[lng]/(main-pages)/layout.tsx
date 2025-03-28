@@ -16,9 +16,9 @@ export default function RootLayout({
     return (
         <>
             <Header />
-            <AuthWrapper>
+            {/* <AuthWrapper> */}
                 {children}
-            </AuthWrapper>
+            {/* </AuthWrapper> */}
         </>
     );
 }
