@@ -77,12 +77,12 @@ export default function LoginPage() {
                         <a href="#" className="hover:text-white">
                         {t('login-page.forgotPassword')}
                         </a>
-                        {/*<a href="/register" className="hover:text-green-400">*/}
-                        {/*{t('login-page.signUp')}*/}
-                        {/*</a>*/}
+                        <a href="/register" className="hover:text-green-400">
+                        {t('login-page.signUp')}
+                        </a>
                     </div>
                 </div>
-                {/*<a href={'/learn'} className={'text-gray-500 text-sm mt-2'}>{t('login-page.continueAsGuest')}</a>*/}
+                <a href={'/learn'} className={'text-gray-500 text-sm mt-2'}>{t('login-page.continueAsGuest')}</a>
             </div>
         </div>
     );
