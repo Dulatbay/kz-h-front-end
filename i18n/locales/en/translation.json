@@ -1,4 +1,38 @@
 {
+  "welcome-page": {
+    "hero": {
+      "titleLine1": "KZH – History of Kazakhstan",
+      "titleLine2": "In a Modern Format",
+      "subtitle": "Learn history in an easy, fun, and accessible way!"
+    },
+    "whatIsKzh": {
+      "title": "🏛 What is KZH?",
+      "description": "KZH is an interactive learning platform that helps you study the history of Kazakhstan easily, engagingly, and effectively.",
+      "card1Title": "⚡ Preparing for UNT?",
+      "card1Text": "We’ll help you master the material quickly and efficiently!",
+      "card2Title": "🌍 Interested in Kazakh history?",
+      "card2Text": "We offer a structured and convenient experience!",
+      "footerText": "Learn history in a way that suits you best:",
+      "footerHighlight": " through games, quizzes, interactive maps, and a mobile app!"
+    },
+    "interactiveNotes": {
+      "title": "📜 Interactive Summaries",
+      "description": {
+        "part1": "Forget boring textbooks! Our summaries are",
+        "highlight1": "stylish",
+        "highlight2": "interactive",
+        "part2": "and help you retain information better."
+      },
+      "imageAlt": "Interactive summaries",
+      "features": {
+        "design": "Modern design and easy navigation",
+        "memoryAid": "Emojis, colors, and icons help with memorization",
+        "highlighting": "Key information is highlighted — important dates and events stand out",
+        "brief": "Summaries are short but informative — easy to remember"
+      },
+      "cta": "🎯 Learn history quickly, clearly, and with joy!"
+    }
+  },
   "header": {
     "profile": "Profile",
     "streak": "Streak",
@@ -25,7 +59,7 @@
     "users": "users",
     "start": "Start"
   },
-  "modules":{
+  "modules": {
     "navigation-button": {
       "noTopic": "No topic",
       "passed": "Passed",
@@ -94,7 +128,7 @@
     "score": "Score",
     "itsYou": "It's you!"
   },
-  "login-page":{
+  "login-page": {
     "signIn": "SIGN IN",
     "login": "LOGIN",
     "signUp": "Sign up",
@@ -152,8 +186,8 @@
     "start": "Start"
   },
   "questions-page": {
-    "recommendations":"Recommendations",
-    "mistakes":"Mistakes"
+    "recommendations": "Recommendations",
+    "mistakes": "Mistakes"
   },
   "settings-page": {
     "settings": "Settings",
@@ -164,13 +198,11 @@
     "helpCenter": "Help Center",
     "aboutUs": "About us",
     "logout": "Logout",
-
     "editAvatar": "Edit avatar",
-
     "username": "Username",
     "enterYourUsername": "Enter your username",
     "firstName": "First Name",
-    "enterYourFirstName": "Enter your first name", 
+    "enterYourFirstName": "Enter your first name",
     "lastName": "Last Name",
     "enterYourLastName": "Enter your last name",
     "email": "Email",
@@ -178,7 +210,6 @@
     "emailNotVerified": "Email not verified.",
     "verifyNow": "Verify now",
     "saveChanges": "SAVE CHANGES",
-    
     "password": "Password",
     "changePassword": "Change password",
     "hide": "Hide",
@@ -186,7 +217,6 @@
     "enterYourOldPassword": "Enter your old password",
     "newPassword": "New password",
     "enterYourNewPassword": "Enter your new password",
-
     "deleteMyAccount": "Delete my account",
     "delete": "DELETE"
   },
