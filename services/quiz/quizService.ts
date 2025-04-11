@@ -46,6 +46,8 @@ export const createQuiz = async (
         }
     });
 
+    if(language == 'EN') language = "ENG";
+
     return handleApiRequest(() =>
         baseApi
             .post<void>("/quizzes", {
