@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
                             className="text-4xl md:text-6xl font-bold mb-4"
                             variants={FadeInUp}
                         >
-                            {t('welcome-page.hero.titleLine1')}<br className="hidden md:block"/>
+                            {t('welcome-page.hero.titleLine1')}<br/>
                             <span className="text-yellow-400">
                         {t('welcome-page.hero.titleLine2')}
                     </span>
